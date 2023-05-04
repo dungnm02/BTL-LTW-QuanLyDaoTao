@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa môn học</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Sửa môn học</h1>
+<div th:object="${monHoc}">
+    <form action="#" method="post" th:action="@{/qly/monhoc/sua/    {id}(id=${monHoc.id})}">
+        <label for="tenMonHoc">Tên môn học</label>
+        <input id="tenMonHoc" name="tenMonHoc" th:value="${monHoc.tenMonHoc}" type="text"><br>
+        <label for="ghiChu">Ghi chú:</label>
+        <input id="ghiChu" name="ghiChu" th:value="${monHoc.ghiChu}" type="text"><br>
+        <button type="submit">Sửa</button>
+    </form>
+</div>
+</body>
+</html>

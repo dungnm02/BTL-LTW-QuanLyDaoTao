@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Xóa Sinh Viên</title>
+    <meta charset="UTF-8">
+    <title>Xóa Sinh Viên</title>
 </head>
 <body>
 <div id="navbar">
-  <a href="/qly/giangvien">Quản lý giảng viên</a>
-  <a href="/qly/sinhvien">Quản lý sinh viên</a>
-  <a href="/qly/monhoc">Quản lý môn học</a>
-  <a href="/qly/hocki">Quản lý học kì</a>
-  <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
 </div>
 <h1>Xóa Giảng Viên</h1>
 <div th:object="${giangVien}">
-  <label for="maSV">Mã giảng viên:</label>
-  <p id="maSV" th:text="${giangVien.maGV}"></p>
-  <label for="hoTen">Họ tên:</label>
-  <p id="hoTen" th:text="${giangVien.hoTen}"></p>
-  <label for="ngaySinh">Ngày Sinh:</label>
-  <p id="ngaySinh" th:text="${giangVien.ngaySinh}"></p>
-  <label for="cccd">CCCD:</label>
-  <p id="cccd" th:text="${giangVien.cccd}"></p>
-  <label for="email">Email:</label>
-  <p id="email" th:text="${giangVien.email}"></p>
-  <label for="sdt">Số điện thoại:</label>
-  <p id="sdt" th:text="${giangVien.sdt}"></p>
-  <label for="khoa">Khoa:</label>
-  <p id="khoa" th:text="${giangVien.khoa.tenKhoa}"></p>
-  <form action="#" method="post" th:action="@{/qly/giangvien/xoa/{id}(id=${giangVien.id})}">
-    <button type="submit">Xóa</button>
-  </form>
+    <label for="maSV">Mã giảng viên:</label>
+    <p id="maSV" th:text="${giangVien.maGV}"></p>
+    <label for="hoTen">Họ tên:</label>
+    <p id="hoTen" th:text="${giangVien.hoTen}"></p>
+    <label for="ngaySinh">Ngày Sinh:</label>
+    <p id="ngaySinh" th:text="${giangVien.ngaySinh}"></p>
+    <label for="cccd">CCCD:</label>
+    <p id="cccd" th:text="${giangVien.cccd}"></p>
+    <label for="email">Email:</label>
+    <p id="email" th:text="${giangVien.email}"></p>
+    <label for="sdt">Số điện thoại:</label>
+    <p id="sdt" th:text="${giangVien.sdt}"></p>
+    <label for="khoa">Khoa:</label>
+    <p id="khoa" th:text="${giangVien.khoa.tenKhoa}"></p>
+    <form action="#" method="post" th:action="@{/qly/giangvien/xoa/{id}(id=${giangVien.id})}">
+        <button type="submit">Xóa</button>
+    </form>
 </div>
 </body>
 </html>

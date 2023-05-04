@@ -9,8 +9,9 @@ import java.util.List;
 
 @Service
 public class MonHocService {
-    MonHocRepository monHocRepository;
-    MonHocService (MonHocRepository monHocRepository) {
+    private final MonHocRepository monHocRepository;
+
+    MonHocService(MonHocRepository monHocRepository) {
         this.monHocRepository = monHocRepository;
     }
 
@@ -33,7 +34,7 @@ public class MonHocService {
     public void updateMonHoc(MonHoc monHoc, int id) {
         MonHoc oldMonHoc = findMonHocById(id);
         oldMonHoc.setTenMonHoc(monHoc.getTenMonHoc());
-        oldMonHoc.setKhoa(monHoc.getKhoa());
+        oldMonHoc.setGhiChu(monHoc.getGhiChu());
         monHocRepository.save(oldMonHoc);
     }
 

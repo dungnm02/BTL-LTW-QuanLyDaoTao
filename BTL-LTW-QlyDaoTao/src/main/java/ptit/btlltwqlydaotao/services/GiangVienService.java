@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class GiangVienService {
-    private GiangVienRepository giangVienRepository;
+    private final GiangVienRepository giangVienRepository;
 
 
     public GiangVienService(GiangVienRepository giangVienRepository) {
@@ -25,9 +25,10 @@ public class GiangVienService {
     public List<GiangVien> findAllGiangVienByKhoa(Khoa khoa) {
         return giangVienRepository.findAllByKhoa(khoa);
     }
+
     public GiangVien findGiangVienById(int id) {
         Optional<GiangVien> giangVien = giangVienRepository.findById(id);
-        return giangVien.get();
+        return giangVien.orElse(null);
     }
 
     public void addGiangVien(GiangVien giangVien) {
@@ -53,11 +54,11 @@ public class GiangVienService {
 
     private String generatePassword(String maGV, Date ngaySinh) {
         String[] arr = ngaySinh.toString().split("-");
-        String password = maGV;
+        StringBuilder password = new StringBuilder(maGV);
         for (String s : arr) {
-            password += s;
+            password.append(s);
         }
-        return password;
+        return password.toString();
     }
 
     private String generateMaGV() {

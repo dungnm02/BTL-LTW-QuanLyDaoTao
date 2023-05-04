@@ -10,10 +10,12 @@ import ptit.btlltwqlydaotao.services.HocKiService;
 @RequestMapping("/qly/hocki")
 public class QlyHocKiController {
 
-    private HocKiService hocKiService;
+    private final HocKiService hocKiService;
+
     public QlyHocKiController(HocKiService hocKiService) {
         this.hocKiService = hocKiService;
     }
+
     @GetMapping("")
     public String index() {
         return "qlyhocki";
@@ -31,7 +33,7 @@ public class QlyHocKiController {
     }
 
     @GetMapping("/sua/{id}")
-    public String showSuaHocKi(@PathVariable("id") int id , Model model) {
+    public String showSuaHocKi(@PathVariable("id") int id, Model model) {
         model.addAttribute("hocKi", hocKiService.findHocKiById(id));
         return "qlyhockisua";
     }

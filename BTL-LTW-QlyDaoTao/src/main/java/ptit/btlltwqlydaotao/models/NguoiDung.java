@@ -23,10 +23,8 @@ public class NguoiDung implements Serializable {
     @Column(length = 20)
     private Integer id;
     @Column(length = 50, nullable = false)
-    @NotEmpty
     private String username;
     @Column(length = 50, nullable = false)
-    @NotEmpty
     private String password;
 
     @Column(nullable = false)
@@ -46,6 +44,6 @@ public class NguoiDung implements Serializable {
     private String email;
     @Column(columnDefinition = "CHAR(10)", nullable = false)
     @NotEmpty(message = "Số điện thoại không được để trống")
-    @Pattern(regexp="(^$|[0-9]{10})", message="Số điện thoại không hợp lệ")
+    @Pattern(regexp = "(^$|[0-9]{10})", message = "Số điện thoại không hợp lệ")
     private String sdt;
 }

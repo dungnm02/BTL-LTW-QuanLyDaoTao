@@ -13,6 +13,16 @@
     <a href="/qly/modotdangki">Mở đợt đăng kí</a>
 </div>
 <h1>Xóa môn học</h1>
-<form action="#" th:object="monHoc" th:action="@{/qly/monhoc/xoa/{id}(id=)}"></form>
+<div th:object="${monHoc}">
+    <label for="tenMonHoc">Tên môn học</label>
+    <p id="tenMonHoc" th:text="${monHoc.tenMonHoc}"></p>
+    <label for="ghiChu">Ghi chú:</label>
+    <p id="ghiChu" th:text="${monHoc.ghiChu}"></p>
+    <label for="tenKhoa">Tên khoa:</label>
+    <p id="tenKhoa" th:text="${monHoc.khoa.tenKhoa}"></p>
+    <form action="#" method="post" th:action="@{/qly/monhoc/xoa/{id}(id=${monHoc.id})}">
+        <button type="submit">Xóa</button>
+    </form>
+</div>
 </body>
 </html>

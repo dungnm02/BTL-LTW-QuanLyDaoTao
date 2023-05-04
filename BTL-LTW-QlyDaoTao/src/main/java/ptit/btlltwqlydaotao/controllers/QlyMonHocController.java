@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ptit.btlltwqlydaotao.models.MonHoc;
 import ptit.btlltwqlydaotao.services.GiangVienMonHocService;
-import ptit.btlltwqlydaotao.services.GiangVienService;
 import ptit.btlltwqlydaotao.services.KhoaService;
 import ptit.btlltwqlydaotao.services.MonHocService;
 
@@ -21,13 +20,10 @@ public class QlyMonHocController {
 
     private final GiangVienMonHocService giangVienMonHocService;
 
-    private final GiangVienService giangVienService;
-
-    public QlyMonHocController(MonHocService monHocService, KhoaService khoaService, GiangVienMonHocService giangVienMonHocService, GiangVienService giangVienService) {
+    public QlyMonHocController(MonHocService monHocService, KhoaService khoaService, GiangVienMonHocService giangVienMonHocService) {
         this.monHocService = monHocService;
         this.khoaService = khoaService;
         this.giangVienMonHocService = giangVienMonHocService;
-        this.giangVienService = giangVienService;
     }
 
     @GetMapping("")
@@ -65,6 +61,20 @@ public class QlyMonHocController {
         return "redirect:/qly/monhoc";
     }
 
+    @GetMapping("/xoagiangvien/{id}")
+    public String showXoaGiangVien(@PathVariable("id") int id, Model model) {
+        MonHoc monHoc = monHocService.findMonHocById(id);
+        model.addAttribute("monHoc", monHoc);
+        model.addAttribute("dsGiangVienDayMonHoc", giangVienMonHocService.getAllGiangVienDayMonHoc(monHoc));
+        return "qlymonhocxoagiangvien";
+    }
+
+    @PostMapping("/xoagiangvien/{id}")
+    public String submitXoaGiangVien(@PathVariable("id") int id, @RequestParam("dsIdGiangVienDuocChon") List<Integer> dsIdGiangVienDuocChon) {
+        giangVienMonHocService.deleteGiangVienDayMonHoc(id, dsIdGiangVienDuocChon);
+        return "redirect:/qly/monhoc";
+    }
+
 
     @GetMapping("/sua/{id}")
     public String showSua(@PathVariable("id") int id, Model model) {
@@ -75,18 +85,19 @@ public class QlyMonHocController {
     @PostMapping("/sua/{id}")
     public String submitSua(@PathVariable("id") int id, @ModelAttribute("monHoc") MonHoc monHoc) {
         monHocService.updateMonHoc(monHoc, id);
-        return "redirect:/qly/monhoc/";
+        return "redirect:/qly/monhoc";
     }
 
     @GetMapping("/xoa/{id}")
-    public String showXoa(@PathVariable("id") int id, Model model) {
-        model.addAttribute("monHoc", monHocService.findMonHocById(id));
+    public String showXoa(@PathVariable("id") int monHocId, Model model) {
+        model.addAttribute("monHoc", monHocService.findMonHocById(monHocId));
         return "qlymonhocxoa";
     }
 
     @PostMapping("/xoa/{id}")
-    public String submitXoa(@PathVariable("id") int id) {
-        monHocService.deleteMonHoc(id);
+    public String submitXoa(@PathVariable("id") int monHocId) {
+        giangVienMonHocService.deleteAllByMonHocId(monHocId);
+        monHocService.deleteMonHoc(monHocId);
         return "redirect:/qly/monhoc";
     }
 }

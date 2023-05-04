@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ptit.btlltwqlydaotao.models.GiangVien;
+import ptit.btlltwqlydaotao.services.GiangVienMonHocService;
 import ptit.btlltwqlydaotao.services.GiangVienService;
 import ptit.btlltwqlydaotao.services.KhoaService;
 
@@ -13,10 +14,12 @@ import ptit.btlltwqlydaotao.services.KhoaService;
 @RequestMapping(value = "/qly/giangvien")
 public class QlyGiangVienController {
     private final GiangVienService giangVienService;
+    private final GiangVienMonHocService giangVienMonHocService;
     private final KhoaService khoaService;
 
-    public QlyGiangVienController(GiangVienService giangVienService, KhoaService khoaService) {
+    public QlyGiangVienController(GiangVienService giangVienService, GiangVienMonHocService giangVienMonHocService, KhoaService khoaService) {
         this.giangVienService = giangVienService;
+        this.giangVienMonHocService = giangVienMonHocService;
         this.khoaService = khoaService;
     }
 
@@ -66,6 +69,7 @@ public class QlyGiangVienController {
 
     @PostMapping("/xoa/{id}")
     public String submitXoaGiangVien(@PathVariable("id") int id) {
+        giangVienMonHocService.deleteAllByGiangVienId(id);
         giangVienService.deleteGiangVien(id);
         return "redirect:/qly/giangvien";
     }

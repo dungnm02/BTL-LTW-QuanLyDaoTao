@@ -41,7 +41,7 @@
     </tbody>
 </table>
 <h2>Danh sách giảng viên không dạy môn học</h2>
-<form action="#" th:action="@{/qly/monhoc/chongiangvien/{id}(id=${monHoc.id})}" method="post">
+<form action="#" method="post" th:action="@{/qly/monhoc/chongiangvien/{id}(id=${monHoc.id})}">
     <table>
         <thead>
         <tr>
@@ -57,7 +57,7 @@
             <td><span th:text="${giangVien.maGV}"></span></td>
             <td th:text="${giangVien.hoTen}"></td>
             <td th:text="${giangVien.khoa.tenKhoa}"></td>
-            <td><input type="checkbox" name="dsIdGiangVienDuocChon" th:value="${giangVien.id}" /></td>
+            <td><input name="dsIdGiangVienDuocChon" th:value="${giangVien.id}" type="checkbox"/></td>
         </tr>
         </tbody>
     </table>

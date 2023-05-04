@@ -8,7 +8,7 @@ import ptit.btlltwqlydaotao.repositories.HocKiRepository;
 public class HocKiService {
     HocKiRepository hocKiRepository;
 
-    public HocKiService (HocKiRepository hocKiRepository) {
+    public HocKiService(HocKiRepository hocKiRepository) {
         this.hocKiRepository = hocKiRepository;
     }
 
