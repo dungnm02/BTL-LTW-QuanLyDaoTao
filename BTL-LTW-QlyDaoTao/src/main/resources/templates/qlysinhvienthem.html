@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Sinh Viên</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Thêm Sinh Viên</h1>
+    <form action="#" method="post" th:action="@{/qly/sinhvien/them}" th:object="${sinhVien}">
+    <p th:errors="*{hoTen}" th:if="${#fields.hasErrors('hoTen')}">Họ tên không hợp lệ</p>
+    <label for="hoTen">Họ tên:</label>
+    <input , id="hoTen" th:field="${sinhVien.hoTen}" th:value="${sinhVien.hoTen}" type="text"/><br>
+    <label for="ngaySinh">Ngày Sinh:</label>
+    <input , id="ngaySinh" th:field="${sinhVien.ngaySinh}" th:value="${sinhVien.ngaySinh}" type="date"><br>
+    <label for="cccd">CCCD:</label>
+    <input , id="cccd" th:field="${sinhVien.cccd}" th:value="${sinhVien.ngaySinh}" type="text"><br>
+    <label for="email">Email:</label>
+    <input , id="email" th:field="${sinhVien.email}" th:value="${sinhVien.email}" type="email"><br>
+    <label for="sdt">Số điện thoại:</label>
+    <input , id="sdt" th:field="${sinhVien.sdt}" th:value="${sinhVien.sdt}" type="tel"><br>
+    <div>
+        <label for="khoa">Khoa:</label>
+        <select class="form-control" id="khoa" th:field="${sinhVien.khoa}">
+            <option th:each="khoa : ${dsKhoa}" th:text="${khoa.tenKhoa}" th:value="${khoa.id}"></option>
+        </select>
+    </div>
+    <button type="submit">Thêm</button>
+</form>
+
+</body>
+</html>

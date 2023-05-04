@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý môn học</title>
+</head>
+<body>
+    <div id="navbar">
+        <a href="/qly/giangvien">Quản lý giảng viên</a>
+        <a href="/qly/sinhvien">Quản lý sinh viên</a>
+        <a href="/qly/monhoc">Quản lý môn học</a>
+        <a href="/qly/hocki">Quản lý học kì</a>
+        <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+    </div>
+    <h1>Quản lý môn học</h1>
+    <a href="/qly/monhoc/them">Thêm môn học</a>
+    <table>
+        <tr>
+            <th>STT</th>
+            <th>Tên môn học</th>
+            <th>Ghi chú</th>
+            <th>Khoa</th>
+        </tr>
+        <tr th:each="monhoc, i : ${dsMonHoc}">
+            <td th:text="${i.index + 1}"></td>
+            <td th:text="${monhoc.tenMonHoc}"></td>
+            <td th:text="${monhoc.ghiChu}"></td>
+            <td th:text="${monhoc.khoa.tenKhoa}"></td>
+            <td><a th:href="@{/qly/monhoc/xoa/{id}(id=${monhoc.id})}">Xóa</a></td>
+            <td><a th:href="@{/qly/monhoc/sua/{id}(id=${monhoc.id})}">Sửa</a></td>
+            <td><a th:href="@{/qly/monhoc/chongiangvien/{id}(id=${monhoc.id})}">Chọn giảng viên</a></td>
+        </tr>
+    </table>
+
+</body>
+</html>

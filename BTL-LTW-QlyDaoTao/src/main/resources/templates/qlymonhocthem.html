@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm môn học</title>
+</head>
+<body>
+    <div id="navbar">
+        <a href="/qly/giangvien">Quản lý giảng viên</a>
+        <a href="/qly/sinhvien">Quản lý sinh viên</a>
+        <a href="/qly/monhoc">Quản lý môn học</a>
+        <a href="/qly/hocki">Quản lý học kì</a>
+        <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+    </div>
+    <h1>Thêm môn học</h1>
+    <form action="#" th:action="@{/qly/monhoc/them}" th:object="${monHoc}" method="post">
+        <p th:errors="*{monHoc.tenMonHoc}" th:if="${#fields.hasErrors('tenMonHoc')}">Tên môn học không hợp lệ</p>
+        <label for="tenMonHoc">Tên môn học:</label>
+        <input id="tenMonHoc" th:field="${monHoc.tenMonHoc}" type="text"/><br>
+        <label for="ghiChu">Ghi chú:</label>
+        <input id="ghiChu" th:field="${monHoc.ghiChu}" type="text"/><br>
+        <label for="khoa">Khoa:</label>
+        <select id="khoa" th:field="${monHoc.khoa}">
+            <option th:each="khoa : ${dsKhoa}" th:value="${khoa.id}" th:text="${khoa.tenKhoa}"></option>
+        </select><br>
+        <button type="submit">Thêm</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Sinh Viên</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Quản lý Sinh Viên</h1>
+<button>
+    <a href="/qly/sinhvien/them">Thêm Sinh Viên</a>
+</button>
+<table>
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Mã SV</th>
+        <th>Họ tên</th>
+        <th>Khoa</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sinhVien, i : ${dsSinhVien}">
+        <td><span th:text="${i.index + 1}"></span></td>
+        <td><span th:text="${sinhVien.maSV}"></span></td>
+        <td th:text="${sinhVien.hoTen}"></td>
+        <td th:text="${sinhVien.khoa.tenKhoa}"></td>
+        <td><a th:href="@{/qly/sinhvien/xoa/{id}(id=${sinhVien.id})}">Xóa</a></td>
+        <td><a th:href="@{/qly/sinhvien/sua/{id}(id=${sinhVien.id})}">Sửa</a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
