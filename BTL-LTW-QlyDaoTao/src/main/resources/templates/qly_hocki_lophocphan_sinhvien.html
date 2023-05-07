@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sinh viên trong lớp</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<button>
+    <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/{idLopHocPhan}/sinhvien/them(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">Thêm sinh viên</a>
+</button>
+<table>
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Mã sinh viên</th>
+            <th>Họ tên</th>
+            <th>Điểm CC</th>
+            <th>Điểm KT1</th>
+            <th>Điểm KT2</th>
+            <th>Điểm Thi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="ketQuaHocPhan, i : ${dsKetQuaHocPhan}">
+            <td th:text="${i.index + 1}"></td>
+            <td th:text="${ketQuaHocPhan.sinhVien.maSinhVien}"></td>
+            <td th:text="${ketQuaHocPhan.sinhVien.hoTen}"></td>
+            <td th:text="${ketQuaHocPhan.diemCC}"></td>
+            <td th:text="${ketQuaHocPhan.diemKT1}"></td>
+            <td th:text="${ketQuaHocPhan.diemKT2}"></td>
+            <td th:text="${ketQuaHocPhan.diemThi}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

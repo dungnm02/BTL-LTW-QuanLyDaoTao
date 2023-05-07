@@ -13,12 +13,18 @@
     <a href="/qly/modotdangki">Mở đợt đăng kí</a>
 </div>
 <h1>Sửa môn học</h1>
+<div>
+    <p th:text="${message}"></p>
+</div>
 <div th:object="${monHoc}">
-    <form action="#" method="post" th:action="@{/qly/monhoc/sua/    {id}(id=${monHoc.id})}">
+    <form action="#" method="post" th:action="@{/qly/monhoc/sua/{id}(id=${monHoc.id})}">
+        <input  type="hidden" th:field="${monHoc.id}"/>
+        <input  type="hidden" th:field="${monHoc.maMonHoc}"/>
+        <input  type="hidden" th:field="${monHoc.khoa}"/>
+
+        <p th:errors="*{monHoc.tenMonHoc}" th:if="${#fields.hasErrors('tenMonHoc')}">Tên môn học không hợp lệ</p>
         <label for="tenMonHoc">Tên môn học</label>
         <input id="tenMonHoc" name="tenMonHoc" th:value="${monHoc.tenMonHoc}" type="text"><br>
-        <label for="ghiChu">Ghi chú:</label>
-        <input id="ghiChu" name="ghiChu" th:value="${monHoc.ghiChu}" type="text"><br>
         <button type="submit">Sửa</button>
     </form>
 </div>

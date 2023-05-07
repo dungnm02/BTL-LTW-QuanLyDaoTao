@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SvienIndexController {
     @GetMapping("")
     public String index() {
-        return "svienindex";
+        return "svien_index";
     }
 }

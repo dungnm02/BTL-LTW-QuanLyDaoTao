@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/schedule}" method="post">
+    <label for="hocKi">Học Kì:</label>
+    <div class="form-group">
+        <label for="scheduleTime">Schedule Time:</label>
+        <input type="datetime-local" id="scheduleTime" name="scheduleTime" required
+               min="${#temporals.format(#temporals.plusDays(#temporals.now(),1), 'yyyy-MM-dd') + 'T21:00'}"
+               th:max="${#temporals.format(hocKi.ngayBatDau, 'yyyy-MM-ddTHH:mm')}">
+    </div>
+    <button type="submit" class="btn btn-primary">Create Schedule</button>
+</form>
+
+</body>
+</html>

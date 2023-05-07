@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Xóa lớp học phần</h1>
+<form method="post"
+      th:action="@{/qly/hocki/{idHocKi}/lophocphan/xoa/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}"
+      th:object="${lopHocPhan}">
+
+    <label for="maLopHocPhan">Mã lớp học phần:</label>
+    <p id="maLopHocPhan" th:text="${lopHocPhan.maLopHocPhan}" type="text"></p>
+
+    <label for="giangVien">Giảng viên:</label>
+    <p id="giangVien" th:text="${lopHocPhan.giangVienMonHoc.giangVien.getHoTen()}" type="text"></p>
+
+    <label for="monHoc">Môn học:</label>
+    <p id="monHoc" th:text="${lopHocPhan.giangVienMonHoc.monHoc.getTenMonHoc()}" type="text"></p>
+
+    <label for="ngayTrongTuan">Ngày trong tuần</label>
+    <p id="ngayTrongTuan" th:text="${lopHocPhan.ngayTrongTuan}" type="text"></p>
+
+    <label for="kipTrongNgay">Kíp trong ngày:</label>
+    <p id="kipTrongNgay" th:text="${lopHocPhan.kipTrongNgay}" type="text"></p>
+
+    <label for="phongHoc">Phòng học</label>
+    <p id="phongHoc" th:text="${lopHocPhan.phongHoc}" type="text"></p>
+
+    <button type="submit">Xóa</button>
+</form>
+</body>
+</html>

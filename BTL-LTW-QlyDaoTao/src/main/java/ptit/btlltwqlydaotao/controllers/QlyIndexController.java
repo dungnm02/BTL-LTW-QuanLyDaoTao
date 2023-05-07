@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class QlyIndexController {
     @GetMapping("")
     public String index() {
-        return "qlyindex";
+        return "qly_index";
     }
 }

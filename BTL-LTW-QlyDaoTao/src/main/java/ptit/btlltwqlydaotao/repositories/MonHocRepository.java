@@ -9,5 +9,14 @@ import java.util.List;
 
 @Repository
 public interface MonHocRepository extends JpaRepository<MonHoc, Integer> {
-    List<MonHoc> findAllByKhoa(Khoa khoa);
+
+    List<MonHoc> findByKhoa_IdAndTenMonHocContainingIgnoreCase(Integer khoaId, String tenMonHoc);
+
+    List<MonHoc> findByKhoa_Id(Integer khoaId);
+
+    List<MonHoc> findByTenMonHocContainingIgnoreCase(String tenMonHoc);
+
+    List<MonHoc> findByMaMonHoc(String maMonHoc);
+
+    List<MonHoc> findTopByKhoaOrderByIdDesc(Khoa khoa);
 }

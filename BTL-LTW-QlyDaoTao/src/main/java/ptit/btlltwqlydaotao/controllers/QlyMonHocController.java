@@ -3,6 +3,8 @@ package ptit.btlltwqlydaotao.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ptit.btlltwqlydaotao.models.Khoa;
 import ptit.btlltwqlydaotao.models.MonHoc;
 import ptit.btlltwqlydaotao.services.GiangVienMonHocService;
 import ptit.btlltwqlydaotao.services.KhoaService;
@@ -27,21 +29,40 @@ public class QlyMonHocController {
     }
 
     @GetMapping("")
-    public String index(Model model) {
-        model.addAttribute("dsMonHoc", monHocService.findAllMonHoc());
-        return "qlymonhoc";
+    public String index(Model model,
+                        @RequestParam(value = "khoaId", required = false) Integer khoaId,
+                        @RequestParam(value = "keyword", required = false) String keyword) {
+
+        List<Khoa> dsKhoa = khoaService.findAll();
+        model.addAttribute("dsKhoa", dsKhoa);
+
+        List<MonHoc> dsMonHoc = monHocService.searchMonHoc(khoaId, keyword);
+        model.addAttribute("dsMonHoc", dsMonHoc);
+
+        return "qly_monhoc";
     }
 
     @GetMapping("/them")
     public String showThem(Model model) {
-        model.addAttribute("monHoc", new MonHoc());
-        model.addAttribute("dsKhoa", khoaService.findAllKhoa());
-        return "qlymonhocthem";
+        model.addAttribute("dsKhoa", khoaService.findAll());
+        model.addAttribute("message", model.getAttribute("message"));
+        if (!model.containsAttribute("monHoc")) {
+            model.addAttribute("monHoc", new MonHoc());
+        } else {
+            model.addAttribute("monHoc", model.getAttribute("monHoc"));
+        }
+        return "qly_monhoc_them";
     }
 
     @PostMapping("/them")
-    public String submitThem(@ModelAttribute("monHoc") MonHoc monHoc) {
-        monHocService.addMonHoc(monHoc);
+    public String submitThem(@ModelAttribute("monHoc") MonHoc monHoc, RedirectAttributes redirectAttributes) {
+        try {
+            monHocService.createMonHoc(monHoc);
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("monHoc", monHoc);
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/qly/monhoc/them";
+        }
         return "redirect:/qly/monhoc";
     }
 
@@ -51,7 +72,7 @@ public class QlyMonHocController {
         model.addAttribute("monHoc", monHoc);
         model.addAttribute("dsGiangVienDayMonHoc", giangVienMonHocService.getAllGiangVienDayMonHoc(monHoc));
         model.addAttribute("dsGiangVienChuaDayMonHoc", giangVienMonHocService.getAllGiangVienChuaDayMonHoc(monHoc));
-        return "qlymonhocthemgiangvien";
+        return "qly_monhoc_themgiangvien";
     }
 
 
@@ -66,7 +87,7 @@ public class QlyMonHocController {
         MonHoc monHoc = monHocService.findMonHocById(id);
         model.addAttribute("monHoc", monHoc);
         model.addAttribute("dsGiangVienDayMonHoc", giangVienMonHocService.getAllGiangVienDayMonHoc(monHoc));
-        return "qlymonhocxoagiangvien";
+        return "qly_monhoc_xoagiangvien";
     }
 
     @PostMapping("/xoagiangvien/{id}")
@@ -78,20 +99,26 @@ public class QlyMonHocController {
 
     @GetMapping("/sua/{id}")
     public String showSua(@PathVariable("id") int id, Model model) {
+        model.addAttribute("message", model.getAttribute("message"));
         model.addAttribute("monHoc", monHocService.findMonHocById(id));
-        return "qlymonhocsua";
+        return "qly_monhoc_sua";
     }
 
     @PostMapping("/sua/{id}")
-    public String submitSua(@PathVariable("id") int id, @ModelAttribute("monHoc") MonHoc monHoc) {
-        monHocService.updateMonHoc(monHoc, id);
+    public String submitSua(@ModelAttribute("monHoc") MonHoc monHoc, RedirectAttributes redirectAttributes) {
+        try {
+            monHocService.updateMonHoc(monHoc);
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/qly/monhoc/sua/" + monHoc.getId();
+        }
         return "redirect:/qly/monhoc";
     }
 
     @GetMapping("/xoa/{id}")
     public String showXoa(@PathVariable("id") int monHocId, Model model) {
         model.addAttribute("monHoc", monHocService.findMonHocById(monHocId));
-        return "qlymonhocxoa";
+        return "qly_monhoc_xoa";
     }
 
     @PostMapping("/xoa/{id}")

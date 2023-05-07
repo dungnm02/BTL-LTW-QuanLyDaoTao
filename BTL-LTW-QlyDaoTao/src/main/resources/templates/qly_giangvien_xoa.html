@@ -12,23 +12,23 @@
     <a href="/qly/hocki">Quản lý học kì</a>
     <a href="/qly/modotdangki">Mở đợt đăng kí</a>
 </div>
-<h1>Xóa Sinh Viên</h1>
-<div th:object="${sinhVien}">
-    <label for="maSV">Mã sinh viên:</label>
-    <p id="maSV" th:text="${sinhVien.maSV}"></p>
+<h1>Xóa Giảng Viên</h1>
+<div th:object="${giangVien}">
+    <label for="maGiangVien">Mã giảng viên:</label>
+    <p id="maGiangVien" th:text="${giangVien.maGiangVien}"></p>
     <label for="hoTen">Họ tên:</label>
-    <p id="hoTen" th:text="${sinhVien.hoTen}"></p>
+    <p id="hoTen" th:text="${giangVien.hoTen}"></p>
     <label for="ngaySinh">Ngày Sinh:</label>
-    <p id="ngaySinh" th:text="${sinhVien.ngaySinh}"></p>
+    <p id="ngaySinh" th:text="${#temporals.format(giangVien.ngaySinh, 'dd/MM/yyyy')}"></p>
     <label for="cccd">CCCD:</label>
-    <p id="cccd" th:text="${sinhVien.cccd}"></p>
+    <p id="cccd" th:text="${giangVien.cccd}"></p>
     <label for="email">Email:</label>
-    <p id="email" th:text="${sinhVien.email}"></p>
+    <p id="email" th:text="${giangVien.email}"></p>
     <label for="sdt">Số điện thoại:</label>
-    <p id="sdt" th:text="${sinhVien.sdt}"></p>
+    <p id="sdt" th:text="${giangVien.sdt}"></p>
     <label for="khoa">Khoa:</label>
-    <p id="khoa" th:text="${sinhVien.khoa.tenKhoa}"></p>
-    <form action="#" method="post" th:action="@{/qly/sinhvien/xoa/{id}(id=${sinhVien.id})}">
+    <p id="khoa" th:text="${giangVien.khoa.tenKhoa}"></p>
+    <form action="#" method="post" th:action="@{/qly/giangvien/xoa/{id}(id=${giangVien.id})}">
         <button type="submit">Xóa</button>
     </form>
 </div>

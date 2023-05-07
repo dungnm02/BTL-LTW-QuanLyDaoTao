@@ -5,7 +5,8 @@ import ptit.btlltwqlydaotao.models.GiangVien;
 import ptit.btlltwqlydaotao.models.Khoa;
 import ptit.btlltwqlydaotao.repositories.GiangVienRepository;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,26 @@ public class GiangVienService {
         this.giangVienRepository = giangVienRepository;
     }
 
-    public Iterable<GiangVien> findAllGiangVien() {
+    public List<GiangVien> findAll() {
         return giangVienRepository.findAll();
     }
 
-    public List<GiangVien> findAllGiangVienByKhoa(Khoa khoa) {
-        return giangVienRepository.findAllByKhoa(khoa);
+    public List<GiangVien> findGiangVienByKhoa(Khoa khoa) {
+        return giangVienRepository.findByKhoa(khoa);
+    }
+
+    public List<GiangVien> searchGiangVien(String type, String keyword) {
+        if (type != null && keyword != null && !keyword.isBlank()) {
+            //Nếu người dùng nhập từ khóa, trả về danh sách theo kiểu tìm kiếm
+            if (type.equals("maGiangVien")) {
+                return giangVienRepository.findByMaGiangVienContainingIgnoreCase(keyword);
+            } else {
+                return giangVienRepository.findByHoTenContainingIgnoreCase(keyword);
+            }
+        } else {
+            //Nếu người dùng không nhập từ khóa, trả về toàn bộ danh sách
+            return giangVienRepository.findAll();
+        }
     }
 
     public GiangVien findGiangVienById(int id) {
@@ -31,29 +46,24 @@ public class GiangVienService {
         return giangVien.orElse(null);
     }
 
-    public void addGiangVien(GiangVien giangVien) {
-        giangVien.setMaGV(generateMaGV());
-        giangVien.setUsername(giangVien.getMaGV());
-        giangVien.setPassword(generatePassword(giangVien.getMaGV(), giangVien.getNgaySinh()));
+
+    public void createGiangVien(GiangVien giangVien) {
+        giangVien.setMaGiangVien(generateMaGiangVien(giangVien.getKhoa()));
+        giangVien.setUsername(giangVien.getMaGiangVien());
+        giangVien.setPassword(generatePassword(giangVien.getMaGiangVien(), giangVien.getNgaySinh()));
         giangVienRepository.save(giangVien);
     }
 
-    public void updateGiangVien(GiangVien giangVien, int id) {
-        GiangVien oldGiangVien = findGiangVienById(id);
-        oldGiangVien.setHoTen(giangVien.getHoTen());
-        oldGiangVien.setNgaySinh(giangVien.getNgaySinh());
-        oldGiangVien.setCccd(giangVien.getCccd());
-        oldGiangVien.setEmail(giangVien.getEmail());
-        oldGiangVien.setSdt(giangVien.getSdt());
-        giangVienRepository.save(oldGiangVien);
+    public void updateGiangVien(GiangVien giangVien) {
+        giangVienRepository.save(giangVien);
     }
 
     public void deleteGiangVien(int id) {
         giangVienRepository.deleteById(id);
     }
 
-    private String generatePassword(String maGV, Date ngaySinh) {
-        String[] arr = ngaySinh.toString().split("-");
+    private String generatePassword(String maGV, LocalDate ngaySinh) {
+        String[] arr = ngaySinh.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).split("/");
         StringBuilder password = new StringBuilder(maGV);
         for (String s : arr) {
             password.append(s);
@@ -61,8 +71,19 @@ public class GiangVienService {
         return password.toString();
     }
 
-    private String generateMaGV() {
-        return String.format("GV%04d", giangVienRepository.count() + 1);
+    private String generateMaGiangVien(Khoa khoa) {
+        //Lấy danh sách giảng viên theo khoa sắp xêp theo Id giảm dần
+        List<GiangVien> dsGiangVien = giangVienRepository.findTopByKhoaOrderByIdDesc(khoa);
+        //Nếu danh sách rỗng, trả về mã GV đầu tiên của khoa
+        if (dsGiangVien.size() == 0) {
+            return "GV" + khoa.getMaKhoa() + "001";
+        } else {
+            //Nếu danh sách không rỗng, lấy mã GV cuối cùng của khoa, tăng số thứ tự lên 1
+            String maGV = dsGiangVien.get(0).getMaGiangVien();
+            int number = Integer.parseInt(maGV.substring(2 + khoa.getMaKhoa().length()));
+            number++;
+            return "GV" + khoa.getMaKhoa() + String.format("%03d", number);
+        }
     }
 
 }

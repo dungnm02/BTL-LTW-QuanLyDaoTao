@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -33,7 +33,7 @@ public class NguoiDung implements Serializable {
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Ngày sinh không được để trống")
-    private Date ngaySinh;
+    private LocalDate ngaySinh;
     @Column(length = 12, nullable = false)
     @NotEmpty(message = "Căn cước công dân không được để trống")
     @Size(min = 12, max = 12, message = "Căn cước công dân phải đủ 12 số")

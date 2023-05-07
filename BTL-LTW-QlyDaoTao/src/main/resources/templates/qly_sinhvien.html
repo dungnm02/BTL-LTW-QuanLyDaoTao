@@ -13,9 +13,21 @@
     <a href="/qly/modotdangki">Mở đợt đăng kí</a>
 </div>
 <h1>Quản lý Sinh Viên</h1>
+
 <button>
     <a href="/qly/sinhvien/them">Thêm Sinh Viên</a>
 </button>
+
+<form method="get" th:action="@{/qly/sinhvien}">
+    <label for="type">Tìm kiếm theo</label>
+    <select id="type" th:name="type">
+        <option th:value="hoTen">Tên sinh viên</option>
+        <option th:value="maSinhVien">Mã sinh viên</option>
+    </select>
+    <input th:name="keyword" type="text"/>
+    <button type="submit">Search</button>
+</form>
+
 <table>
     <thead>
     <tr>
@@ -28,7 +40,7 @@
     <tbody>
     <tr th:each="sinhVien, i : ${dsSinhVien}">
         <td><span th:text="${i.index + 1}"></span></td>
-        <td><span th:text="${sinhVien.maSV}"></span></td>
+        <td><span th:text="${sinhVien.maSinhVien}"></span></td>
         <td th:text="${sinhVien.hoTen}"></td>
         <td th:text="${sinhVien.khoa.tenKhoa}"></td>
         <td><a th:href="@{/qly/sinhvien/xoa/{id}(id=${sinhVien.id})}">Xóa</a></td>

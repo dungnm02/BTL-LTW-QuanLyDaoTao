@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý học kì</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Quản lý học kì</h1>
+<button>
+    <a href="/qly/hocki/them">Thêm học kì</a>
+</button>
+
+<table>
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Mã học kì</th>
+        <th>Ngày bắt đầu</th>
+        <th>Ngày kết thúc</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hocKi, i : ${dsHocKi}">
+        <td><span th:text="${i.index + 1}"></span></td>
+        <td><span th:text="${hocKi.maHocKi}"></span></td>
+        <td th:text="${#temporals.format(hocKi.ngayBatDau, 'dd/MM/yyyy')}"></td>
+        <td th:text="${#temporals.format(hocKi.ngayKetThuc, 'dd/MM/yyyy')}"></td>
+        <td>
+            <button>
+                <a th:href="@{/qly/hocki/xoa/{id}(id=${hocKi.id})}">Xóa</a>
+            </button>
+        </td>
+        <td>
+            <button>
+                <a th:href="@{/qly/hocki/sua/{id}(id=${hocKi.id})}">Sửa</a>
+            </button>
+        </td>
+        <td>
+            <button>
+                <a th:href="@{/qly/hocki/{id}/lophocphan(id=${hocKi.id})}">Quản lý lớp học phần</a>
+            </button>
+        </td>
+        <td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

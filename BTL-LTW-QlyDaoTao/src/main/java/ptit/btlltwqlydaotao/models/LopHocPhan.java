@@ -15,8 +15,8 @@ public class LopHocPhan {
     @GeneratedValue
     @Column(length = 20)
     private int id;
-    @NotEmpty(message = "Tên lớp học phần không được bỏ trống")
-    private String tenLopHocPhan;
+    @Column(nullable = false, unique = true)
+    private String maLopHocPhan;
     @NotEmpty(message = "Ngày trong tuần không được bỏ trống")
     private String ngayTrongTuan;
     @NotEmpty(message = "Kíp trong ngày không được bỏ trống")
@@ -25,7 +25,6 @@ public class LopHocPhan {
     private String phongHoc;
     @ManyToOne
     private HocKi hocKi;
-
     @ManyToOne
     private GiangVienMonHoc giangVienMonHoc;
 

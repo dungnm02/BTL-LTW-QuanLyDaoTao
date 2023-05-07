@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm lớp học phần</title>
+</head>
+<body onload="getMonHocByKhoa(), getGiangVienByMonHoc()">
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Thêm lớp học phần</h1>
+<div>
+    <p th:text="${message}"></p>
+</div>
+<form method="post" th:action="@{/qly/hocki/{idHocKi}/lophocphan/them(idHocKi=${idHocKi})}" th:object="${lopHocPhan}">
+    <div>
+        <label for="khoa">Khoa:</label>
+        <select class="form-control" id="khoa" onchange="getMonHocByKhoa()">
+            <option th:each="khoa : ${dsKhoa}" th:text="${khoa.tenKhoa}" th:value="${khoa.id}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="monhoc">Môn học:</label>
+        <select class="form-control" id="monhoc" onchange="getGiangVienByMonHoc()">
+        </select>
+    </div>
+    <div>
+        <label for="giangvien">Giảng viên</label>
+        <select class="form-control" id="giangvien" th:field="${lopHocPhan.giangVienMonHoc}">
+        </select>
+    </div>
+    <div>
+        <label for="ngaytrongtuan">Ngày trong tuần:</label>
+        <select class="form-control" id="ngaytrongtuan" th:field="${lopHocPhan.ngayTrongTuan}">
+            <option th:each="ngayTrongTuan : ${dsNgayTrongTuan}" th:text="${ngayTrongTuan}"
+                    th:value="${ngayTrongTuan}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="kiptrongngay">Kíp trong ngày:</label>
+        <select class="form-control" id="kiptrongngay" th:field="${lopHocPhan.kipTrongNgay}">
+            <option th:each="kipTrongNgay : ${dsKipTrongNgay}" th:text="${kipTrongNgay}"
+                    th:value="${kipTrongNgay}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="phonghoc">Phòng học</label>
+        <select class="form-control" id="phonghoc" th:field="${lopHocPhan.phongHoc}">
+            <option th:each="phonghoc : ${dsPhongHoc}" th:text="${phonghoc}" th:value="${phonghoc}"></option>
+        </select>
+    </div>
+    <button type="submit">Thêm</button>
+</form>
+
+<script th:inline="javascript">
+    var dsKhoa = /*[[${dsKhoa}]]*/ [];
+    var dsMonHoc = /*[[${dsMonHoc}]]*/ [];
+    var dsGiangVienMonHoc = /*[[${dsGiangVienMonHoc}]]*/ [];
+
+    function getMonHocByKhoa() {
+        // Lấy lựa chọn hiện tại của menu khoa
+        var khoaSelect = document.getElementById("khoa");
+        var khoaId = khoaSelect.value;
+
+        // Xóa lựa chọn hiện tại của menu môn học
+        var monhocSelect = document.getElementById("monhoc");
+        monhocSelect.innerHTML = "";
+
+        // Lấy danh sách môn học theo khoa
+        var dsMonHocByKhoa = dsMonHoc.filter(
+            function (monHoc) {
+                return monHoc.khoa.id == khoaId;
+            }
+        );
+
+        // Thêm danh sách môn học theo khoa vào menu môn học
+        dsMonHocByKhoa.forEach(
+            function (monHoc) {
+                var option = document.createElement("option");
+                option.value = monHoc.id;
+                option.text = monHoc.tenMonHoc;
+                monhocSelect.add(option);
+            }
+        );
+    }
+
+    function getGiangVienByMonHoc() {
+        // Lấy lựa chọn hiện tại của menu môn học
+        var monhocSelect = document.getElementById("monhoc");
+        var monhocId = monhocSelect.value;
+
+        // Xóa lựa chọn hiện tại của menu giảng viên
+        var giangVienSelect = document.getElementById("giangvien");
+        giangVienSelect.innerHTML = "";
+
+        // Lấy danh sách môn học theo khoa
+        var dsGiangVienByMonHoc = dsGiangVienMonHoc.filter(
+            function (giangVienMonHoc) {
+                return giangVienMonHoc.monHoc.id == monhocId;
+            }
+        );
+        // Thêm danh sách giảng viên theo môn học vào menu giảng viên
+        dsGiangVienByMonHoc.forEach(
+            function (giangVienMonHoc) {
+                var option = document.createElement("option");
+                option.value = giangVienMonHoc.id;
+                option.text = giangVienMonHoc.giangVien.hoTen;
+                giangVienSelect.add(option);
+            }
+        );
+    }
+</script>
+</body>
+</html>

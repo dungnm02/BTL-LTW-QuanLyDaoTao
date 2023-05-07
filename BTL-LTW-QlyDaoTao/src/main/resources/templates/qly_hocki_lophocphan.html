@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý lớp học phần trong học kì</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Quản lý lớp học phần trong học kì</h1>
+<label for="maHocKi">Mã học kì:</label>
+<p id="maHocKi" th:text="${hocKi.maHocKi}"></p><br>
+<label for="ngayBatDau">Ngày bắt đầu:</label>
+<p id="ngayBatDau" th:text="${#temporals.format(hocKi.ngayBatDau, 'dd/MM/yyyy')}"></p><br>
+<label for="ngayKetThuc">Ngày kết thúc:</label>
+<p id="ngayKetThuc" th:text="${#temporals.format(hocKi.ngayKetThuc, 'dd/MM/yyyy')}"></p><br>
+<button>
+    <a th:href="@{/qly/hocki/{id}/lophocphan/them(id=${hocKi.id})}">Thêm lớp học phần</a>
+</button>
+<table>
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Khoa</th>
+        <th>Môn học</th>
+        <th>Giảng viên</th>
+        <th>Tên lớp học phần</th>
+        <th>Ngày trong tuần</th>
+        <th>Kíp trong ngày</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="lopHocPhan, i : ${dsLopHocPhan}">
+        <td><span th:text="${i.index + 1}"></span></td>
+        <td th:text="${lopHocPhan.giangVienMonHoc.monHoc.khoa.tenKhoa}"></td>
+        <td th:text="${lopHocPhan.giangVienMonHoc.monHoc.tenMonHoc}"></td>
+        <td th:text="${lopHocPhan.giangVienMonHoc.giangVien.hoTen}"></td>
+        <td th:text="${lopHocPhan.maLopHocPhan}"></td>
+        <td th:text="${lopHocPhan.ngayTrongTuan}"></td>
+        <td th:text="${lopHocPhan.kipTrongNgay}"></td>
+        <td>
+            <button>
+                <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/xoa/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+                    Xóa
+                </a>
+            </button>
+        </td>
+        <td>
+            <button>
+                <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sua/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+                    Sửa
+                </a>
+            </button>
+        </td>
+        <td>
+            <button>
+                <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+                    Quản lý sinh viên
+                </a>
+            </button>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

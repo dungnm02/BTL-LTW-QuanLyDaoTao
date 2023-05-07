@@ -5,6 +5,7 @@
     <title>Sửa giảng viên</title>
 </head>
 <body>
+
 <div id="navbar">
     <a href="/qly/giangvien">Quản lý giảng viên</a>
     <a href="/qly/sinhvien">Quản lý sinh viên</a>
@@ -12,19 +13,34 @@
     <a href="/qly/hocki">Quản lý học kì</a>
     <a href="/qly/modotdangki">Mở đợt đăng kí</a>
 </div>
-<h1>Sửa sinh viên</h1>
+
+<h1>Sửa giảng viên</h1>
 <form action="#" method="post" th:action="@{/qly/giangvien/sua/{id}(id=${giangVien.id})}" th:object="${giangVien}">
+
+    <input th:field="${giangVien.maGiangVien}" type="hidden">
+    <input th:field="${giangVien.khoa}" type="hidden">
+    <input th:field="${giangVien.username}" type="hidden">
+    <input th:field="${giangVien.password}" type="hidden">
+
     <p th:errors="*{hoTen}" th:if="${#fields.hasErrors('hoTen')}">Họ tên không hợp lệ</p>
     <label for="hoTen">Họ tên:</label>
     <input id="hoTen" th:field="${giangVien.hoTen}" type="text"/><br>
+
     <label for="ngaySinh">Ngày Sinh:</label>
     <input id="ngaySinh" th:field="${giangVien.ngaySinh}" type="date"><br>
+
+    <p th:errors="*{cccd}" th:if="${#fields.hasErrors('cccd')}">Căn cước công dân không hợp lệ</p>
     <label for="cccd">CCCD:</label>
     <input id="cccd" th:field="${giangVien.cccd}" type="text"><br>
+
+    <p th:errors="*{email}" th:if="${#fields.hasErrors('email')}">Email không hợp lệ</p>
     <label for="email">Email:</label>
     <input id="email" th:field="${giangVien.email}" type="email"><br>
+
+    <p th:errors="*{sdt}" th:if="${#fields.hasErrors('sdt')}">Số điện thoại không hợp lệ</p>
     <label for="sdt">Số điện thoại:</label>
     <input id="sdt" th:field="${giangVien.sdt}" type="tel"><br>
+
     <button type="submit">Sửa</button>
 </form>
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa lớp học phần</title>
+</head>
+<body>
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+<h1>Sửa lớp học phần</h1>
+<div>
+    <p th:text="${message}"></p>
+</div>
+<form method="post"
+      th:action="@{/qly/hocki/{idHocKi}/lophocphan/sua/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}"
+      th:object="${lopHocPhan}">
+
+    <input type="hidden" th:field="${lopHocPhan.id}">
+    <input type="hidden" th:field="${lopHocPhan.hocKi}">
+    <input type="hidden" th:field="${lopHocPhan.giangVienMonHoc}">
+    <input type="hidden" th:field="${lopHocPhan.maLopHocPhan}">
+
+    <label for="maLopHocPhan">Mã lớp học phần:</label>
+    <p id="maLopHocPhan" th:text="${lopHocPhan.maLopHocPhan}" type="text"></p>
+
+    <label for="giangVien">Giảng viên:</label>
+    <p id="giangVien" th:text="${lopHocPhan.giangVienMonHoc.giangVien.getHoTen()}" type="text"></p>
+
+    <label for="monHoc">Môn học:</label>
+    <p id="monHoc" th:text="${lopHocPhan.giangVienMonHoc.monHoc.getTenMonHoc()}" type="text"></p>
+
+    <div>
+        <label for="ngaytrongtuan">Ngày trong tuần:</label>
+        <select class="form-control" id="ngaytrongtuan" th:field="${lopHocPhan.ngayTrongTuan}">
+            <option th:each="ngayTrongTuan : ${dsNgayTrongTuan}" th:text="${ngayTrongTuan}"
+                    th:value="${ngayTrongTuan}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="kiptrongngay">Kíp trong ngày:</label>
+        <select class="form-control" id="kiptrongngay" th:field="${lopHocPhan.kipTrongNgay}">
+            <option th:each="kipTrongNgay : ${dsKipTrongNgay}" th:text="${kipTrongNgay}"
+                    th:value="${kipTrongNgay}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="phonghoc">Phòng học</label>
+        <select class="form-control" id="phonghoc" th:field="${lopHocPhan.phongHoc}">
+            <option th:each="phonghoc : ${dsPhongHoc}" th:text="${phonghoc}" th:value="${phonghoc}"></option>
+        </select>
+    </div>
+    <button type="submit">Sửa</button>
+</form>
+
+</body>
+</html>

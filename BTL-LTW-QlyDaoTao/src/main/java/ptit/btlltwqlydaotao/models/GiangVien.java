@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GiangVien extends NguoiDung {
     @Column(length = 20, nullable = false, unique = true)
-    private String maGV;
+    private String maGiangVien;
     @ManyToOne
     private Khoa khoa;
 }

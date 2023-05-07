@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm học kì</title>
+    <script src="/js/showNgayKetThuc.js"></script>
+</head>
+<body onload="showNgayKetThuc()">
+<div id="navbar">
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</div>
+
+<h1>Thêm học kì</h1>
+<div>
+    <p th:text="${message}"></p>
+</div>
+<form method="post" th:action="@{/qly/hocki/them}" th:object="${hocKi}">
+    <div>
+        <p th:errors="*" th:if="${#fields.hasErrors()}"></p>
+        <label for="ngayBatDau">Ngày bắt đầu:</label>
+        <select class="form-control" id="ngayBatDau" onchange="showNgayKetThuc()" th:field="${hocKi.ngayBatDau}">
+            <option th:each="thuHai : ${dsThuHai}" th:text="${thuHai}" th:value="${thuHai}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="ngayKetThuc">Ngày kết thúc:</label>
+        <input id="ngayKetThuc" readonly th:field="${hocKi.ngayKetThuc}" th:value="${hocKi.ngayKetThuc}" type="text"/>
+    </div>
+    <button type="submit">Thêm</button>
+</form>
+</body>
+</html>

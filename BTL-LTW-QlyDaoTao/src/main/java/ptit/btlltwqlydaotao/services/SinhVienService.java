@@ -1,10 +1,13 @@
 package ptit.btlltwqlydaotao.services;
 
 import org.springframework.stereotype.Service;
+import ptit.btlltwqlydaotao.models.Khoa;
 import ptit.btlltwqlydaotao.models.SinhVien;
 import ptit.btlltwqlydaotao.repositories.SinhVienRepository;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,47 +18,63 @@ public class SinhVienService {
         this.sinhVienRepository = sinhVienRepository;
     }
 
-    public Iterable<SinhVien> findAllSinhVien() {
-        return sinhVienRepository.findAll();
-    }
 
     public SinhVien findSinhVienById(int id) {
         Optional<SinhVien> sinhVien = sinhVienRepository.findById(id);
-        return sinhVien.get();
+        return sinhVien.orElse(null);
     }
 
-    public void addSinhVien(SinhVien sinhVien) {
-        sinhVien.setMaSV(generateMaSV());
-        sinhVien.setUsername(sinhVien.getMaSV());
-        sinhVien.setPassword(generatePassword(sinhVien.getMaSV(), sinhVien.getNgaySinh()));
+    public List<SinhVien> searchSinhVien(String type, String keyword) {
+        if (type != null && keyword != null && !keyword.isBlank()) {
+            //Nếu người dùng nhập từ khóa, trả về danh sách theo kiểu tìm kiếm
+            if (type.equals("maSinhVien")) {
+                return sinhVienRepository.findByMaSinhVienContainingIgnoreCase(keyword);
+            } else {
+                return sinhVienRepository.findByHoTenContainingIgnoreCase(keyword);
+            }
+        } else {
+            //Nếu người dùng không nhập từ khóa, trả về toàn bộ danh sách
+            return sinhVienRepository.findAll();
+        }
+    }
+
+    public void createSinhVien(SinhVien sinhVien) {
+        sinhVien.setMaSinhVien(generateMaSinhVien(sinhVien.getKhoa()));
+        sinhVien.setUsername(sinhVien.getMaSinhVien());
+        sinhVien.setPassword(generatePassword(sinhVien.getMaSinhVien(), sinhVien.getNgaySinh()));
         sinhVienRepository.save(sinhVien);
     }
 
-    public void updateSinhVien(SinhVien sinhVien, int id) {
-        SinhVien oldSinhVien = findSinhVienById(id);
-        oldSinhVien.setHoTen(sinhVien.getHoTen());
-        oldSinhVien.setNgaySinh(sinhVien.getNgaySinh());
-        oldSinhVien.setCccd(sinhVien.getCccd());
-        oldSinhVien.setEmail(sinhVien.getEmail());
-        oldSinhVien.setSdt(sinhVien.getSdt());
-        sinhVienRepository.save(oldSinhVien);
+    public void updateSinhVien(SinhVien sinhVien) {
+        sinhVienRepository.save(sinhVien);
     }
 
     public void deleteSinhVien(int id) {
         sinhVienRepository.deleteById(id);
     }
 
-    private String generatePassword(String maSV, Date ngaySinh) {
-        String[] arr = ngaySinh.toString().split("-");
-        String password = maSV;
+    private String generatePassword(String maSV, LocalDate ngaySinh) {
+        String[] arr = ngaySinh.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).split("/");
+        StringBuilder password = new StringBuilder(maSV);
         for (String s : arr) {
-            password += s;
+            password.append(s);
         }
-        return password;
+        return password.toString();
     }
 
-    private String generateMaSV() {
-        return String.format("SV%04d", sinhVienRepository.count() + 1);
+    private String generateMaSinhVien(Khoa khoa) {
+        //Lấy danh sách sinh viên theo khoa sắp xêp theo Id giảm dần
+        List<SinhVien> dsSinhVien = sinhVienRepository.findTopByKhoaOrderByIdDesc(khoa);
+        //Nếu danh sách rỗng, trả về mã SV đầu tiên của khoa
+        if (dsSinhVien.size() == 0) {
+            return "SV" + khoa.getMaKhoa() + "001";
+        } else {
+            //Nếu danh sách không rỗng, lấy mã SV cuối cùng của khoa, tăng số thứ tự lên 1
+            String maSV = dsSinhVien.get(0).getMaSinhVien();
+            int number = Integer.parseInt(maSV.substring(2 + khoa.getMaKhoa().length()));
+            number++;
+            return "SV" + khoa.getMaKhoa() + String.format("%03d", number);
+        }
     }
 
 }

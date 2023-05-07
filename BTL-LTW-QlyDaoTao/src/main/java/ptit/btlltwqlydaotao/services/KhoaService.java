@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ptit.btlltwqlydaotao.models.Khoa;
 import ptit.btlltwqlydaotao.repositories.KhoaRepository;
 
+import java.util.List;
+
 @Service
 public class KhoaService {
     KhoaRepository khoaRepository;
@@ -12,7 +14,7 @@ public class KhoaService {
         this.khoaRepository = khoaRepository;
     }
 
-    public Iterable<Khoa> findAllKhoa() {
+    public List<Khoa> findAll() {
         return khoaRepository.findAll();
     }
 }

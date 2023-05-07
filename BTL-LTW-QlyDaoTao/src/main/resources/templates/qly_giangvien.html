@@ -16,6 +16,17 @@
 <button>
     <a href="/qly/giangvien/them">Thêm Giảng Viên</a>
 </button>
+
+<form method="get" th:action="@{/qly/giangvien}">
+    <label for="type">Tìm kiếm theo</label>
+    <select id="type" th:name="type">
+        <option th:value="hoTen">Tên giảng viên</option>
+        <option th:value="maGiangVien">Mã giảng viên</option>
+    </select>
+    <input th:name="keyword" type="text"/>
+    <button type="submit">Search</button>
+</form>
+
 <table>
     <thead>
     <tr>
@@ -28,7 +39,7 @@
     <tbody>
     <tr th:each="giangVien, i : ${dsGiangVien}">
         <td><span th:text="${i.index + 1}"></span></td>
-        <td><span th:text="${giangVien.maGV}"></span></td>
+        <td><span th:text="${giangVien.maGiangVien}"></span></td>
         <td th:text="${giangVien.hoTen}"></td>
         <td th:text="${giangVien.khoa.tenKhoa}"></td>
         <td><a th:href="@{/qly/giangvien/xoa/{id}(id=${giangVien.id})}">Xóa</a></td>

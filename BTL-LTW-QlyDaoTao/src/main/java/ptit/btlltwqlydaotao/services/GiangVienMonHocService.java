@@ -15,11 +15,17 @@ public class GiangVienMonHocService {
     private final GiangVienMonHocRepository giangVienMonHocRepository;
     private final MonHocService mocHocService;
     private final GiangVienService giangVienService;
+    private final LopHocPhanService lopHocPhanService;
 
-    public GiangVienMonHocService(GiangVienMonHocRepository giangVienMonHocRepository, MonHocService mocHocService, GiangVienService giangVienService) {
+    public GiangVienMonHocService(GiangVienMonHocRepository giangVienMonHocRepository, MonHocService mocHocService, GiangVienService giangVienService, LopHocPhanService lopHocPhanService) {
         this.mocHocService = mocHocService;
         this.giangVienService = giangVienService;
         this.giangVienMonHocRepository = giangVienMonHocRepository;
+        this.lopHocPhanService = lopHocPhanService;
+    }
+
+    public List<GiangVienMonHoc> findAll() {
+        return giangVienMonHocRepository.findAll();
     }
 
     public List<GiangVienMonHoc> findAllByGiangVien(GiangVien giangVien) {
@@ -41,7 +47,7 @@ public class GiangVienMonHocService {
 
     public List<GiangVien> getAllGiangVienChuaDayMonHoc(MonHoc monHoc) {
         List<GiangVien> dsGiangVienDayMonHoc = getAllGiangVienDayMonHoc(monHoc);
-        List<GiangVien> dsGiangVienKhoa = giangVienService.findAllGiangVienByKhoa(monHoc.getKhoa());
+        List<GiangVien> dsGiangVienKhoa = giangVienService.findGiangVienByKhoa(monHoc.getKhoa());
         List<GiangVien> dsGiangVienChuaDayMonHoc = new ArrayList<>(dsGiangVienKhoa);
         dsGiangVienChuaDayMonHoc.removeAll(dsGiangVienDayMonHoc);
         return dsGiangVienChuaDayMonHoc;
@@ -73,4 +79,5 @@ public class GiangVienMonHocService {
             giangVienMonHocRepository.deleteAllByGiangVienAndMonHoc(giangVienService.findGiangVienById(idGiangVienDuocChon), monHoc);
         }
     }
+
 }

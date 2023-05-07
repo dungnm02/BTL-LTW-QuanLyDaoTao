@@ -17,7 +17,6 @@ public class KetQuaHocPhan {
     @Id
     @GeneratedValue
     private int id;
-
     @NotNull
     private float diemCC;
     @NotNull
