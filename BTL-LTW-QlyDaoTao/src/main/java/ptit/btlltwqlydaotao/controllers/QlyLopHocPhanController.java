@@ -10,20 +10,23 @@ import ptit.btlltwqlydaotao.services.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/qly/hocki/{idHocKi}/lophocphan")
 public class QlyLopHocPhanController {
 
     private final LopHocPhanService lopHocPhanService;
+    private final SinhVienService sinhVienService;
     private final HocKiService hocKiService;
     private final KhoaService khoaService;
     private final MonHocService monHocService;
     private final GiangVienMonHocService giangVienMonHocService;
     private final KetQuaHocPhanService ketQuaHocPhanService;
 
-    public QlyLopHocPhanController(LopHocPhanService lopHocPhanService, HocKiService hocKiService, KhoaService khoaService, MonHocService monHocService, GiangVienMonHocService giangVienMonHocService, KetQuaHocPhanService ketQuaHocPhanService) {
+    public QlyLopHocPhanController(LopHocPhanService lopHocPhanService, SinhVienService sinhVienService, HocKiService hocKiService, KhoaService khoaService, MonHocService monHocService, GiangVienMonHocService giangVienMonHocService, KetQuaHocPhanService ketQuaHocPhanService) {
         this.lopHocPhanService = lopHocPhanService;
+        this.sinhVienService = sinhVienService;
         this.hocKiService = hocKiService;
         this.khoaService = khoaService;
         this.monHocService = monHocService;
@@ -126,11 +129,43 @@ public class QlyLopHocPhanController {
         return "qly_hocki_lophocphan_sinhvien";
     }
 
-//    @GetMapping("/sinhvien/{idLopHocPhan}/them")
-//    public String showThemSinhVien(@PathVariable("idLopHocPhan") int idLopHocPhan, Model model) {
-//
-//
-//
-//    }
+    @GetMapping("/sinhvien/{idLopHocPhan}/them")
+    public String showThemSinhVien(@PathVariable("idLopHocPhan") int idLopHocPhan,
+                                   @RequestParam(value = "type", required = false) String type,
+                                   @RequestParam(value = "keyword", required = false) String keyword,
+                                   Model model) {
+        LopHocPhan lopHocPhan = lopHocPhanService.findById(idLopHocPhan);
+        model.addAttribute("dsSinhVienKhongTrongLop", lopHocPhanService.searchSinhVien(lopHocPhan, type, keyword));
+        model.addAttribute("lopHocPhan", lopHocPhan);
+        model.addAttribute("hocKi", lopHocPhan.getHocKi());
+        return "qly_hocki_lophocphan_sinhvien_them";
+    }
+
+    @PostMapping("/sinhvien/{idLopHocPhan}/them")
+    public String submitThemSinhVien(@PathVariable("idLopHocPhan") int idLopHocPhan,
+                                     @RequestParam("dsIdSinhVienDuocChon") List<Integer> dsIdSinhVienDuocChon,
+                                     Model model) {
+        lopHocPhanService.addSinhVien(idLopHocPhan, dsIdSinhVienDuocChon);
+        return "redirect:/qly/hocki/" + lopHocPhanService.findById(idLopHocPhan).getHocKi().getId() + "/lophocphan/sinhvien/" + idLopHocPhan;
+    }
+
+    @GetMapping("/sinhvien/{idLopHocPhan}/xoa/{idSinhVien}")
+    public String showXoaSinhVien(@PathVariable("idLopHocPhan") int idLopHocPhan,
+                                  @PathVariable("idSinhVien") int idSinhVien,
+                                  Model model) {
+        LopHocPhan lopHocPhan = lopHocPhanService.findById(idLopHocPhan);
+        model.addAttribute("sinhVien", sinhVienService.findById(idSinhVien));
+        model.addAttribute("lopHocPhan", lopHocPhan);
+        model.addAttribute("hocKi", lopHocPhan.getHocKi());
+        return "qly_hocki_lophocphan_sinhvien_xoa";
+    }
+
+    @PostMapping("/sinhvien/{idLopHocPhan}/xoa/{idSinhVien}")
+    public String submitXoaSinhVien(@PathVariable("idLopHocPhan") int idLopHocPhan,
+                                    @PathVariable("idSinhVien") int idSinhVien) {
+        lopHocPhanService.deleteSinhVien(idLopHocPhan, idSinhVien);
+        return "redirect:/qly/hocki/" + lopHocPhanService.findById(idLopHocPhan).getHocKi().getId() + "/lophocphan/sinhvien/" + idLopHocPhan;
+    }
+
 
 }

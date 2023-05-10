@@ -16,4 +16,6 @@ public interface GiangVienRepository extends JpaRepository<GiangVien, Integer> {
     List<GiangVien> findByHoTenContainingIgnoreCase(String hoTen);
 
     List<GiangVien> findByMaGiangVienContainingIgnoreCase(String keyword);
+
+    GiangVien findByUsername(String username);
 }

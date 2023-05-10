@@ -20,10 +20,10 @@
       th:action="@{/qly/hocki/{idHocKi}/lophocphan/sua/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}"
       th:object="${lopHocPhan}">
 
-    <input type="hidden" th:field="${lopHocPhan.id}">
-    <input type="hidden" th:field="${lopHocPhan.hocKi}">
-    <input type="hidden" th:field="${lopHocPhan.giangVienMonHoc}">
-    <input type="hidden" th:field="${lopHocPhan.maLopHocPhan}">
+    <input th:field="${lopHocPhan.id}" type="hidden">
+    <input th:field="${lopHocPhan.hocKi}" type="hidden">
+    <input th:field="${lopHocPhan.giangVienMonHoc}" type="hidden">
+    <input th:field="${lopHocPhan.maLopHocPhan}" type="hidden">
 
     <label for="maLopHocPhan">Mã lớp học phần:</label>
     <p id="maLopHocPhan" th:text="${lopHocPhan.maLopHocPhan}" type="text"></p>

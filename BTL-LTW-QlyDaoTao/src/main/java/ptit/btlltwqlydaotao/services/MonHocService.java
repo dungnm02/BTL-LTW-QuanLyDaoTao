@@ -23,6 +23,7 @@ public class MonHocService {
         return monHocRepository.findAll();
     }
 
+
     public List<MonHoc> searchMonHoc(Integer khoaId, String tenMonHoc) {
         khoaId = (khoaId == null) ? 0 : khoaId;
         if (khoaId == 0 && tenMonHoc == null) {

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký lớp học phần</title>
+</head>
+<body>
+<nav>
+    <a href="/svien/ketqua">Xem kết quả</a>
+    <a href="/svien/lichhoc">Xem lịch học</a>
+    <a href="/svien/dangky">Đăng ký lớp học phần</a>
+</nav>
+<h1 th:text="${hocKi.maHocKi}"></h1>
+<h1>Các lớp học phần đã đăng ký</h1>
+<table>
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Môn học</th>
+        <th>Giảng viên</th>
+        <th>Ngày trong tuần</th>
+        <th>Kíp trong ngày</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ketQuaHocPhan, i : ${dsKetQuaHocPhan}">
+        <td th:text="${i.index + 1  }"></td>
+        <td th:text="${ketQuaHocPhan.lopHocPhan.giangVienMonHoc.monHoc.tenMonHoc}"></td>
+        <td th:text="${ketQuaHocPhan.lopHocPhan.giangVienMonHoc.giangVien.hoTen}"></td>
+        <td th:text="${ketQuaHocPhan.lopHocPhan.ngayTrongTuan}"></td>
+        <td th:text="${ketQuaHocPhan.lopHocPhan.kipTrongNgay}"></td>
+    </tr>
+    </tbody>
+</table>
+<h1>Đăng ký lớp học phần</h1>
+<p th:text="${message}"></p>
+<form method="post" th:action="@{/svien/dangky/hocki/{idHocKi}(idHocKi=${hocKi.id})}">
+    <label for="monhoc">Môn học:</label>
+    <select class="form-control" id="monhoc" onchange="getLopHocPhanByMonHoc()">
+        <option th:each="monHoc : ${dsMonHoc}" th:text="${monHoc.tenMonHoc}" th:value="${monHoc.id}"></option>
+    </select>
+    <label>Lớp học phần:</label>
+    <table>
+        <thead>
+        <tr>
+            <th>Mã lớp học phần</th>
+            <th>Giảng viên</th>
+            <th>Ngày trong tuần</th>
+            <th>Kíp trong ngày</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="lopHocPhanTableBody">
+        </tbody>
+    </table>
+
+    <button type="submit">Thêm</button>
+</form>
+</body>
+</html>
+
+<script th:inline="javascript">
+    function getLopHocPhanByMonHoc() {
+        var MonHocDuocChonId = document.getElementById("monhoc").value;
+        var dsLopHocPhan = /*[[${dsLopHocPhan}]]*/ [];
+
+        var dsLopHocPhanMonHoc = dsLopHocPhan.filter(function (lopHocPhan) {
+            return String(lopHocPhan.giangVienMonHoc.monHoc.id) === MonHocDuocChonId;
+        });
+
+        var tableBody = document.querySelector("#lopHocPhanTableBody");
+        tableBody.innerHTML = "";
+
+        dsLopHocPhanMonHoc.forEach(function (lopHocPhan) {
+            var row = document.createElement("tr");
+
+            var maLopHPCell = document.createElement("td");
+            maLopHPCell.textContent = lopHocPhan.maLopHocPhan;
+            row.appendChild(maLopHPCell);
+
+            var giangVienCell = document.createElement("td");
+            giangVienCell.textContent = lopHocPhan.giangVienMonHoc.giangVien.hoTen;
+            row.appendChild(giangVienCell);
+
+            var ngayTrongTuanCell = document.createElement("td");
+            ngayTrongTuanCell.textContent = lopHocPhan.ngayTrongTuan;
+            row.appendChild(ngayTrongTuanCell);
+
+            var kipTrongNgayCell = document.createElement("td");
+            kipTrongNgayCell.textContent = lopHocPhan.kipTrongNgay;
+            row.appendChild(kipTrongNgayCell);
+
+            var checkboxCell = document.createElement("td");
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "idLopHocPhanDuocChon";
+            checkbox.value = lopHocPhan.id;
+            checkbox.onclick = function () {
+                if (this.checked) {
+                    checkboxes = document.getElementsByName("idLopHocPhanDuocChon");
+                    checkboxes.forEach(function (otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+            };
+            checkboxCell.appendChild(checkbox);
+            row.appendChild(checkboxCell);
+            tableBody.appendChild(row);
+        });
+    }
+
+</script>

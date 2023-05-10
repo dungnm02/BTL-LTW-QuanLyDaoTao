@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xóa sinh viên</title>
+</head>
+<body>
+<!--Navbar-->
+<nav>
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</nav>
+<!--Hiển thị thông tin sinh viên-->
+<h1>Xóa sinh viên khỏi lớp học phần</h1>
+<label for="info" id="info-label">Thông tin sinh viên</label>
+<div id="info">
+    <label for="maSinhVien">Mã sinh viên</label>
+    <input id="maSinhVien" th:field="${sinhVien.maSinhVien}" readonly/><br>
+
+    <label for="hoTen">Họ tên</label>
+    <input id="hoTen" th:field="${sinhVien.hoTen}" readonly/><br>
+
+    <label for="ngaySinh">Ngày sinh</label>
+    <input id="ngaySinh" th:field="${sinhVien.ngaySinh}" readonly/><br>
+</div>
+<!--Submit-->
+<form th:method="post" th:action="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/xoa/{idSinhVien}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id},
+      idSinhVien=${sinhVien.id})}">
+    <button type="submit">Xác nhận</button>
+</form>
+</body>
+</html>

@@ -15,4 +15,8 @@ public interface SinhVienRepository extends JpaRepository<SinhVien, Integer> {
     List<SinhVien> findByHoTenContainingIgnoreCase(String hoTen);
 
     List<SinhVien> findTopByKhoaOrderByIdDesc(Khoa khoa);
+
+    List<SinhVien> findByKhoa(Khoa khoa);
+
+    SinhVien findByUsername(String username);
 }

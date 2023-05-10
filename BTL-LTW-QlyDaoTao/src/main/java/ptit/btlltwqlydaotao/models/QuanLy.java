@@ -2,7 +2,6 @@ package ptit.btlltwqlydaotao.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,15 +16,13 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GiangVien extends NguoiDung implements UserDetails {
-    @Column(length = 20, nullable = false, unique = true)
-    private String maGiangVien;
-    @ManyToOne
-    private Khoa khoa;
+public class QuanLy extends NguoiDung implements UserDetails {
+    @Column(nullable = true)
+    private String placeholder;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_GIANGVIEN"));
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_QUANLY"));
     }
 
     @Override

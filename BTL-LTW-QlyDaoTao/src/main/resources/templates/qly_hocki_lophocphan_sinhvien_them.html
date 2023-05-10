@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm sinh viên</title>
+</head>
+<body>
+<!--Navbar-->
+<nav>
+    <a href="/qly/giangvien">Quản lý giảng viên</a>
+    <a href="/qly/sinhvien">Quản lý sinh viên</a>
+    <a href="/qly/monhoc">Quản lý môn học</a>
+    <a href="/qly/hocki">Quản lý học kì</a>
+    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+</nav>
+<!--Thanh tìm kiếm-->
+<div id="search-bar">
+    <form method="get"
+          th:action="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/them(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+        <label for="type">Tìm kiếm theo</label>
+        <select id="type" th:name="type">
+            <option th:value="hoTen">Tên sinh viên</option>
+            <option th:value="maSinhVien">Mã sinh viên</option>
+        </select>
+        <input th:name="keyword" type="text"/>
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<!--Bảng hiện kết quả tìm kiếm sinh viên trong khoa-->
+<form th:method="post"
+      th:action="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/them(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+    <table>
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Mã sinh viên</th>
+            <th>Họ tên</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sinhVien, i : ${dsSinhVienKhongTrongLop}">
+            <td th:text="${i.index + 1}"></td>
+            <td th:text="${sinhVien.maSinhVien}"></td>
+            <td th:text="${sinhVien.hoTen}"></td>
+            <td><input th:name="dsIdSinhVienDuocChon" th:value="${sinhVien.id}" type="checkbox"/></td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit">Thêm</button>
+</form>
+</body>
+</html>

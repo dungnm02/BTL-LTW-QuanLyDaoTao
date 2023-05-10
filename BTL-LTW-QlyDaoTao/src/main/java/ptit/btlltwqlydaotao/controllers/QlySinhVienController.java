@@ -54,7 +54,7 @@ public class QlySinhVienController {
         if (model.containsAttribute("sinhVien")) {
             sinhVien = (SinhVien) model.getAttribute("sinhVien");
         } else {
-            sinhVien = sinhVienService.findSinhVienById(id);
+            sinhVien = sinhVienService.findById(id);
         }
 
         model.addAttribute(sinhVien);
@@ -77,7 +77,7 @@ public class QlySinhVienController {
 
     @GetMapping("/xoa/{id}")
     public String showXoaSinhVien(@PathVariable("id") int id, Model model) {
-        SinhVien sinhVien = sinhVienService.findSinhVienById(id);
+        SinhVien sinhVien = sinhVienService.findById(id);
         model.addAttribute(sinhVien);
         return "qly_sinhvien_xoa";
     }

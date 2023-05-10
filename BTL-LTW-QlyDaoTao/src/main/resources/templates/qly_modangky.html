@@ -5,15 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/schedule}" method="post">
-    <label for="hocKi">Học Kì:</label>
-    <div class="form-group">
-        <label for="scheduleTime">Schedule Time:</label>
-        <input type="datetime-local" id="scheduleTime" name="scheduleTime" required
-               min="${#temporals.format(#temporals.plusDays(#temporals.now(),1), 'yyyy-MM-dd') + 'T21:00'}"
-               th:max="${#temporals.format(hocKi.ngayBatDau, 'yyyy-MM-ddTHH:mm')}">
+<form method="post" th:action="@{/qly/modotdangky}">
+    <label>Học Kì:</label>
+    <div>
+        <label for="hocKi">Học kì:</label>
+        <select id="hocKi" onchange="restrictRegistrationTimeByHocKi()">
+            <option th:each="hocKi : ${dsHocKi}" th:text="${hocKi.maHocKi}" th:value="${hocKi}"></option>
+        </select>
     </div>
-    <button type="submit" class="btn btn-primary">Create Schedule</button>
+    <label for="batDau">Thời gian bắt đầu</label>
+    <input type="date" id="batDau" th:name="batDau">
+    <button type="submit">Mở đăng kí</button>
+</form>
 </form>
 
 </body>

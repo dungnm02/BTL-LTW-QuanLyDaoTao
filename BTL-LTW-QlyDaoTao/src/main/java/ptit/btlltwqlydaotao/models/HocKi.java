@@ -29,4 +29,5 @@ public class HocKi {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     private LocalDate ngayKetThuc;
+    private boolean moDangKy;
 }

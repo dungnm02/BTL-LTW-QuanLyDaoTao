@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhập điểm</title>
+</head>
+<body>
+<nav>
+    <a href="/gvien/lichday">Xem lịch dạy</a>
+    <a href="/gvien/nhapdiem">Nhập điểm</a>
+</nav>
+<h1>Nhập điểm</h1>
+<p th:text="${message}"></p>
+<form method="post" th:action="@{/gvien/nhapdiem}">
+    <label for="lophocphan">Lớp học phần</label>
+    <select class="form-control" id="lophocphan" onchange="getKetQuaHocPhanByLopHocPhan()">
+        <option th:each="lopHocPhan : ${dsLopHocPhan}" th:text="${lopHocPhan.maLopHocPhan}"
+                th:value="${lopHocPhan.id}"></option>
+    </select>
+    <label>Sinh viên:</label>
+    <table>
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Mã sinh viên</th>
+            <th>Tên sinh viên</th>
+            <th>Điểm CC</th>
+            <th>Điểm KT1</th>
+            <th>Điểm KT2</th>
+            <th>Điểm Thi</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="sinhVienTableBody">
+        </tbody>
+    </table>
+</form>
+</body>
+</html>
+
+<script th:inline="javascript">
+    function getKetQuaHocPhanByLopHocPhan() {
+        var lopHocPhanDuocChonId = document.getElementById("lophocphan").value;
+        var dsKetQuaHocPhan = /*[[${dsKetQuaHocPhan}]]*/ [];
+
+        var dsKetQuaHocPhanLopHocPhan = dsKetQuaHocPhan.filter(function (ketQuaHocPhan) {
+            return String(ketQuaHocPhan.) === MonHocDuocChonId;
+        });
+
+        var tableBody = document.querySelector("#lopHocPhanTableBody");
+        tableBody.innerHTML = "";
+
+        dsLopHocPhanMonHoc.forEach(function (lopHocPhan) {
+            var row = document.createElement("tr");
+
+            var maLopHPCell = document.createElement("td");
+            maLopHPCell.textContent = lopHocPhan.maLopHocPhan;
+            row.appendChild(maLopHPCell);
+
+            var giangVienCell = document.createElement("td");
+            giangVienCell.textContent = lopHocPhan.giangVienMonHoc.giangVien.hoTen;
+            row.appendChild(giangVienCell);
+
+            var ngayTrongTuanCell = document.createElement("td");
+            ngayTrongTuanCell.textContent = lopHocPhan.ngayTrongTuan;
+            row.appendChild(ngayTrongTuanCell);
+
+            var kipTrongNgayCell = document.createElement("td");
+            kipTrongNgayCell.textContent = lopHocPhan.kipTrongNgay;
+            row.appendChild(kipTrongNgayCell);
+
+            var checkboxCell = document.createElement("td");
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "idLopHocPhanDuocChon";
+            checkbox.value = lopHocPhan.id;
+            checkbox.onclick = function () {
+                if (this.checked) {
+                    checkboxes = document.getElementsByName("idLopHocPhanDuocChon");
+                    checkboxes.forEach(function (otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+            };
+            checkboxCell.appendChild(checkbox);
+            row.appendChild(checkboxCell);
+            tableBody.appendChild(row);
+        });
+    }
+
+</script>

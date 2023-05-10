@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+</head>
+<body>
+<nav>
+    <a href="/svien/ketqua">Xem kết quả</a>
+    <a href="/svien/lichhoc">Xem lịch học</a>
+    <a href="/svien/dangky">Đăng ký lớp học phần</a>
+</nav>
+<h1>Đăng ký lớp học phần</h1>
+<table>
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Học kì</th>
+        <th>Ngày bắt đầu</th>
+        <th>Ngày kết thúc</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hocKi, i : ${dsHocKi}">
+        <td><span th:text="${i.index + 1}"></span></td>
+        <td><span th:text="${hocKi.maHocKi}"></span></td>
+        <td><span th:text="${#temporals.format(hocKi.ngayBatDau, 'dd/MM/yyyy')}"></span></td>
+        <td><span th:text="${#temporals.format(hocKi.ngayKetThuc, 'dd/MM/yyyy')}"></span></td>
+        <td>
+            <button><a th:href="@{/svien/dangky/hocki/{hocKiId}(hocKiId=${hocKi.id})}">Đăng ký</a></button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

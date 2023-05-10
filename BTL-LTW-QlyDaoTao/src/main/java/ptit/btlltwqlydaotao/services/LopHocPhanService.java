@@ -1,21 +1,26 @@
 package ptit.btlltwqlydaotao.services;
 
 import org.springframework.stereotype.Service;
-import ptit.btlltwqlydaotao.models.HocKi;
-import ptit.btlltwqlydaotao.models.LopHocPhan;
+import ptit.btlltwqlydaotao.models.*;
 import ptit.btlltwqlydaotao.repositories.LopHocPhanRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class LopHocPhanService {
     private final MonHocService monHocService;
     private final LopHocPhanRepository lopHocPhanRepository;
+    private final KetQuaHocPhanService ketQuaHocPhanService;
+    private final SinhVienService sinhVienService;
 
-    public LopHocPhanService(MonHocService monHocService, LopHocPhanRepository lopHocPhanRepository) {
+    public LopHocPhanService(MonHocService monHocService, LopHocPhanRepository lopHocPhanRepository, KetQuaHocPhanService ketQuaHocPhanService, SinhVienService sinhVienService) {
         this.monHocService = monHocService;
         this.lopHocPhanRepository = lopHocPhanRepository;
+        this.ketQuaHocPhanService = ketQuaHocPhanService;
+        this.sinhVienService = sinhVienService;
     }
+
 
     public List<LopHocPhan> findAllLopHocPhan() {
         return lopHocPhanRepository.findAll();
@@ -25,8 +30,35 @@ public class LopHocPhanService {
         return lopHocPhanRepository.findAllByHocKi(hocKi);
     }
 
+    public List<LopHocPhan> findByHocKiAndKhoa(HocKi hocKi, Khoa khoa) {
+        return lopHocPhanRepository.findByHocKiAndGiangVienMonHoc_MonHoc_Khoa(hocKi, khoa);
+    }
+
+    public List<LopHocPhan> findByHocKiAndGiangVien(HocKi hocKi, GiangVien giangVien) {
+        return lopHocPhanRepository.findAllByHocKiAndGiangVienMonHoc_GiangVien(hocKi, giangVien);
+    }
+
     public LopHocPhan findById(int id) {
         return lopHocPhanRepository.findById(id).orElse(null);
+    }
+
+    public List<SinhVien> findAllSinhVien(LopHocPhan lopHocPhan) {
+        List<KetQuaHocPhan> dsKetQuaHocPhan = ketQuaHocPhanService.findByLopHocPhan(lopHocPhan);
+        List<SinhVien> dsSinhVien = new ArrayList<>();
+        for (KetQuaHocPhan ketQuaHocPhan : dsKetQuaHocPhan) {
+            dsSinhVien.add(ketQuaHocPhan.getSinhVien());
+        }
+        return dsSinhVien;
+    }
+
+    public List<SinhVien> searchSinhVien(LopHocPhan lopHocPhan, String type, String keyword) {
+        List<SinhVien> dsSinhVienTrongKhoa = sinhVienService.findByKhoa(lopHocPhan.getGiangVienMonHoc().getMonHoc().getKhoa());
+        List<SinhVien> dsSinhVienTrongLop = findAllSinhVien(lopHocPhan);
+        List<SinhVien> dsSinhVienKhongTrongLop = new ArrayList<>(dsSinhVienTrongKhoa);
+        List<SinhVien> dsSinhVienTimDuoc = sinhVienService.searchSinhVien(type, keyword);
+        dsSinhVienKhongTrongLop.removeAll(dsSinhVienTrongLop);
+        dsSinhVienKhongTrongLop.retainAll(dsSinhVienTimDuoc);
+        return dsSinhVienKhongTrongLop;
     }
 
     public void createLopHocPhan(LopHocPhan lopHocPhan) {
@@ -52,6 +84,22 @@ public class LopHocPhanService {
 
     public void deleteLopHocPhan(int idLopHocPhan) {
         lopHocPhanRepository.deleteById(idLopHocPhan);
+    }
+
+    public void addSinhVien(int idLopHocPhan, List<Integer> dsIdSinhVienDuocChon) {
+        LopHocPhan lopHocPhan = findById(idLopHocPhan);
+        for (Integer idSinhVien : dsIdSinhVienDuocChon) {
+            SinhVien sinhVien = sinhVienService.findById(idSinhVien);
+            KetQuaHocPhan ketQuaHocPhan = new KetQuaHocPhan();
+            ketQuaHocPhan.setSinhVien(sinhVien);
+            ketQuaHocPhan.setLopHocPhan(lopHocPhan);
+            ketQuaHocPhanService.createKetQuaHocPhan(ketQuaHocPhan);
+        }
+    }
+
+    public void deleteSinhVien(int idLophocPhan, int idSinhVien) {
+        KetQuaHocPhan ketQuaHocPhan = ketQuaHocPhanService.findByLopHocPhan_IdAndSinhVien_Id(idLophocPhan, idSinhVien);
+        ketQuaHocPhanService.deleteById(ketQuaHocPhan.getId());
     }
 
     private String generateMaLopHocPhan(LopHocPhan lhp) {

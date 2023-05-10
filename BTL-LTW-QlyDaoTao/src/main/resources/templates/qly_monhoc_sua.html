@@ -18,9 +18,9 @@
 </div>
 <div th:object="${monHoc}">
     <form action="#" method="post" th:action="@{/qly/monhoc/sua/{id}(id=${monHoc.id})}">
-        <input  type="hidden" th:field="${monHoc.id}"/>
-        <input  type="hidden" th:field="${monHoc.maMonHoc}"/>
-        <input  type="hidden" th:field="${monHoc.khoa}"/>
+        <input th:field="${monHoc.id}" type="hidden"/>
+        <input th:field="${monHoc.maMonHoc}" type="hidden"/>
+        <input th:field="${monHoc.khoa}" type="hidden"/>
 
         <p th:errors="*{monHoc.tenMonHoc}" th:if="${#fields.hasErrors('tenMonHoc')}">Tên môn học không hợp lệ</p>
         <label for="tenMonHoc">Tên môn học</label>

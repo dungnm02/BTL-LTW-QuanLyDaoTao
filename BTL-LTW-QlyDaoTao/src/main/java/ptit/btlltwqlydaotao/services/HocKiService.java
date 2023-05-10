@@ -2,18 +2,29 @@ package ptit.btlltwqlydaotao.services;
 
 import org.springframework.stereotype.Service;
 import ptit.btlltwqlydaotao.models.HocKi;
+import ptit.btlltwqlydaotao.models.Khoa;
+import ptit.btlltwqlydaotao.models.LopHocPhan;
+import ptit.btlltwqlydaotao.models.MonHoc;
 import ptit.btlltwqlydaotao.repositories.HocKiRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class HocKiService {
-    HocKiRepository hocKiRepository;
+    private final HocKiRepository hocKiRepository;
 
-    public HocKiService(HocKiRepository hocKiRepository) {
+    private final LopHocPhanService lopHocPhanService;
+
+    private final MonHocService monHocService;
+
+    public HocKiService(HocKiRepository hocKiRepository, LopHocPhanService lopHocPhanService, LopHocPhanService lopHocPhanService1, MonHocService monHocService) {
         this.hocKiRepository = hocKiRepository;
+        this.lopHocPhanService = lopHocPhanService1;
+        this.monHocService = monHocService;
     }
 
     public List<HocKi> findAllHocKi() {
@@ -24,6 +35,15 @@ public class HocKiService {
         return hocKiRepository.findById(id).orElse(null);
     }
 
+    public HocKi findHocKiDangHoatDong() {
+        List<HocKi> dsHocKi = findAllHocKi();
+        for (HocKi hocKi : dsHocKi) {
+            if (LocalDate.now().isAfter(hocKi.getNgayBatDau()) && LocalDate.now().isBefore(hocKi.getNgayKetThuc())) {
+                return hocKi;
+            }
+        }
+        return null;
+    }
     public void deleteHocKiById(int id) {
         hocKiRepository.deleteById(id);
     }
@@ -33,6 +53,7 @@ public class HocKiService {
             throw new RuntimeException("Thời gian bị trùng với học kì khác");
         } else {
             hocKi.setMaHocKi(generateMaHocKi(hocKi.getNgayBatDau(), hocKi.getNgayKetThuc()));
+            hocKi.setMoDangKy(false);
             hocKiRepository.save(hocKi);
         }
     }
@@ -57,6 +78,21 @@ public class HocKiService {
             }
         }
         return dsHocKiChuaBatDau;
+    }
+
+    public List<HocKi> findHocKiDangMoDangKy() {
+        return hocKiRepository.findByMoDangKy(true);
+    }
+
+    public List<MonHoc> findMonHocByHocKiAndKhoa(HocKi hocKi, Khoa khoa) {
+        //Tìm tất cả lớp học phần trong học kì và khoa
+        List<LopHocPhan> dsLopHocPhan = lopHocPhanService.findByHocKiAndKhoa(hocKi, khoa);
+        //Lấy tất cả môn học trong học kì và khoa
+        Set<MonHoc> dsMonHoc = new HashSet<>();
+        for (LopHocPhan lopHocPhan : dsLopHocPhan) {
+            dsMonHoc.add(lopHocPhan.getGiangVienMonHoc().getMonHoc());
+        }
+        return new ArrayList<>(dsMonHoc);
     }
 
     public List<LocalDate> getThuHaiTrongSauThang() {
@@ -87,8 +123,8 @@ public class HocKiService {
     }
 
     private String generateMaHocKi(LocalDate ngayBatDau, LocalDate ngayKetThuc) {
+        //Tạo mã học kì theo định dạng: <năm bắt đầu>-<tháng bắt đầu>-<năm kết thúc>-<tháng kết thúc>
         return ngayBatDau.getYear() + "-" + ngayBatDau.getMonthValue() + "-" + ngayKetThuc.getYear() + "-" + ngayKetThuc.getMonthValue();
     }
-
 
 }

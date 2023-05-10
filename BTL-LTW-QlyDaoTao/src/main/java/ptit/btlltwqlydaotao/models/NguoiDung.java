@@ -10,14 +10,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public class NguoiDung implements Serializable {
+public class NguoiDung {
     @Id
     @GeneratedValue
     @Column(length = 20)
@@ -46,4 +45,6 @@ public class NguoiDung implements Serializable {
     @NotEmpty(message = "Số điện thoại không được để trống")
     @Pattern(regexp = "(^$|[0-9]{10})", message = "Số điện thoại không hợp lệ")
     private String sdt;
+
+
 }
