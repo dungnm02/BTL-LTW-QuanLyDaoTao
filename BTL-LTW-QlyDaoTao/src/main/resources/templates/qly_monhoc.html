@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý môn học</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -36,7 +36,7 @@
             <option th:value="0">Tất cả</option>
             <option th:each="khoa : ${dsKhoa}" th:text="${khoa.tenKhoa}" th:value="${khoa.id}"></option>
         </select>
-        <input th:name="keyword" type="text" placeholder="Nhập từ khóa tìm kiếm"/>
+        <input placeholder="Nhập từ khóa tìm kiếm" th:name="keyword" type="text"/>
         <button class="table-submit-button" type="submit">Search</button>
     </form>
 </div>

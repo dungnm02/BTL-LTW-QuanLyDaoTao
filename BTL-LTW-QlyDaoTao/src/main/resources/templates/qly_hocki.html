@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý học kì</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
 
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 <header>
@@ -28,10 +28,7 @@
     </nav>
 </header>
 
-<button>
-    <a href="/qly/hocki/them">Thêm học kì</a>
-</button>
-
+<h1 class="page-title">Quản lý học kì</h1>
 <table>
     <thead>
     <tr>
@@ -50,25 +47,16 @@
         <td><span th:text="${hocKi.maHocKi}"></span></td>
         <td th:text="${#temporals.format(hocKi.ngayBatDau, 'dd/MM/yyyy')}"></td>
         <td th:text="${#temporals.format(hocKi.ngayKetThuc, 'dd/MM/yyyy')}"></td>
-        <td>
-            <button>
-                <a th:href="@{/qly/hocki/xoa/{id}(id=${hocKi.id})}">Xóa</a>
-            </button>
-        </td>
-        <td>
-            <button>
-                <a th:href="@{/qly/hocki/sua/{id}(id=${hocKi.id})}">Sửa</a>
-            </button>
-        </td>
-        <td>
-            <button>
-                <a th:href="@{/qly/hocki/{id}/lophocphan(id=${hocKi.id})}">Quản lý lớp học phần</a>
-            </button>
-        </td>
-        <td>
+        <td><a th:href="@{/qly/hocki/sua/{id}(id=${hocKi.id})}">Sửa</a></td>
+        <td><a th:href="@{/qly/hocki/xoa/{id}(id=${hocKi.id})}">Xóa</a></td>
+        <td><a th:href="@{/qly/hocki/{id}/lophocphan(id=${hocKi.id})}">Quản lý lớp học phần</a></td>
     </tr>
     </tbody>
 </table>
+
+<a href="/qly/hocki/them">
+    <button class="table-submit-button">Thêm học kì</button>
+</a>
 
 </body>
 </html>

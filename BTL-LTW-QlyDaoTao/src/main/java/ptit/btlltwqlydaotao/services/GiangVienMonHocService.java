@@ -1,9 +1,9 @@
 package ptit.btlltwqlydaotao.services;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ptit.btlltwqlydaotao.models.GiangVien;
 import ptit.btlltwqlydaotao.models.GiangVienMonHoc;
+import ptit.btlltwqlydaotao.models.LopHocPhan;
 import ptit.btlltwqlydaotao.models.MonHoc;
 import ptit.btlltwqlydaotao.repositories.GiangVienMonHocRepository;
 
@@ -56,7 +56,7 @@ public class GiangVienMonHocService {
     public void addGiangVienDayMonHoc(Integer idMonHoc, List<Integer> dsIdGiangVienDuocChon) {
         for (Integer idGiangVienDuocChon : dsIdGiangVienDuocChon) {
             GiangVienMonHoc giangVienMonHoc = new GiangVienMonHoc();
-            giangVienMonHoc.setGiangVien(giangVienService.findGiangVienById(idGiangVienDuocChon));
+            giangVienMonHoc.setGiangVien(giangVienService.findById(idGiangVienDuocChon));
             giangVienMonHoc.setMonHoc(mocHocService.findMonHocById(idMonHoc));
             giangVienMonHocRepository.save(giangVienMonHoc);
         }
@@ -68,16 +68,22 @@ public class GiangVienMonHocService {
     }
 
     public void deleteAllByGiangVienId(Integer giangVienId) {
-        List<GiangVienMonHoc> dsGiangVienMonHoc = findAllByGiangVien(giangVienService.findGiangVienById(giangVienId));
+        List<GiangVienMonHoc> dsGiangVienMonHoc = findAllByGiangVien(giangVienService.findById(giangVienId));
         giangVienMonHocRepository.deleteAll(dsGiangVienMonHoc);
     }
 
-    @Transactional
     public void deleteGiangVienDayMonHoc(int idMonHoc, List<Integer> dsIdGiangVienDuocChon) {
         MonHoc monHoc = mocHocService.findMonHocById(idMonHoc);
         for (Integer idGiangVienDuocChon : dsIdGiangVienDuocChon) {
-            giangVienMonHocRepository.deleteAllByGiangVienAndMonHoc(giangVienService.findGiangVienById(idGiangVienDuocChon), monHoc);
+            GiangVien giangVien = giangVienService.findById(idGiangVienDuocChon);
+            GiangVienMonHoc giangVienMonHoc = giangVienMonHocRepository.findByGiangVienAndMonHoc(giangVien, monHoc);
+            List<LopHocPhan> dsLopHocPhan = lopHocPhanService.findByGiangVienMonHoc(giangVienMonHoc);
+            for (LopHocPhan lopHocPhan : dsLopHocPhan) {
+                lopHocPhanService.deleteById(lopHocPhan.getId());
+            }
+            giangVienMonHocRepository.delete(giangVienMonHoc);
         }
+
     }
 
 }

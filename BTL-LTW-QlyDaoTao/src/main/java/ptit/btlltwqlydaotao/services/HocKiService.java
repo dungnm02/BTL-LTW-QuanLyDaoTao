@@ -8,10 +8,8 @@ import ptit.btlltwqlydaotao.models.MonHoc;
 import ptit.btlltwqlydaotao.repositories.HocKiRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class HocKiService {
@@ -19,12 +17,10 @@ public class HocKiService {
 
     private final LopHocPhanService lopHocPhanService;
 
-    private final MonHocService monHocService;
 
-    public HocKiService(HocKiRepository hocKiRepository, LopHocPhanService lopHocPhanService, LopHocPhanService lopHocPhanService1, MonHocService monHocService) {
+    public HocKiService(HocKiRepository hocKiRepository, LopHocPhanService lopHocPhanService) {
         this.hocKiRepository = hocKiRepository;
-        this.lopHocPhanService = lopHocPhanService1;
-        this.monHocService = monHocService;
+        this.lopHocPhanService = lopHocPhanService;
     }
 
     public List<HocKi> findAllHocKi() {
@@ -69,12 +65,12 @@ public class HocKiService {
     }
 
     public List<HocKi> findHocKiChuaBatDau() {
-        //Lấy ra các học kì chưa bắt đầu
+        //Lấy ra các học kì chưa bắt đầu và chưa mở đăng ký
         List<HocKi> dsHocKi = findAllHocKi();
         List<HocKi> dsHocKiChuaBatDau = new ArrayList<>();
         LocalDate ngayHienTai = LocalDate.now();
         for (HocKi hocKi : dsHocKi) {
-            if (hocKi.getNgayBatDau().isAfter(ngayHienTai)) {
+            if (hocKi.getNgayBatDau().isAfter(ngayHienTai) && !hocKi.isMoDangKy()) {
                 dsHocKiChuaBatDau.add(hocKi);
             }
         }
@@ -112,6 +108,12 @@ public class HocKiService {
         return dsThuHai;
     }
 
+    public boolean checkMoDangKi(HocKi hocKi, Date dongDangKi) {
+        //Kiểm tra xem ngày đóng đăng ký trước học kì và ngày mở đăng kí có sau ngày hiện tại không
+        LocalDate dongDangKiLD = LocalDate.ofInstant(dongDangKi.toInstant(), ZoneId.systemDefault());
+        return dongDangKiLD.isBefore(hocKi.getNgayBatDau()) && dongDangKiLD.isAfter(LocalDate.now().plusDays(1));
+    }
+
     private boolean hocKiBitrung(HocKi h) {
         //Kiểm tra học kì h có bị trùng thời gian với học kì khác nó hay không
         List<HocKi> dsHocKi = findAllHocKi();
@@ -127,5 +129,6 @@ public class HocKiService {
         //Tạo mã học kì theo định dạng: <năm bắt đầu>-<tháng bắt đầu>-<năm kết thúc>-<tháng kết thúc>
         return ngayBatDau.getYear() + "-" + ngayBatDau.getMonthValue() + "-" + ngayKetThuc.getYear() + "-" + ngayKetThuc.getMonthValue();
     }
+
 
 }

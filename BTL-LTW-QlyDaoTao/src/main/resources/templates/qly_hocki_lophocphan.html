@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý lớp học phần trong học kì</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 <header>
@@ -11,7 +11,7 @@
         <div class="container">
             <h1>Trang quản lý</h1>
             <ul>
-                <li><a class="current" href="/qly">Trang chủ</a></li>
+                <li><a href="/qly">Trang chủ</a></li>
                 <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
                 <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
                 <li><a href="/qly/monhoc">Quản lý môn học</a></li>
@@ -26,11 +26,8 @@
         </div>
     </nav>
 </header>
-<h1>Quản lý lớp học phần trong học kì</h1>
+<h1 class="page-title">Quản lý lớp học phần trong học kì</h1>
 
-<button>
-    <a th:href="@{/qly/hocki/{id}/lophocphan/them(id=${hocKi.id})}">Thêm lớp học phần</a>
-</button>
 
 <table>
     <thead>
@@ -54,29 +51,27 @@
         <td th:text="${lopHocPhan.ngayTrongTuan}"></td>
         <td th:text="${lopHocPhan.kipTrongNgay}"></td>
         <td>
-            <button>
-                <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/xoa/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
-                    Xóa
-                </a>
-            </button>
+            <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/xoa/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+                Xóa
+            </a>
         </td>
         <td>
-            <button>
-                <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sua/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
-                    Sửa
-                </a>
-            </button>
+            <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sua/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+                Sửa
+            </a>
         </td>
         <td>
-            <button>
-                <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
-                    Quản lý sinh viên
-                </a>
-            </button>
-
+            <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+                Quản lý sinh viên
+            </a>
         </td>
     </tr>
     </tbody>
 </table>
+
+<a th:href="@{/qly/hocki/{id}/lophocphan/them(id=${hocKi.id})}">
+    <button class="table-submit-button">Thêm lớp học phần</button>
+</a>
+
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Sửa học kì</title>
     <script src="/js/showNgayKetThuc.js"></script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body onload="showNgayKetThuc()">
 <header>
@@ -12,7 +12,7 @@
         <div class="container">
             <h1>Trang quản lý</h1>
             <ul>
-                <li><a class="current" href="/qly">Trang chủ</a></li>
+                <li><a href="/qly">Trang chủ</a></li>
                 <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
                 <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
                 <li><a href="/qly/monhoc">Quản lý môn học</a></li>
@@ -27,23 +27,31 @@
         </div>
     </nav>
 </header>
-<h1>Thêm học kì</h1>
-<div>
-    <p th:text="${message}"></p>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Sửa học kì
+            <span th:text="${hocKi.maHocKi}"></span>
+        </h2>
+        <p class="error-message" th:text="${message}"></p>
+        <form action="#" method="post" th:action="@{/qly/hocki/sua/{id}(id=${hocKi.id})}" th:object="${hocKi}">
+            <div class="form-group">
+                <p th:errors="*" th:if="${#fields.hasErrors()}"></p>
+                <label for="ngayBatDau">Ngày bắt đầu:</label>
+                <select class="form-control" id="ngayBatDau" onchange="showNgayKetThuc()"
+                        th:field="${hocKi.ngayBatDau}">>
+                    <option th:each="thuHai : ${dsThuHai}" th:text="${thuHai}" th:value="${thuHai}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ngayKetThuc">Ngày kết thúc:</label>
+                <input id="ngayKetThuc" readonly th:field="${hocKi.ngayKetThuc}" th:value="${hocKi.ngayKetThuc}"
+                       type="text"/>
+            </div>
+            <button type="submit">Sửa</button>
+        </form>
+    </div>
 </div>
-<form action="#" method="post" th:action="@{/qly/hocki/sua/{id}(id=${hocKi.id})}" th:object="${hocKi}">
-    <div>
-        <p th:errors="*" th:if="${#fields.hasErrors()}"></p>
-        <label for="ngayBatDau">Ngày bắt đầu:</label>
-        <select class="form-control" id="ngayBatDau" onchange="showNgayKetThuc()" th:field="${hocKi.ngayBatDau}">>
-            <option th:each="thuHai : ${dsThuHai}" th:text="${thuHai}" th:value="${thuHai}"></option>
-        </select>
-    </div>
-    <div>
-        <label for="ngayKetThuc">Ngày kết thúc:</label>
-        <input id="ngayKetThuc" readonly th:field="${hocKi.ngayKetThuc}" th:value="${hocKi.ngayKetThuc}" type="text"/>
-    </div>
-    <button type="submit">Sửa</button>
-</form>
+
 </body>
 </html>

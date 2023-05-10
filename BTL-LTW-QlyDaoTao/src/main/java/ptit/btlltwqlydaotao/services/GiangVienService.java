@@ -41,7 +41,7 @@ public class GiangVienService {
         }
     }
 
-    public GiangVien findGiangVienById(int id) {
+    public GiangVien findById(int id) {
         Optional<GiangVien> giangVien = giangVienRepository.findById(id);
         return giangVien.orElse(null);
     }

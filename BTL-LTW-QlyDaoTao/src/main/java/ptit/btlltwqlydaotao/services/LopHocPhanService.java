@@ -9,24 +9,17 @@ import java.util.List;
 
 @Service
 public class LopHocPhanService {
-    private final MonHocService monHocService;
     private final LopHocPhanRepository lopHocPhanRepository;
     private final KetQuaHocPhanService ketQuaHocPhanService;
     private final SinhVienService sinhVienService;
 
-    public LopHocPhanService(MonHocService monHocService, LopHocPhanRepository lopHocPhanRepository, KetQuaHocPhanService ketQuaHocPhanService, SinhVienService sinhVienService) {
-        this.monHocService = monHocService;
+    public LopHocPhanService(LopHocPhanRepository lopHocPhanRepository, KetQuaHocPhanService ketQuaHocPhanService, SinhVienService sinhVienService) {
         this.lopHocPhanRepository = lopHocPhanRepository;
         this.ketQuaHocPhanService = ketQuaHocPhanService;
         this.sinhVienService = sinhVienService;
     }
 
-
-    public List<LopHocPhan> findAllLopHocPhan() {
-        return lopHocPhanRepository.findAll();
-    }
-
-    public List<LopHocPhan> findAllByHocKi(HocKi hocKi) {
+    public List<LopHocPhan> findByHocKi(HocKi hocKi) {
         return lopHocPhanRepository.findAllByHocKi(hocKi);
     }
 
@@ -42,8 +35,18 @@ public class LopHocPhanService {
         return lopHocPhanRepository.findAllByGiangVienMonHoc_GiangVien(giangVien);
     }
 
-    public LopHocPhan findById(int id) {
-        return lopHocPhanRepository.findById(id).orElse(null);
+    public LopHocPhan findById(int lopHocPhanId) {
+        return lopHocPhanRepository.findById(lopHocPhanId).orElse(null);
+    }
+
+    public void deleteById(int lopHocPhanId) {
+        //Xóa tất cả kết quả học phần của lớp học phần
+        List<KetQuaHocPhan> dsKetQuaHocPhan = ketQuaHocPhanService.findByLopHocPhan(findById(lopHocPhanId));
+        for (KetQuaHocPhan ketQuaHocPhan : dsKetQuaHocPhan) {
+            ketQuaHocPhanService.deleteById(ketQuaHocPhan.getId());
+        }
+        //Xóa lớp học phần
+        lopHocPhanRepository.deleteById(lopHocPhanId);
     }
 
     public List<SinhVien> findAllSinhVien(LopHocPhan lopHocPhan) {
@@ -145,4 +148,7 @@ public class LopHocPhanService {
     }
 
 
+    public List<LopHocPhan> findByGiangVienMonHoc(GiangVienMonHoc giangVienMonHoc) {
+        return lopHocPhanRepository.findByGiangVienMonHoc(giangVienMonHoc);
+    }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -27,19 +27,24 @@
         </div>
     </nav>
 </header>
-<form method="post" th:action="@{/qly/modotdangky}">
-    <label>Học Kì:</label>
-    <div>
-        <label for="hocKi">Học kì:</label>
-        <select id="hocKi" onchange="restrictRegistrationTimeByHocKi()">
-            <option th:each="hocKi : ${dsHocKi}" th:text="${hocKi.maHocKi}" th:value="${hocKi}"></option>
-        </select>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Mở đợt đăng ký</h2>
+        <p class="message" th:text="${message}"></p>
+        <form method="post" th:action="@{/qly/modotdangky}">
+            <div class="form-group">
+                <label for="hocKi">Học kì:</label>
+                <select id="hocKi" onchange="restrictRegistrationTimeByHocKi()" th:name="idHocKi">
+                    <option th:each="hocKi : ${dsHocKi}" th:text="${hocKi.maHocKi}" th:value="${hocKi.id}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="batDau">Thời gian bắt đầu</label>
+                <input id="batDau" th:name="batDau" type="date">
+            </div>
+            <button type="submit">Mở đăng kí</button>
+        </form>
     </div>
-    <label for="batDau">Thời gian bắt đầu</label>
-    <input id="batDau" th:name="batDau" type="date">
-    <button type="submit">Mở đăng kí</button>
-</form>
-</form>
-
+</div>
 </body>
 </html>

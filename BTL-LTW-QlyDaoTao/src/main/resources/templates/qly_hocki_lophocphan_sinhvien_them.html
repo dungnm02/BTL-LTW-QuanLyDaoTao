@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Thêm sinh viên</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -12,7 +12,7 @@
         <div class="container">
             <h1>Trang quản lý</h1>
             <ul>
-                <li><a class="current" href="/qly">Trang chủ</a></li>
+                <li><a href="/qly">Trang chủ</a></li>
                 <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
                 <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
                 <li><a href="/qly/monhoc">Quản lý môn học</a></li>
@@ -27,15 +27,16 @@
         </div>
     </nav>
 </header>
-<div id="search-bar">
-    <form method="get"
+<h1 class="page-title">Thêm sinh viên</h1>
+<div class="search-bar-container">
+    <form class="search-bar" method="get"
           th:action="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/them(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
         <label for="type">Tìm kiếm theo</label>
         <select id="type" th:name="type">
             <option th:value="hoTen">Tên sinh viên</option>
             <option th:value="maSinhVien">Mã sinh viên</option>
         </select>
-        <input th:name="keyword" type="text"/>
+        <input placeholder="Nhập từ khóa tìm kiếm" th:name="keyword" type="text"/>
         <button type="submit">Search</button>
     </form>
 </div>
@@ -61,7 +62,7 @@
         </tr>
         </tbody>
     </table>
-    <button type="submit">Thêm</button>
+    <button class="table-submit-button" type="submit">Thêm</button>
 </form>
 </body>
 </html>

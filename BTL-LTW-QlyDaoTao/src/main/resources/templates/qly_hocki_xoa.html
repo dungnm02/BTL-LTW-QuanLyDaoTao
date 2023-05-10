@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xóa học kì</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -12,7 +12,7 @@
         <div class="container">
             <h1>Trang quản lý</h1>
             <ul>
-                <li><a class="current" href="/qly">Trang chủ</a></li>
+                <li><a href="/qly">Trang chủ</a></li>
                 <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
                 <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
                 <li><a href="/qly/monhoc">Quản lý môn học</a></li>
@@ -27,17 +27,33 @@
         </div>
     </nav>
 </header>
-<h1>Xóa học kì</h1>
-<p th:text="${message}"></p>
-<form action="#" method="post" th:action="@{/qly/hocki/xoa/{id}(id=${hocKi.id})}" th:object="${hocKi}">
-    <label for="maHocKi">Mã học kì:</label>
-    <p id="maHocKi" th:text="${hocKi.maHocKi}"></p><br>
-    <label for="ngayBatDau">Ngày bắt đầu:</label>
-    <p id="ngayBatDau" th:text="${#temporals.format(hocKi.ngayBatDau, 'dd/MM/yyyy')}"></p><br>
-    <label for="ngayKetThuc">Ngày kết thúc:</label>
-    <p id="ngayKetThuc" th:text="${#temporals.format(hocKi.ngayKetThuc, 'dd/MM/yyyy')}"></p><br>
-    <button type="submit">Xóa</button>
-</form>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Xóa thông tin học kì
+            <span th:text="${hocKi.maHocKi}"></span>
+        </h2>
+        <p class="error-message" th:text="${message}"></p>
+        <form action="#" method="post" th:action="@{/qly/hocki/xoa/{id}(id=${hocKi.id})}" th:object="${hocKi}">
+            <div class="form-group">
+                <label for="maHocKi">Mã học kì:</label>
+                <input id="maHocKi" readonly th:field="${hocKi.maHocKi}"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="ngayBatDau">Ngày bắt đầu:</label>
+                <input id="ngayBatDau" readonly th:field="${hocKi.ngayBatDau}"></input>
+            </div>
+
+            <div class="form-group">
+                <label for="ngayKetThuc">Ngày kết thúc:</label>
+                <input id="ngayKetThuc" readonly th:field="${hocKi.ngayKetThuc}"></input>
+            </div>
+
+            <button type="submit">Xóa</button>
+        </form>
+    </div>
+</div>
+
 
 </body>
 </html>

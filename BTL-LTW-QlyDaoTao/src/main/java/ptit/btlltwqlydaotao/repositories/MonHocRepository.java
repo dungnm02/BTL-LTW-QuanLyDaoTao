@@ -16,7 +16,7 @@ public interface MonHocRepository extends JpaRepository<MonHoc, Integer> {
 
     List<MonHoc> findByTenMonHocContainingIgnoreCase(String tenMonHoc);
 
-    List<MonHoc> findByMaMonHoc(String maMonHoc);
-
     List<MonHoc> findTopByKhoaOrderByIdDesc(Khoa khoa);
+
+    MonHoc findByTenMonHoc(String tenMonHoc);
 }

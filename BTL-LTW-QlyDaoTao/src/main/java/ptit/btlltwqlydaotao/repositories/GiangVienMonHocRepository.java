@@ -14,5 +14,5 @@ public interface GiangVienMonHocRepository extends JpaRepository<GiangVienMonHoc
 
     List<GiangVienMonHoc> findAllByGiangVien(GiangVien giangVien);
 
-    void deleteAllByGiangVienAndMonHoc(GiangVien giangVien, MonHoc monHoc);
+    GiangVienMonHoc findByGiangVienAndMonHoc(GiangVien giangVien, MonHoc monHoc);
 }

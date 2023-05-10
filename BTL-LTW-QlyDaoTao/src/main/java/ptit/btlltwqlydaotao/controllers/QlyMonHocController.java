@@ -99,8 +99,14 @@ public class QlyMonHocController {
 
     @GetMapping("/sua/{id}")
     public String showSua(@PathVariable("id") int id, Model model) {
+        MonHoc monHoc;
+        if (model.containsAttribute("monHoc")) {
+            monHoc = (MonHoc) model.getAttribute("monHoc");
+        } else {
+            monHoc = monHocService.findMonHocById(id);
+        }
         model.addAttribute("message", model.getAttribute("message"));
-        model.addAttribute("monHoc", monHocService.findMonHocById(id));
+        model.addAttribute("monHoc", monHoc);
         return "qly_monhoc_sua";
     }
 
@@ -110,6 +116,7 @@ public class QlyMonHocController {
             monHocService.updateMonHoc(monHoc);
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute("monHoc", monHoc);
             return "redirect:/qly/monhoc/sua/" + monHoc.getId();
         }
         return "redirect:/qly/monhoc";

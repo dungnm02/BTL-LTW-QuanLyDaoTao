@@ -43,7 +43,7 @@ public class SVienController {
     }
 
     @GetMapping("")
-    public String index(Model model) {
+    public String index() {
         return "svien_index";
     }
 
@@ -70,7 +70,7 @@ public class SVienController {
         //Lấy các môn học cùng khoa với sinh viên được mở lớp học kì này
         model.addAttribute("dsMonHoc", hocKiService.findMonHocByHocKiAndKhoa(hocKi, sinhVien().getKhoa()));
         //Lấy tất cả lớp học phần trong học kì này
-        model.addAttribute("dsLopHocPhan", lopHocPhanService.findAllByHocKi(hocKi));
+        model.addAttribute("dsLopHocPhan", lopHocPhanService.findByHocKi(hocKi));
         return "svien_dangky_hocki";
     }
 

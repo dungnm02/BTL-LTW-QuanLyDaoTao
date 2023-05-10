@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xóa môn học</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -27,21 +27,28 @@
         </div>
     </nav>
 </header>
-<h1>Xóa môn học</h1>
-<div th:object="${monHoc}">
-
-    <label for="maMonHoc">Mã môn học</label>
-    <p id="maMonHoc" th:text="${monHoc.maMonHoc}"></p>
-
-    <label for="tenMonHoc">Tên môn học</label>
-    <p id="tenMonHoc" th:text="${monHoc.tenMonHoc}"></p>
-
-    <label for="tenKhoa">Tên khoa:</label>
-    <p id="tenKhoa" th:text="${monHoc.khoa.tenKhoa}"></p>
-
-    <form action="#" method="post" th:action="@{/qly/monhoc/xoa/{id}(id=${monHoc.id})}">
-        <button type="submit">Xóa</button>
-    </form>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Xóa thông tin môn học
+            <span th:text="${monHoc.tenMonHoc}"></span>
+        </h2>
+        <form action="#" method="post" th:action="@{/qly/monhoc/xoa/{id}(id=${monHoc.id})}">
+            <div class="form-group">
+                <label for="maMonHoc">Mã môn học</label>
+                <input id="maMonHoc" readonly th:field="${monHoc.maMonHoc}"></input>
+            </div>
+            <div class="form-group">
+                <label for="tenMonHoc">Tên môn học</label>
+                <input id="tenMonHoc" readonly th:field="${monHoc.tenMonHoc}"></input>
+            </div>
+            <div class="form-group">
+                <label for="tenKhoa">Tên khoa:</label>
+                <input id="tenKhoa" readonly th:field="${monHoc.khoa.tenKhoa}"></input>
+            </div>
+            <button type="submit">Xóa</button>
+        </form>
+    </div>
 </div>
+
 </body>
 </html>

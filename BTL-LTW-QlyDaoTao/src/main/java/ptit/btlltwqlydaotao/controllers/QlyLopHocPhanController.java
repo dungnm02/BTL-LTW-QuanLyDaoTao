@@ -38,7 +38,7 @@ public class QlyLopHocPhanController {
     public String index(Model model, @PathVariable("idHocKi") int idHocKi) {
         HocKi hocKi = hocKiService.findById(idHocKi);
         model.addAttribute("hocKi", hocKi);
-        model.addAttribute("dsLopHocPhan", lopHocPhanService.findAllByHocKi(hocKi));
+        model.addAttribute("dsLopHocPhan", lopHocPhanService.findByHocKi(hocKi));
 
         return "qly_hocki_lophocphan";
     }
@@ -58,15 +58,15 @@ public class QlyLopHocPhanController {
         model.addAttribute("dsKhoa", khoaService.findAll());
         model.addAttribute("dsMonHoc", monHocService.findAll());
         model.addAttribute("dsGiangVienMonHoc", giangVienMonHocService.findAll());
-        model.addAttribute("dsNgayTrongTuan", new ArrayList<String>(Arrays.asList("Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6")));
-        model.addAttribute("dsKipTrongNgay", new ArrayList<String>(Arrays.asList("Kíp 1", "Kíp 2", "Kíp 3", "Kíp 4", "Kíp 5", "Kíp 6")));
-        model.addAttribute("dsPhongHoc", new ArrayList<String>(Arrays.asList("101", "102", "103", "201", "202", "203")));
+        model.addAttribute("dsNgayTrongTuan", new ArrayList<>(Arrays.asList("Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6")));
+        model.addAttribute("dsKipTrongNgay", new ArrayList<>(Arrays.asList("Kíp 1", "Kíp 2", "Kíp 3", "Kíp 4", "Kíp 5", "Kíp 6")));
+        model.addAttribute("dsPhongHoc", new ArrayList<>(Arrays.asList("101", "102", "103", "201", "202", "203")));
 
         return "qly_hocki_lophocphan_them";
     }
 
     @PostMapping("/them")
-    public String submitThem(Model model, @PathVariable("idHocKi") int idHocKi, @ModelAttribute("lopHocPhan") LopHocPhan lopHocPhan, RedirectAttributes redirectAttributes) {
+    public String submitThem(@PathVariable("idHocKi") int idHocKi, @ModelAttribute("lopHocPhan") LopHocPhan lopHocPhan, RedirectAttributes redirectAttributes) {
         lopHocPhan.setHocKi(hocKiService.findById(idHocKi));
         try {
             lopHocPhanService.createLopHocPhan(lopHocPhan);
@@ -89,9 +89,9 @@ public class QlyLopHocPhanController {
         model.addAttribute("message", model.getAttribute("message"));
         model.addAttribute("hocKi", hocKiService.findById(idHocKi));
         model.addAttribute("lopHocPhan", lopHocPhan);
-        model.addAttribute("dsNgayTrongTuan", new ArrayList<String>(Arrays.asList("Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6")));
-        model.addAttribute("dsKipTrongNgay", new ArrayList<String>(Arrays.asList("Kíp 1", "Kíp 2", "Kíp 3", "Kíp 4", "Kíp 5", "Kíp 6")));
-        model.addAttribute("dsPhongHoc", new ArrayList<String>(Arrays.asList("101", "102", "103", "201", "202", "203")));
+        model.addAttribute("dsNgayTrongTuan", new ArrayList<>(Arrays.asList("Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6")));
+        model.addAttribute("dsKipTrongNgay", new ArrayList<>(Arrays.asList("Kíp 1", "Kíp 2", "Kíp 3", "Kíp 4", "Kíp 5", "Kíp 6")));
+        model.addAttribute("dsPhongHoc", new ArrayList<>(Arrays.asList("101", "102", "103", "201", "202", "203")));
         return "qly_hocki_lophocphan_sua";
     }
 
@@ -143,8 +143,7 @@ public class QlyLopHocPhanController {
 
     @PostMapping("/sinhvien/{idLopHocPhan}/them")
     public String submitThemSinhVien(@PathVariable("idLopHocPhan") int idLopHocPhan,
-                                     @RequestParam("dsIdSinhVienDuocChon") List<Integer> dsIdSinhVienDuocChon,
-                                     Model model) {
+                                     @RequestParam("dsIdSinhVienDuocChon") List<Integer> dsIdSinhVienDuocChon) {
         lopHocPhanService.addSinhVien(idLopHocPhan, dsIdSinhVienDuocChon);
         return "redirect:/qly/hocki/" + lopHocPhanService.findById(idLopHocPhan).getHocKi().getId() + "/lophocphan/sinhvien/" + idLopHocPhan;
     }

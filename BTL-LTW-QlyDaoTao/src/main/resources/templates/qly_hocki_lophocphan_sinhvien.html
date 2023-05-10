@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sinh viên trong lớp</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -12,7 +12,7 @@
         <div class="container">
             <h1>Trang quản lý</h1>
             <ul>
-                <li><a class="current" href="/qly">Trang chủ</a></li>
+                <li><a href="/qly">Trang chủ</a></li>
                 <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
                 <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
                 <li><a href="/qly/monhoc">Quản lý môn học</a></li>
@@ -27,10 +27,7 @@
         </div>
     </nav>
 </header>
-<button>
-    <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/them(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">Thêm
-        sinh viên</a>
-</button>
+<h1 class="page-title">Danh sách sinh viên trong lớp:</h1>
 <table>
     <thead>
     <tr>
@@ -41,6 +38,7 @@
         <th>Điểm KT1</th>
         <th>Điểm KT2</th>
         <th>Điểm Thi</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -53,14 +51,17 @@
         <td th:text="${ketQuaHocPhan.diemKT2}"></td>
         <td th:text="${ketQuaHocPhan.diemThi}"></td>
         <td>
-            <button>
-                <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/xoa/{idSinhVien}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id}, idSinhVien=${ketQuaHocPhan.sinhVien.getId()})}">
-                    Xóa
-                </a>
-            </button>
+            <a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/xoa/{idSinhVien}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id}, idSinhVien=${ketQuaHocPhan.sinhVien.getId()})}">
+                Xóa
+            </a>
         </td>
     </tr>
     </tbody>
 </table>
+<a th:href="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/them(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}">
+    <button class="table-submit-button">
+        Thêm sinh viên
+    </button>
+</a>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xóa Giảng Viên</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -35,37 +35,37 @@
         <form action="#" method="post" th:action="@{/qly/giangvien/xoa/{id}(id=${giangVien.id})}">
             <div class="form-group">
                 <label for="maGiangVien">Mã giảng viên:</label>
-                <input id="maGiangVien" th:field="${giangVien.maGiangVien}" readonly></input>
+                <input id="maGiangVien" readonly th:field="${giangVien.maGiangVien}"></input>
             </div>
 
             <div class="form-group">
                 <label for="hoTen">Họ tên:</label>
-                <input id="hoTen" th:field="${giangVien.hoTen}" readonly></input>
+                <input id="hoTen" readonly th:field="${giangVien.hoTen}"></input>
             </div>
 
             <div class="form-group">
                 <label for="ngaySinh">Ngày Sinh:</label>
-                <input id="ngaySinh" th:field="${giangVien.ngaySinh}" readonly></input>
+                <input id="ngaySinh" readonly th:field="${giangVien.ngaySinh}"></input>
             </div>
 
             <div class="form-group">
                 <label for="cccd">CCCD:</label>
-                <input id="cccd" th:field="${giangVien.cccd}" readonly></input>
+                <input id="cccd" readonly th:field="${giangVien.cccd}"></input>
             </div>
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input id="email" th:field="${giangVien.email}" readonly></input>
+                <input id="email" readonly th:field="${giangVien.email}"></input>
             </div>
 
             <div class="form-group">
                 <label for="sdt">Số điện thoại:</label>
-                <input id="sdt" th:field="${giangVien.sdt}" readonly></input>
+                <input id="sdt" readonly th:field="${giangVien.sdt}"></input>
             </div>
 
             <div class="form-group">
                 <label for="khoa">Khoa:</label>
-                <input id="khoa" th:field="${giangVien.khoa.tenKhoa}" readonly></input>
+                <input id="khoa" readonly th:field="${giangVien.khoa.tenKhoa}"></input>
             </div>
 
             <button type="submit">Xóa</button>

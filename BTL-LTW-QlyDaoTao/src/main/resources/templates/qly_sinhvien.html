@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Sinh Viên</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
 <header>
@@ -34,7 +34,7 @@
             <option th:value="hoTen">Tên sinh viên</option>
             <option th:value="maSinhVien">Mã sinh viên</option>
         </select>
-        <input th:name="keyword" type="text" placeholder="Nhập từ khóa tìm kiếm"/>
+        <input placeholder="Nhập từ khóa tìm kiếm" th:name="keyword" type="text"/>
         <button class="table-submit-button" type="submit">Tìm kiếm</button>
     </form>
 </div>

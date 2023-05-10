@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Thêm lớp học phần</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body onload="getMonHocByKhoa(), getGiangVienByMonHoc()">
@@ -27,50 +27,55 @@
         </div>
     </nav>
 </header>
-<h1>Thêm lớp học phần</h1>
-<div>
-    <p th:text="${message}"></p>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Thêm lớp học phần</h2>
+        <p class="error-message" th:text="${message}"></p>
+        <form method="post" th:action="@{/qly/hocki/{idHocKi}/lophocphan/them(idHocKi=${idHocKi})}"
+              th:object="${lopHocPhan}">
+            <div class="form-group">
+                <label for="khoa">Khoa:</label>
+                <select class="form-control" id="khoa" onchange="getMonHocByKhoa(), getGiangVienByMonHoc()">
+                    <option th:each="khoa : ${dsKhoa}" th:text="${khoa.tenKhoa}" th:value="${khoa.id}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="monhoc">Môn học:</label>
+                <select class="form-control" id="monhoc" onchange="getGiangVienByMonHoc()">
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="giangvien">Giảng viên</label>
+                <select class="form-control" id="giangvien" th:field="${lopHocPhan.giangVienMonHoc}">
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ngaytrongtuan">Ngày trong tuần:</label>
+                <select class="form-control" id="ngaytrongtuan" th:field="${lopHocPhan.ngayTrongTuan}">
+                    <option th:each="ngayTrongTuan : ${dsNgayTrongTuan}" th:text="${ngayTrongTuan}"
+                            th:value="${ngayTrongTuan}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kiptrongngay">Kíp trong ngày:</label>
+                <select class="form-control" id="kiptrongngay" th:field="${lopHocPhan.kipTrongNgay}">
+                    <option th:each="kipTrongNgay : ${dsKipTrongNgay}" th:text="${kipTrongNgay}"
+                            th:value="${kipTrongNgay}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="phonghoc">Phòng học</label>
+                <select class="form-control" id="phonghoc" th:field="${lopHocPhan.phongHoc}">
+                    <option th:each="phonghoc : ${dsPhongHoc}" th:text="${phonghoc}" th:value="${phonghoc}"></option>
+                </select>
+            </div>
+            <button type="submit">Thêm</button>
+        </form>
+    </div>
 </div>
-<form method="post" th:action="@{/qly/hocki/{idHocKi}/lophocphan/them(idHocKi=${idHocKi})}" th:object="${lopHocPhan}">
-    <div>
-        <label for="khoa">Khoa:</label>
-        <select class="form-control" id="khoa" onchange="getMonHocByKhoa()">
-            <option th:each="khoa : ${dsKhoa}" th:text="${khoa.tenKhoa}" th:value="${khoa.id}"></option>
-        </select>
-    </div>
-    <div>
-        <label for="monhoc">Môn học:</label>
-        <select class="form-control" id="monhoc" onchange="getGiangVienByMonHoc()">
-        </select>
-    </div>
-    <div>
-        <label for="giangvien">Giảng viên</label>
-        <select class="form-control" id="giangvien" th:field="${lopHocPhan.giangVienMonHoc}">
-        </select>
-    </div>
-    <div>
-        <label for="ngaytrongtuan">Ngày trong tuần:</label>
-        <select class="form-control" id="ngaytrongtuan" th:field="${lopHocPhan.ngayTrongTuan}">
-            <option th:each="ngayTrongTuan : ${dsNgayTrongTuan}" th:text="${ngayTrongTuan}"
-                    th:value="${ngayTrongTuan}"></option>
-        </select>
-    </div>
-    <div>
-        <label for="kiptrongngay">Kíp trong ngày:</label>
-        <select class="form-control" id="kiptrongngay" th:field="${lopHocPhan.kipTrongNgay}">
-            <option th:each="kipTrongNgay : ${dsKipTrongNgay}" th:text="${kipTrongNgay}"
-                    th:value="${kipTrongNgay}"></option>
-        </select>
-    </div>
-    <div>
-        <label for="phonghoc">Phòng học</label>
-        <select class="form-control" id="phonghoc" th:field="${lopHocPhan.phongHoc}">
-            <option th:each="phonghoc : ${dsPhongHoc}" th:text="${phonghoc}" th:value="${phonghoc}"></option>
-        </select>
-    </div>
-    <button type="submit">Thêm</button>
-</form>
 
+</body>
+</html>
 <script th:inline="javascript">
     var dsKhoa = /*[[${dsKhoa}]]*/ [];
     var dsMonHoc = /*[[${dsMonHoc}]]*/ [];
@@ -129,5 +134,3 @@
         );
     }
 </script>
-</body>
-</html>

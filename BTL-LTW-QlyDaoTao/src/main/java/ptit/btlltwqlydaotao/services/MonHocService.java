@@ -47,7 +47,7 @@ public class MonHocService {
     }
 
     public void updateMonHoc(MonHoc monHoc) {
-        if (monHocRepository.findByKhoa_IdAndTenMonHocContainingIgnoreCase(monHoc.getKhoa().getId(), monHoc.getTenMonHoc()).size() > 0) {
+        if (monHocRepository.findByTenMonHoc(monHoc.getTenMonHoc()) != null) {
             throw new RuntimeException("Môn học có tên như thế này tồn tại");
         } else {
             monHocRepository.save(monHoc);

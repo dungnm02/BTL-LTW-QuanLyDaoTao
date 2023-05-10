@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xóa lớp học phần</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -27,30 +27,51 @@
         </div>
     </nav>
 </header>
-<h1>Xóa lớp học phần</h1>
-<form method="post"
-      th:action="@{/qly/hocki/{idHocKi}/lophocphan/xoa/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}"
-      th:object="${lopHocPhan}">
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Xóa thông tin lớp học phần
+            <span th:text="${lopHocPhan.maLopHocPhan}"></span>
+        </h2>
+        <form method="post"
+              th:action="@{/qly/hocki/{idHocKi}/lophocphan/xoa/{idLopHocPhan}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id})}"
+              th:object="${lopHocPhan}">
 
-    <label for="maLopHocPhan">Mã lớp học phần:</label>
-    <p id="maLopHocPhan" th:text="${lopHocPhan.maLopHocPhan}" type="text"></p>
+            <div class="form-group">
+                <label for="maLopHocPhan">Mã lớp học phần:</label>
+                <input id="maLopHocPhan" readonly th:field="${lopHocPhan.maLopHocPhan}" type="text">
+            </div>
 
-    <label for="giangVien">Giảng viên:</label>
-    <p id="giangVien" th:text="${lopHocPhan.giangVienMonHoc.giangVien.getHoTen()}" type="text"></p>
+            <div class="form-group">
+                <label for="giangVien">Giảng viên:</label>
+                <input id="giangVien" readonly th:field="${lopHocPhan.giangVienMonHoc.giangVien.hoTen}"
+                       type="text"></input>
+            </div>
 
-    <label for="monHoc">Môn học:</label>
-    <p id="monHoc" th:text="${lopHocPhan.giangVienMonHoc.monHoc.getTenMonHoc()}" type="text"></p>
+            <div class="form-group">
+                <label for="monHoc">Môn học:</label>
+                <input id="monHoc" readonly th:field="${lopHocPhan.giangVienMonHoc.monHoc.tenMonHoc}"
+                       type="text"></input>
+            </div>
 
-    <label for="ngayTrongTuan">Ngày trong tuần</label>
-    <p id="ngayTrongTuan" th:text="${lopHocPhan.ngayTrongTuan}" type="text"></p>
+            <div class="form-group">
+                <label for="ngayTrongTuan">Ngày trong tuần</label>
+                <input id="ngayTrongTuan" readonly th:field="${lopHocPhan.ngayTrongTuan}" type="text"></input>
+            </div>
 
-    <label for="kipTrongNgay">Kíp trong ngày:</label>
-    <p id="kipTrongNgay" th:text="${lopHocPhan.kipTrongNgay}" type="text"></p>
+            <div class="form-group">
+                <label for="kipTrongNgay">Kíp trong ngày:</label>
+                <input id="kipTrongNgay" readonly th:field="${lopHocPhan.kipTrongNgay}" type="text"></input>
+            </div>
 
-    <label for="phongHoc">Phòng học</label>
-    <p id="phongHoc" th:text="${lopHocPhan.phongHoc}" type="text"></p>
+            <div class="form-group">
+                <label for="phongHoc">Phòng học</label>
+                <input id="phongHoc" readonly th:field="${lopHocPhan.phongHoc}" type="text"></input>
+            </div>
 
-    <button type="submit">Xóa</button>
-</form>
+            <button type="submit">Xóa</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

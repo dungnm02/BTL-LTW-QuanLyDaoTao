@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sửa giảng viên</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <label for="ngaySinh">Ngày Sinh:</label>
-                <input id="ngaySinh" th:field="${giangVien.ngaySinh}" type="date" min="1950-01-01" max="2010-12-31">
+                <input id="ngaySinh" max="2010-12-31" min="1950-01-01" th:field="${giangVien.ngaySinh}" type="date">
             </div>
 
             <div class="form-group">
@@ -69,7 +69,6 @@
                 <label for="sdt">Số điện thoại:</label>
                 <input id="sdt" th:field="${giangVien.sdt}" type="tel"><br>
             </div>
-            
             <button type="submit">Sửa</button>
         </form>
     </div>

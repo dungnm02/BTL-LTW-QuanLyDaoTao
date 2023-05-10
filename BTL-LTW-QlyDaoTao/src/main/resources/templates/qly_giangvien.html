@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Giảng Viên</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -36,8 +36,8 @@
             <option th:value="hoTen">Tên giảng viên</option>
             <option th:value="maGiangVien">Mã giảng viên</option>
         </select>
-        <input type="text" th:name="keyword" placeholder="Nhập từ khóa tìm kiếm"/>
-        <button class="table-submit-button" type="submit">Tìm kiếm</button>
+        <input placeholder="Nhập từ khóa tìm kiếm" th:name="keyword" type="text"/>
+        <button type="submit">Tìm kiếm</button>
     </form>
 </div>
 <table>

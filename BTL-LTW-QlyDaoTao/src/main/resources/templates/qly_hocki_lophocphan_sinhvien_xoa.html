@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Xóa sinh viên</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 
 </head>
 <body>
@@ -12,7 +12,7 @@
         <div class="container">
             <h1>Trang quản lý</h1>
             <ul>
-                <li><a class="current" href="/qly">Trang chủ</a></li>
+                <li><a href="/qly">Trang chủ</a></li>
                 <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
                 <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
                 <li><a href="/qly/monhoc">Quản lý môn học</a></li>
@@ -27,22 +27,30 @@
         </div>
     </nav>
 </header>
-<h1>Xóa sinh viên khỏi lớp học phần</h1>
-<label for="info" id="info-label">Thông tin sinh viên</label>
-<div id="info">
-    <label for="maSinhVien">Mã sinh viên</label>
-    <input id="maSinhVien" readonly th:field="${sinhVien.maSinhVien}"/><br>
-
-    <label for="hoTen">Họ tên</label>
-    <input id="hoTen" readonly th:field="${sinhVien.hoTen}"/><br>
-
-    <label for="ngaySinh">Ngày sinh</label>
-    <input id="ngaySinh" readonly th:field="${sinhVien.ngaySinh}"/><br>
-</div>
-<!--Submit-->
-<form th:action="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/xoa/{idSinhVien}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id},
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Xóa sinh viên
+            <span th:text="${sinhVien.hoTen}"></span>
+            khỏi lớp học phần
+        </h2>
+        <form th:action="@{/qly/hocki/{idHocKi}/lophocphan/sinhvien/{idLopHocPhan}/xoa/{idSinhVien}(idHocKi=${hocKi.id},idLopHocPhan=${lopHocPhan.id},
       idSinhVien=${sinhVien.id})}" th:method="post">
-    <button type="submit">Xác nhận</button>
-</form>
+            <div class="form-group">
+                <label for="maSinhVien">Mã sinh viên</label>
+                <input id="maSinhVien" readonly th:field="${sinhVien.maSinhVien}"/><br>
+            </div>
+            <div class="form-group">
+                <label for="hoTen">Họ tên</label>
+                <input id="hoTen" readonly th:field="${sinhVien.hoTen}"/><br>
+            </div>
+            <div class="form-group">
+                <label for="ngaySinh">Ngày sinh</label>
+                <input id="ngaySinh" readonly th:field="${sinhVien.ngaySinh}"/><br>
+            </div>
+            <button type="submit">Xác nhận</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
