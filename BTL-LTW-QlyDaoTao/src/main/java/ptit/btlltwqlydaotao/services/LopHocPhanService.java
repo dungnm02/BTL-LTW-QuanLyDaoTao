@@ -38,6 +38,10 @@ public class LopHocPhanService {
         return lopHocPhanRepository.findAllByHocKiAndGiangVienMonHoc_GiangVien(hocKi, giangVien);
     }
 
+    public List<LopHocPhan> findByGiangVien(GiangVien giangVien) {
+        return lopHocPhanRepository.findAllByGiangVienMonHoc_GiangVien(giangVien);
+    }
+
     public LopHocPhan findById(int id) {
         return lopHocPhanRepository.findById(id).orElse(null);
     }

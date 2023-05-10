@@ -5,12 +5,26 @@
     <title>Đăng ký</title>
 </head>
 <body>
-<nav>
-    <a href="/svien/ketqua">Xem kết quả</a>
-    <a href="/svien/lichhoc">Xem lịch học</a>
-    <a href="/svien/dangky">Đăng ký lớp học phần</a>
-</nav>
-<h1>Đăng ký lớp học phần</h1>
+<header>
+    <nav id="navbar">
+        <div class="container">
+            <h1>Trang sinh viên</h1>
+            <ul>
+                <li><a href="/svien">Trang chủ</a></li>
+                <li><a href="/svien/ketqua">Xem kết quả</a></li>
+                <li><a href="/svien/lichhoc">Xem lịch học</a></li>
+                <li><a class="current" href="/svien/dangky">Đăng ký lớp học phần</a></li>
+                <li><a href="/svien/doimatkhau">Đổi mật khẩu</a></li>
+                <li>
+                    <form action="/logout" id="logout-button" method="post">
+                        <button type="submit">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<h3 class="table-title">Đăng ký học kì</h3>
 <table>
     <thead>
     <tr>
@@ -28,7 +42,8 @@
         <td><span th:text="${#temporals.format(hocKi.ngayBatDau, 'dd/MM/yyyy')}"></span></td>
         <td><span th:text="${#temporals.format(hocKi.ngayKetThuc, 'dd/MM/yyyy')}"></span></td>
         <td>
-            <button><a th:href="@{/svien/dangky/hocki/{hocKiId}(hocKiId=${hocKi.id})}">Đăng ký</a></button>
+            <button class="table-submit-button"><a th:href="@{/svien/dangky/hocki/{hocKiId}(hocKiId=${hocKi.id})}">Đăng
+                ký</a></button>
         </td>
     </tr>
     </tbody>

@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Nhập điểm</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
-<nav>
-    <a href="/gvien/lichday">Xem lịch dạy</a>
-    <a href="/gvien/nhapdiem">Nhập điểm</a>
+<body onload="getKetQuaHocPhanByLopHocPhan()">
+<nav id="navbar">
+    <div class="container">
+        <h1>Trang giảng viên</h1>
+        <ul>
+            <li><a href="/gvien">Trang chủ</a></li>
+            <li><a href="/gvien/lichday">Xem lịch dạy</a></li>
+            <li><a class="current" href="/gvien/nhapdiem">Nhập điểm</a></li>
+            <li><a href="/gvien/doimatkhau">Đổi mật khẩu</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
 </nav>
-<h1>Nhập điểm</h1>
-<p th:text="${message}"></p>
-<form method="post" th:action="@{/gvien/nhapdiem}">
+<h2 class="page-title">Nhập điểm</h2>
+<div class="dropdown-menu">
     <label for="lophocphan">Lớp học phần</label>
-    <select class="form-control" id="lophocphan" onchange="getKetQuaHocPhanByLopHocPhan()">
+    <select id="lophocphan" onchange="getKetQuaHocPhanByLopHocPhan()">
         <option th:each="lopHocPhan : ${dsLopHocPhan}" th:text="${lopHocPhan.maLopHocPhan}"
                 th:value="${lopHocPhan.id}"></option>
-    </select>
-    <label>Sinh viên:</label>
+    </select><br>
+</div>
+
+<h3 class="table-title">Danh sách sinh viên:</h3>
+<form method="get" th:action="@{/gvien/nhapdiem/sinhvien}">
     <table>
         <thead>
         <tr>
@@ -34,49 +49,66 @@
         <tbody id="sinhVienTableBody">
         </tbody>
     </table>
+    <button class="table-submit-button" type="submit">Nhập điểm</button>
 </form>
 </body>
 </html>
 
 <script th:inline="javascript">
     function getKetQuaHocPhanByLopHocPhan() {
+        //Lấy id lớp học phần đang được chọn
         var lopHocPhanDuocChonId = document.getElementById("lophocphan").value;
+        //Lấy ds kết quả học phần
         var dsKetQuaHocPhan = /*[[${dsKetQuaHocPhan}]]*/ [];
-
+        //Lọc các kết quả học phần theo lớp học phần được chọn
         var dsKetQuaHocPhanLopHocPhan = dsKetQuaHocPhan.filter(function (ketQuaHocPhan) {
-            return String(ketQuaHocPhan.) === MonHocDuocChonId;
+            console.log(ketQuaHocPhan.lopHocPhan.id, lopHocPhanDuocChonId)
+            return String(ketQuaHocPhan.lopHocPhan.id) === lopHocPhanDuocChonId;
         });
 
-        var tableBody = document.querySelector("#lopHocPhanTableBody");
+        //Hiển thị ds kết quả học phần lên bảng
+        var tableBody = document.querySelector("#sinhVienTableBody");
         tableBody.innerHTML = "";
 
-        dsLopHocPhanMonHoc.forEach(function (lopHocPhan) {
+        dsKetQuaHocPhanLopHocPhan.forEach(function (ketQuaHocPhan, index) {
             var row = document.createElement("tr");
 
-            var maLopHPCell = document.createElement("td");
-            maLopHPCell.textContent = lopHocPhan.maLopHocPhan;
-            row.appendChild(maLopHPCell);
+            var stt = document.createElement("td");
+            stt.textContent = index + 1;
+            row.appendChild(stt);
 
-            var giangVienCell = document.createElement("td");
-            giangVienCell.textContent = lopHocPhan.giangVienMonHoc.giangVien.hoTen;
-            row.appendChild(giangVienCell);
+            var maSinhVien = document.createElement("td");
+            maSinhVien.textContent = ketQuaHocPhan.sinhVien.maSinhVien;
+            row.appendChild(maSinhVien);
 
-            var ngayTrongTuanCell = document.createElement("td");
-            ngayTrongTuanCell.textContent = lopHocPhan.ngayTrongTuan;
-            row.appendChild(ngayTrongTuanCell);
+            var hoTen = document.createElement("td");
+            hoTen.textContent = ketQuaHocPhan.sinhVien.hoTen;
+            row.appendChild(hoTen);
 
-            var kipTrongNgayCell = document.createElement("td");
-            kipTrongNgayCell.textContent = lopHocPhan.kipTrongNgay;
-            row.appendChild(kipTrongNgayCell);
+            var diemCC = document.createElement("td");
+            diemCC.textContent = ketQuaHocPhan.diemCC;
+            row.appendChild(diemCC);
 
-            var checkboxCell = document.createElement("td");
+            var diemKT1 = document.createElement("td");
+            diemKT1.textContent = ketQuaHocPhan.diemKT1;
+            row.appendChild(diemKT1);
+
+            var diemKT2 = document.createElement("td");
+            diemKT2.textContent = ketQuaHocPhan.diemKT2;
+            row.appendChild(diemKT2);
+
+            var diemThi = document.createElement("td");
+            diemThi.textContent = ketQuaHocPhan.diemThi;
+            row.appendChild(diemThi);
+
+            var checkboxTd = document.createElement("td");
             var checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.name = "idLopHocPhanDuocChon";
-            checkbox.value = lopHocPhan.id;
+            checkbox.name = "idKetQuaHocPhanDuocChon"
+            checkbox.value = ketQuaHocPhan.id;
             checkbox.onclick = function () {
                 if (this.checked) {
-                    checkboxes = document.getElementsByName("idLopHocPhanDuocChon");
+                    checkboxes = document.getElementsByName("idKetQuaHocPhanDuocChon");
                     checkboxes.forEach(function (otherCheckbox) {
                         if (otherCheckbox !== checkbox) {
                             otherCheckbox.checked = false;
@@ -84,10 +116,11 @@
                     });
                 }
             };
-            checkboxCell.appendChild(checkbox);
-            row.appendChild(checkboxCell);
+
+            checkboxTd.appendChild(checkbox);
+            row.appendChild(checkboxTd);
+
             tableBody.appendChild(row);
         });
     }
-
 </script>

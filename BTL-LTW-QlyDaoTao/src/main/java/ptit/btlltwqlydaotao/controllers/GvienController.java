@@ -1,10 +1,9 @@
 package ptit.btlltwqlydaotao.controllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import ptit.btlltwqlydaotao.models.GiangVien;
 import ptit.btlltwqlydaotao.models.HocKi;
 import ptit.btlltwqlydaotao.models.KetQuaHocPhan;
@@ -14,7 +13,9 @@ import ptit.btlltwqlydaotao.services.KetQuaHocPhanService;
 import ptit.btlltwqlydaotao.services.LopHocPhanService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/gvien")
@@ -22,13 +23,17 @@ import java.util.List;
 public class GvienController {
     private final HocKiService hocKiService;
     private final LopHocPhanService lopHocPhanService;
-
     private final KetQuaHocPhanService ketQuaHocPhanService;
 
     public GvienController(HocKiService hocKiService, LopHocPhanService lopHocPhanService, KetQuaHocPhanService ketQuaHocPhanService) {
         this.hocKiService = hocKiService;
         this.lopHocPhanService = lopHocPhanService;
         this.ketQuaHocPhanService = ketQuaHocPhanService;
+    }
+
+    @ModelAttribute(name = "giangVien")
+    public GiangVien giangVien() {
+        return (GiangVien) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
 
@@ -45,7 +50,7 @@ public class GvienController {
         //Lấy các lớp học phần trong học kì đó mà giảng viên dạy
         List<LopHocPhan> dsLopHocPhan = lopHocPhanService.findByHocKiAndGiangVien(hocKiDangHoatDong, giangVien);
         //Lấy kết quả học phần các sinh viên trong lớp học phần đó
-        List<KetQuaHocPhan> dsKetQuaHocPhan = new ArrayList<KetQuaHocPhan>();
+        List<KetQuaHocPhan> dsKetQuaHocPhan = new ArrayList<>();
         for (LopHocPhan lopHocPhan : dsLopHocPhan) {
             dsKetQuaHocPhan.addAll(ketQuaHocPhanService.findByLopHocPhan(lopHocPhan));
         }
@@ -55,6 +60,37 @@ public class GvienController {
         model.addAttribute("dsLopHocPhan", dsLopHocPhan);
         return "gvien_nhapdiem";
     }
+
+    @GetMapping("/nhapdiem/sinhvien")
+    public String showNhapDiemSinhVien(Model model,
+                                       @RequestParam("idKetQuaHocPhanDuocChon") int idKetQuaHocPhanDuocChon) {
+        KetQuaHocPhan ketQuaHocPhan = ketQuaHocPhanService.findById(idKetQuaHocPhanDuocChon);
+        model.addAttribute("ketQuaHocPhan", ketQuaHocPhan);
+        return "gvien_nhapdiem_sinhvien";
+    }
+
+    @PostMapping("/nhapdiem/sinhvien")
+    public String submitNhapDiemSinhVien(@ModelAttribute("ketQuaHocPhan") KetQuaHocPhan ketQuaHocPhan) {
+        ketQuaHocPhanService.createKetQuaHocPhan(ketQuaHocPhan);
+        return "redirect:/gvien/nhapdiem";
+    }
+
+    @GetMapping("/lichday")
+    public String showLichDay(Model model) {
+        //Lấy giảng viên đang đăng nhập
+        GiangVien giangVien = (GiangVien) model.getAttribute("giangVien");
+        //Lấy các lớp học phần mà giảng viên dạy
+        List<LopHocPhan> dsLopHocPhan = lopHocPhanService.findByGiangVien(giangVien);
+        //Lấy các học kì mà giảng viên dạy
+        Set<HocKi> dsHocKi = new HashSet<>();
+        for (LopHocPhan lopHocPhan : dsLopHocPhan) {
+            dsHocKi.add(lopHocPhan.getHocKi());
+        }
+        model.addAttribute("dsHocKi", new ArrayList<HocKi>(dsHocKi));
+        model.addAttribute("dsLopHocPhan", dsLopHocPhan);
+        return "gvien_lichday";
+    }
+
 }
 
 

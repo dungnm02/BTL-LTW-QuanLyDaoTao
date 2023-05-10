@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ptit.btlltwqlydaotao.models.HocKi;
 import ptit.btlltwqlydaotao.services.HocKiService;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller

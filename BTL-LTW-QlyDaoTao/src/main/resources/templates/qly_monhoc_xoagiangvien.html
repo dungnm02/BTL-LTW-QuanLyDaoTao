@@ -3,15 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Xóa giảng viên</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
 </head>
 <body>
-<div id="navbar">
-    <a href="/qly/giangvien">Quản lý giảng viên</a>
-    <a href="/qly/sinhvien">Quản lý sinh viên</a>
-    <a href="/qly/monhoc">Quản lý môn học</a>
-    <a href="/qly/hocki">Quản lý học kì</a>
-    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
-</div>
+<header>
+    <nav id="navbar">
+        <div class="container">
+            <h1>Trang quản lý</h1>
+            <ul>
+                <li><a href="/qly">Trang chủ</a></li>
+                <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
+                <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
+                <li><a class="current" href="/qly/monhoc">Quản lý môn học</a></li>
+                <li><a href="/qly/hocki">Quản lý học kì</a></li>
+                <li><a href="/qly/modotdangky">Mở đợt đăng ký</a></li>
+                <li>
+                    <form action="/logout" id="logout-button" method="post">
+                        <button type="submit">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 <h1>Chọn giảng viên</h1>
 <div th:object="${monHoc}">
     <label for="maMonHoc">Tên môn học</label>
@@ -30,6 +45,7 @@
             <th>Mã GV</th>
             <th>Họ tên</th>
             <th>Khoa</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>

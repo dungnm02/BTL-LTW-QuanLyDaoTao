@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface KetQuaHocPhanRepository extends JpaRepository<KetQuaHocPhan, Integer> {
     List<KetQuaHocPhan> findBySinhVien(SinhVien sinhVien);
+
     List<KetQuaHocPhan> findByLopHocPhan(LopHocPhan lopHocPhan);
 
     KetQuaHocPhan findByLopHocPhan_IdAndSinhVien_Id(int idLopHocPhan, int idSinhVien);

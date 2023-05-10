@@ -3,32 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Giảng Viên</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
 </head>
 <body>
-<div></div>
-<button><a href="/logout">Đăng xuấtx`</a></button>
-<nav>
-    <a href="/qly/giangvien">Quản lý giảng viên</a>
-    <a href="/qly/sinhvien">Quản lý sinh viên</a>
-    <a href="/qly/monhoc">Quản lý môn học</a>
-    <a href="/qly/hocki">Quản lý học kì</a>
-    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
-</nav>
-<h1>Quản lý Giảng Viên</h1>
-<button>
-    <a href="/qly/giangvien/them">Thêm Giảng Viên</a>
-</button>
+<header>
+    <nav id="navbar">
+        <div class="container">
+            <h1>Trang quản lý</h1>
+            <ul>
+                <li><a href="/qly">Trang chủ</a></li>
+                <li><a class="current" href="/qly/giangvien">Quản lý giảng viên</a></li>
+                <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
+                <li><a href="/qly/monhoc">Quản lý môn học</a></li>
+                <li><a href="/qly/hocki">Quản lý học kì</a></li>
+                <li><a href="/qly/modotdangky">Mở đợt đăng ký</a></li>
+                <li>
+                    <form action="/logout" id="logout-button" method="post">
+                        <button type="submit">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-<form method="get" th:action="@{/qly/giangvien}">
-    <label for="type">Tìm kiếm theo</label>
-    <select id="type" th:name="type">
-        <option th:value="hoTen">Tên giảng viên</option>
-        <option th:value="maGiangVien">Mã giảng viên</option>
-    </select>
-    <input th:name="keyword" type="text"/>
-    <button type="submit">Search</button>
-</form>
-
+<h1 class="page-title">Quản lý Giảng Viên</h1>
+<div class="search-bar-container">
+    <form class="search-bar" method="get" th:action="@{/qly/giangvien}">
+        <label for="type">Tìm kiếm theo</label>
+        <select id="type" th:name="type">
+            <option th:value="hoTen">Tên giảng viên</option>
+            <option th:value="maGiangVien">Mã giảng viên</option>
+        </select>
+        <input type="text" th:name="keyword" placeholder="Nhập từ khóa tìm kiếm"/>
+        <button class="table-submit-button" type="submit">Tìm kiếm</button>
+    </form>
+</div>
 <table>
     <thead>
     <tr>
@@ -46,11 +57,15 @@
         <td><span th:text="${giangVien.maGiangVien}"></span></td>
         <td th:text="${giangVien.hoTen}"></td>
         <td th:text="${giangVien.khoa.tenKhoa}"></td>
-        <td><a th:href="@{/qly/giangvien/xoa/{id}(id=${giangVien.id})}">Xóa</a></td>
         <td><a th:href="@{/qly/giangvien/sua/{id}(id=${giangVien.id})}">Sửa</a></td>
+        <td><a th:href="@{/qly/giangvien/xoa/{id}(id=${giangVien.id})}">Xóa</a></td>
     </tr>
     </tbody>
 </table>
+
+<a href="/qly/giangvien/them">
+    <button class="table-submit-button">Thêm Giảng Viên</button>
+</a>
 
 </body>
 </html>

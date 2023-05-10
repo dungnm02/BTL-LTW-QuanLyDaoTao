@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang chủ sinh viên</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Trang chủ sinh viên</h1>
-<nav>
-    <a href="/svien/ketqua">Xem kết quả</a>
-    <a href="/svien/lichhoc">Xem lịch học</a>
-    <a href="/svien/dangky">Đăng ký lớp học phần</a>
-</nav>
+<header>
+    <nav id="navbar">
+        <div class="container">
+            <h1>Trang sinh viên</h1>
+            <ul>
+                <li><a class="current" href="/svien">Trang chủ</a></li>
+                <li><a href="/svien/ketqua">Xem kết quả</a></li>
+                <li><a href="/svien/lichhoc">Xem lịch học</a></li>
+                <li><a href="/svien/dangky">Đăng ký lớp học phần</a></li>
+                <li><a href="/svien/doimatkhau">Đổi mật khẩu</a></li>
+                <li>
+                    <form action="/logout" id="logout-button" method="post">
+                        <button type="submit">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 </body>
 </html>

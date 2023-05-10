@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch dạy</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <h1>Trang giảng viên</h1>
+        <ul>
+            <li><a href="/gvien">Trang chủ</a></li>
+            <li><a class="current" href="/gvien/lichday">Xem lịch dạy</a></li>
+            <li><a href="/gvien/nhapdiem">Nhập điểm</a></li>
+            <li><a href="/gvien/doimatkhau">Đổi mật khẩu</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

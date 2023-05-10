@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
 </head>
 <body>
+<header>
+    <nav id="navbar">
+        <div class="container">
+            <h1>Trang quản lý</h1>
+            <ul>
+                <li><a href="/qly">Trang chủ</a></li>
+                <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
+                <li><a href="/qly/sinhvien">Quản lý sinh viên</a></li>
+                <li><a href="/qly/monhoc">Quản lý môn học</a></li>
+                <li><a href="/qly/hocki">Quản lý học kì</a></li>
+                <li><a class="current" href="/qly/modotdangky">Mở đợt đăng ký</a></li>
+                <li>
+                    <form action="/logout" id="logout-button" method="post">
+                        <button type="submit">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 <form method="post" th:action="@{/qly/modotdangky}">
     <label>Học Kì:</label>
     <div>
@@ -14,7 +36,7 @@
         </select>
     </div>
     <label for="batDau">Thời gian bắt đầu</label>
-    <input type="date" id="batDau" th:name="batDau">
+    <input id="batDau" th:name="batDau" type="date">
     <button type="submit">Mở đăng kí</button>
 </form>
 </form>

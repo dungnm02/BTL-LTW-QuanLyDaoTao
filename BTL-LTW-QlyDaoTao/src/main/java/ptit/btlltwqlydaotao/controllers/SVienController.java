@@ -59,7 +59,7 @@ public class SVienController {
         //Lấy thông báo nếu có
         model.addAttribute("message", model.getAttribute("message"));
 
-        HocKi hocKi = hocKiService.findHocKiById(idHocki);
+        HocKi hocKi = hocKiService.findById(idHocki);
         model.addAttribute("hocKi", hocKi);
 
         //Lấy các lớp đã đăng kí của sinh viên trong học kì này
@@ -80,7 +80,7 @@ public class SVienController {
                                     Model model,
                                     RedirectAttributes redirectAttributes) {
         SinhVien sinhVien = (SinhVien) model.getAttribute("sinhVien");
-        HocKi hocKi = hocKiService.findHocKiById(idHocKi);
+        HocKi hocKi = hocKiService.findById(idHocKi);
         LopHocPhan lopHocPhan = lopHocPhanService.findById(idLopHocPhanDuocChon);
         try {
             sinhVienService.dangKyLopHocPhan(sinhVien, hocKi, lopHocPhan);

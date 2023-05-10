@@ -36,8 +36,8 @@ public class QlyLopHocPhanController {
 
     @GetMapping("")
     public String index(Model model, @PathVariable("idHocKi") int idHocKi) {
-        HocKi hocKi = hocKiService.findHocKiById(idHocKi);
-        model.addAttribute("hocKi", hocKiService.findHocKiById(idHocKi));
+        HocKi hocKi = hocKiService.findById(idHocKi);
+        model.addAttribute("hocKi", hocKi);
         model.addAttribute("dsLopHocPhan", lopHocPhanService.findAllByHocKi(hocKi));
 
         return "qly_hocki_lophocphan";
@@ -67,7 +67,7 @@ public class QlyLopHocPhanController {
 
     @PostMapping("/them")
     public String submitThem(Model model, @PathVariable("idHocKi") int idHocKi, @ModelAttribute("lopHocPhan") LopHocPhan lopHocPhan, RedirectAttributes redirectAttributes) {
-        lopHocPhan.setHocKi(hocKiService.findHocKiById(idHocKi));
+        lopHocPhan.setHocKi(hocKiService.findById(idHocKi));
         try {
             lopHocPhanService.createLopHocPhan(lopHocPhan);
         } catch (RuntimeException e) {
@@ -87,7 +87,7 @@ public class QlyLopHocPhanController {
             lopHocPhan = lopHocPhanService.findById(idLopHocPhan);
         }
         model.addAttribute("message", model.getAttribute("message"));
-        model.addAttribute("hocKi", hocKiService.findHocKiById(idHocKi));
+        model.addAttribute("hocKi", hocKiService.findById(idHocKi));
         model.addAttribute("lopHocPhan", lopHocPhan);
         model.addAttribute("dsNgayTrongTuan", new ArrayList<String>(Arrays.asList("Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6")));
         model.addAttribute("dsKipTrongNgay", new ArrayList<String>(Arrays.asList("Kíp 1", "Kíp 2", "Kíp 3", "Kíp 4", "Kíp 5", "Kíp 6")));
@@ -110,7 +110,7 @@ public class QlyLopHocPhanController {
     @GetMapping("/xoa/{idLopHocPhan}")
     public String showXoa(@PathVariable("idLopHocPhan") int idLopHocPhan, @PathVariable("idHocKi") int idHocKi, Model model) {
         model.addAttribute("lopHocPhan", lopHocPhanService.findById(idLopHocPhan));
-        model.addAttribute("hocKi", hocKiService.findHocKiById(idHocKi));
+        model.addAttribute("hocKi", hocKiService.findById(idHocKi));
         return "qly_hocki_lophocphan_xoa";
     }
 
@@ -124,7 +124,7 @@ public class QlyLopHocPhanController {
     public String showSinhVien(@PathVariable("idLopHocPhan") int idLopHocPhan, @PathVariable("idHocKi") int idHocKi, Model model) {
         LopHocPhan lopHocPhan = lopHocPhanService.findById(idLopHocPhan);
         model.addAttribute("lopHocPhan", lopHocPhan);
-        model.addAttribute("hocKi", hocKiService.findHocKiById(idHocKi));
+        model.addAttribute("hocKi", hocKiService.findById(idHocKi));
         model.addAttribute("dsKetQuaHocPhan", ketQuaHocPhanService.findByLopHocPhan(lopHocPhan));
         return "qly_hocki_lophocphan_sinhvien";
     }

@@ -39,6 +39,13 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/login/success", false)
                         .failureUrl("/login?error")
                 )
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                )
+                .csrf().disable()
                 .build();
     }
 

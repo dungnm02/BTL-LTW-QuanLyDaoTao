@@ -31,7 +31,7 @@ public class HocKiService {
         return hocKiRepository.findAll();
     }
 
-    public HocKi findHocKiById(int id) {
+    public HocKi findById(int id) {
         return hocKiRepository.findById(id).orElse(null);
     }
 
@@ -44,6 +44,7 @@ public class HocKiService {
         }
         return null;
     }
+
     public void deleteHocKiById(int id) {
         hocKiRepository.deleteById(id);
     }

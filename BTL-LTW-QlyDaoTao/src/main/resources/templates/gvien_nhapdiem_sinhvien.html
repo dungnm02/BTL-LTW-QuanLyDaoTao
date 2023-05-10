@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhập điểm sinh viên</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <h1>Trang chủ giảng viên</h1>
+        <ul>
+            <li><a href="/gvien">Trang chủ</a></li>
+            <li><a href="/gvien/lichday">Xem lịch dạy</a></li>
+            <li><a class="current" href="/gvien/nhapdiem">Nhập điểm</a></li>
+            <li><a href="/gvien/doimatkhau">Đổi mật khẩu</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Nhập điểm sinh viên
+            <span th:text="${ketQuaHocPhan.sinhVien.hoTen}"></span>
+        </h2>
+        <form method="post" th:action="@{/gvien/nhapdiem/sinhvien}" th:object="${ketQuaHocPhan}">
+            <input th:field="${ketQuaHocPhan.id}" type="hidden">
+            <input th:field="${ketQuaHocPhan.sinhVien}" type="hidden">
+            <input th:field="${ketQuaHocPhan.lopHocPhan}" type="hidden">
+            <div class="form-group">
+                <label for="diemCC">Điểm CC:</label>
+                <input id="diemCC" max="10" min="0" step="0.1" th:field="${ketQuaHocPhan.diemCC}"
+                       th:value="${ketQuaHocPhan.diemCC}" type="number">
+            </div>
+            <div class="form-group">
+                <label for="diemKT1">Điểm KT1:</label>
+                <input id="diemKT1" max="10" min="0" step="0.1" th:field="${ketQuaHocPhan.diemKT1}"
+                       th:value="${ketQuaHocPhan.diemKT1}" type="number">
+            </div>
+            <div class="form-group">
+                <label for="diemKT2">Điểm KT2:</label>
+                <input id="diemKT2" max="10" min="0" step="0.1" th:field="${ketQuaHocPhan.diemKT2}"
+                       th:value="${ketQuaHocPhan.diemKT2}" type="number">
+            </div>
+            <div class="form-group">
+                <label for="diemThi">Điểm Thi:</label>
+                <input id="diemThi" max="10" min="0" step="0.1" th:field="${ketQuaHocPhan.diemThi}"
+                       th:value="${ketQuaHocPhan.diemThi}" type="number">
+            </div>
+            <button type="submit">Nhập điểm</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

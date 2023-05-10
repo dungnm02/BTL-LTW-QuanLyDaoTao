@@ -3,41 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Xóa Sinh Viên</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
 </head>
 <body>
-<div id="navbar">
-    <a href="/qly/giangvien">Quản lý giảng viên</a>
-    <a href="/qly/sinhvien">Quản lý sinh viên</a>
-    <a href="/qly/monhoc">Quản lý môn học</a>
-    <a href="/qly/hocki">Quản lý học kì</a>
-    <a href="/qly/modotdangki">Mở đợt đăng kí</a>
+<header>
+    <nav id="navbar">
+        <div class="container">
+            <h1>Trang quản lý</h1>
+            <ul>
+                <li><a href="/qly">Trang chủ</a></li>
+                <li><a href="/qly/giangvien">Quản lý giảng viên</a></li>
+                <li><a class="current" href="/qly/sinhvien">Quản lý sinh viên</a></li>
+                <li><a href="/qly/monhoc">Quản lý môn học</a></li>
+                <li><a href="/qly/hocki">Quản lý học kì</a></li>
+                <li><a href="/qly/modotdangky">Mở đợt đăng ký</a></li>
+                <li>
+                    <form action="/logout" id="logout-button" method="post">
+                        <button type="submit">Đăng xuất</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div class="form-container">
+    <div class="form-wrap">
+        <h2>Xóa thông tin sinh viên
+            <span th:text="${sinhVien.hoTen}"></span>
+        </h2>
+        <form action="#" method="post" th:action="@{/qly/sinhvien/xoa/{id}(id=${sinhVien.id})}">
+            <div class="form-group">
+                <label for="maSinhVien">Mã sinh viên:</label>
+                <input id="maSinhVien" th:field="${sinhVien.maSinhVien}" readonly></input>
+            </div>
+            <div class="form-group">
+                <label for="hoTen">Họ tên:</label>
+                <input id="hoTen" th:field="${sinhVien.hoTen}" readonly></input>
+            </div>
+
+            <div class="form-group">
+                <label for="ngaySinh">Ngày Sinh:</label>
+                <input id="ngaySinh" th:field="${sinhVien.ngaySinh}" readonly></input>
+            </div>
+
+            <div class="form-group">
+                <label for="cccd">CCCD:</label>
+                <input id="cccd" th:field="${sinhVien.cccd}" readonly></input>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input id="email" th:field="${sinhVien.email}" readonly></input>
+            </div>
+
+            <div class="form-group">
+                <label for="sdt">Số điện thoại:</label>
+                <input id="sdt" th:field="${sinhVien.sdt}" readonly></input>
+            </div>
+
+            <div class="form-group">
+                <label for="khoa">Khoa:</label>
+                <input id="khoa" th:field="${sinhVien.khoa.tenKhoa}" readonly></input>
+            </div>
+
+            <button type="submit">Xóa</button>
+        </form>
+    </div>
 </div>
-<h1>Xóa Sinh Viên</h1>
-<div th:object="${sinhVien}">
 
-    <label for="maSinhVien">Mã sinh viên:</label>
-    <p id="maSinhVien" th:text="${sinhVien.maSinhVien}"></p>
 
-    <label for="hoTen">Họ tên:</label>
-    <p id="hoTen" th:text="${sinhVien.hoTen}"></p>
-
-    <label for="ngaySinh">Ngày Sinh:</label>
-    <p id="ngaySinh" th:text="${#temporals.format(sinhVien.ngaySinh, 'dd/MM/yyyy')}"></p>
-
-    <label for="cccd">CCCD:</label>
-    <p id="cccd" th:text="${sinhVien.cccd}"></p>
-
-    <label for="email">Email:</label>
-    <p id="email" th:text="${sinhVien.email}"></p>
-
-    <label for="sdt">Số điện thoại:</label>
-    <p id="sdt" th:text="${sinhVien.sdt}"></p>
-
-    <label for="khoa">Khoa:</label>
-    <p id="khoa" th:text="${sinhVien.khoa.tenKhoa}"></p>
-    <form action="#" method="post" th:action="@{/qly/sinhvien/xoa/{id}(id=${sinhVien.id})}">
-        <button type="submit">Xóa</button>
-    </form>
-</div>
 </body>
 </html>

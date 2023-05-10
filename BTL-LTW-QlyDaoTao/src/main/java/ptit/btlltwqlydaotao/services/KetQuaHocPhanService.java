@@ -14,6 +14,10 @@ public class KetQuaHocPhanService {
         this.ketQuaHocPhanRepository = ketQuaHocPhanRepository;
     }
 
+    public KetQuaHocPhan findById(Integer id) {
+        return ketQuaHocPhanRepository.findById(id).orElse(null);
+    }
+
     public List<KetQuaHocPhan> findBySinhVien(SinhVien sinhVien) {
         return ketQuaHocPhanRepository.findBySinhVien(sinhVien);
     }

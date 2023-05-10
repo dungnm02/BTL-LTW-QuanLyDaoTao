@@ -53,7 +53,7 @@ public class QlyHocKiController {
 
     @GetMapping("/sua/{id}")
     public String showSuaHocKi(@PathVariable("id") int id, Model model) {
-        model.addAttribute("hocKi", hocKiService.findHocKiById(id));
+        model.addAttribute("hocKi", hocKiService.findById(id));
         model.addAttribute("dsThuHai", hocKiService.getThuHaiTrongSauThang());
         return "qly_hocki_sua";
     }
@@ -73,7 +73,7 @@ public class QlyHocKiController {
 
     @GetMapping("/xoa/{id}")
     public String showSXoaHocKi(@PathVariable("id") int id, Model model) {
-        model.addAttribute("hocKi", hocKiService.findHocKiById(id));
+        model.addAttribute("hocKi", hocKiService.findById(id));
         return "qly_hocki_xoa";
     }
 
