@@ -5,7 +5,7 @@
     <title>Lịch dạy</title>
     <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
-<body>
+<body onload="generateLichDay()">
 <nav id="navbar">
     <div class="container">
         <h1>Trang giảng viên</h1>
@@ -22,5 +22,93 @@
         </ul>
     </div>
 </nav>
+<h2 class="page-title">Lịch dạy</h2>
+<div class="table-title"> Chọn học kì:
+    <select class="form-control" id="hocKi" onchange="generateLichDay()">
+        <option th:each="hocKi : ${dsHocKi}" th:text="${hocKi.maHocKi}" th:value="${hocKi.id}"></option>
+    </select>
+</div>
+<div id="container"></div>
 </body>
 </html>
+
+<script th:inline="javascript">
+    //Lấy tất cả các lớp học phần của giảng viên này
+    var dsLopHocPhanGiangVien = /*[[${dsLopHocPhan}]]*/ [];
+
+    function generateLichDay() {
+        var dsLopHocPhan = getLopHocPhanByHocKi();
+        var table = generateTable(dsLopHocPhan);
+        var container = document.getElementById('container');
+        container.appendChild(table);
+    }
+
+    function getLopHocPhanByHocKi() {
+        // Lấy các lớp học phần trong học kì này
+
+        // Lấy học kì đang được lựa chọn
+        var selectedHocKi = document.getElementById("hocKi");
+        var dsLopHocPhan = dsLopHocPhanGiangVien.filter(function (lopHocPhan) {
+            return lopHocPhan.hocKi.id == selectedHocKi.value;
+        });
+        return dsLopHocPhan
+    }
+
+    function generateTable(dsLopHocPhan) {
+        var table = document.createElement('table');
+        var headerRow = document.createElement('tr');
+        var headerCells = ['', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+
+        // Tạo các cột
+        for (var i = 0; i < headerCells.length; i++) {
+            var cell = document.createElement('th');
+            cell.appendChild(document.createTextNode(headerCells[i]));
+            headerRow.appendChild(cell);
+        }
+        table.appendChild(headerRow);
+
+        // Tạo hàng
+        for (var kip = 1; kip <= 6; kip++) {
+            var row = document.createElement('tr');
+            var kipCell = document.createElement('td');
+            kipCell.innerText = 'Kíp ' + kip;
+            row.appendChild(kipCell);
+
+            //Tạo các ô, ô nào có lớp học phần thì highlight và ghi thông tin
+            for (var ngay = 2; ngay <= 7; ngay++) {
+                var cell = document.createElement('td');
+                cell.style.width = (100 / 7) + '%';
+
+                var lopHocPhan = getLopHocPhanByKipAndNgay(kip, ngay, dsLopHocPhan);
+                if (lopHocPhan != null) {
+                    var MHspan = document.createElement('div');
+                    MHspan.innerText = lopHocPhan.giangVienMonHoc.monHoc.tenMonHoc;
+                    cell.appendChild(MHspan);
+                    var LHPspan = document.createElement('div');
+                    LHPspan.innerText = lopHocPhan.maLopHocPhan;
+                    cell.appendChild(LHPspan);
+                    var PHspan = document.createElement('div');
+                    PHspan.innerText = lopHocPhan.phongHoc;
+                    cell.appendChild(PHspan);
+                    cell.style.backgroundColor = '#ffcc00';
+                }
+
+                row.appendChild(cell);
+            }
+            table.appendChild(row);
+        }
+        return table;
+    }
+
+    function getLopHocPhanByKipAndNgay(kip, ngay, dsLopHocPhan) {
+        //Tìm xem trong dsLopHocPhan có lớp học phần nào có kíp và ngày trùng với kíp và ngày truyền vào hay không
+        for (var i = 0; i < dsLopHocPhan.length; i++) {
+            console.log(dsLopHocPhan[i].kipTrongNgay, dsLopHocPhan[i].ngayTrongTuan)
+            if (dsLopHocPhan[i].kipTrongNgay == kip && dsLopHocPhan[i].ngayTrongTuan == ngay) {
+                return dsLopHocPhan[i];
+            }
+        }
+        return null;
+    }
+
+</script>

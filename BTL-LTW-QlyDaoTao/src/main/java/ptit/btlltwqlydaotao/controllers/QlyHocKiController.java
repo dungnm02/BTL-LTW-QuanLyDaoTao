@@ -42,7 +42,7 @@ public class QlyHocKiController {
     @PostMapping("/them")
     public String submitThemHocKi(@ModelAttribute("hocKi") HocKi hocKi, RedirectAttributes redirectAttributes) {
         try {
-            hocKiService.addHocKi(hocKi);
+            hocKiService.createHocKi(hocKi);
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("hocKi", hocKi);
             redirectAttributes.addFlashAttribute("message", e.getMessage());

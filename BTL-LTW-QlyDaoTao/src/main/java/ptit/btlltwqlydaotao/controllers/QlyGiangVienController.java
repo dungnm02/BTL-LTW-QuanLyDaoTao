@@ -83,7 +83,7 @@ public class QlyGiangVienController {
             redirectAttributes.addFlashAttribute("giangVien", giangVien);
             return "redirect:/qly/giangvien/sua/" + giangVien.getId();
         } else {
-            giangVienService.updateGiangVien(giangVien);
+            giangVienService.save(giangVien);
             return "redirect:/qly/giangvien";
         }
     }
@@ -97,8 +97,8 @@ public class QlyGiangVienController {
 
     @PostMapping("/xoa/{id}")
     public String submitXoaGiangVien(@PathVariable("id") int id) {
-        giangVienMonHocService.deleteAllByGiangVienId(id);
-        giangVienService.deleteGiangVien(id);
+        giangVienMonHocService.deleteByGiangVienId(id);
+        giangVienService.deleteById(id);
         return "redirect:/qly/giangvien";
     }
 }

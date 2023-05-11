@@ -4,10 +4,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ptit.btlltwqlydaotao.models.GiangVien;
 import ptit.btlltwqlydaotao.models.HocKi;
 import ptit.btlltwqlydaotao.models.KetQuaHocPhan;
 import ptit.btlltwqlydaotao.models.LopHocPhan;
+import ptit.btlltwqlydaotao.services.GiangVienService;
 import ptit.btlltwqlydaotao.services.HocKiService;
 import ptit.btlltwqlydaotao.services.KetQuaHocPhanService;
 import ptit.btlltwqlydaotao.services.LopHocPhanService;
@@ -24,18 +26,19 @@ public class GvienController {
     private final HocKiService hocKiService;
     private final LopHocPhanService lopHocPhanService;
     private final KetQuaHocPhanService ketQuaHocPhanService;
+    private final GiangVienService giangVienService;
 
-    public GvienController(HocKiService hocKiService, LopHocPhanService lopHocPhanService, KetQuaHocPhanService ketQuaHocPhanService) {
+    public GvienController(HocKiService hocKiService, LopHocPhanService lopHocPhanService, KetQuaHocPhanService ketQuaHocPhanService, GiangVienService giangVienService) {
         this.hocKiService = hocKiService;
         this.lopHocPhanService = lopHocPhanService;
         this.ketQuaHocPhanService = ketQuaHocPhanService;
+        this.giangVienService = giangVienService;
     }
 
     @ModelAttribute(name = "giangVien")
     public GiangVien giangVien() {
         return (GiangVien) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-
 
     @GetMapping("")
     public String index() {
@@ -86,11 +89,33 @@ public class GvienController {
         for (LopHocPhan lopHocPhan : dsLopHocPhan) {
             dsHocKi.add(lopHocPhan.getHocKi());
         }
-        model.addAttribute("dsHocKi", new ArrayList<HocKi>(dsHocKi));
+        model.addAttribute("dsHocKi", new ArrayList<>(dsHocKi));
         model.addAttribute("dsLopHocPhan", dsLopHocPhan);
         return "gvien_lichday";
     }
 
+    @GetMapping("/doimatkhau")
+    public String showDoiMatKhau(Model model) {
+        model.addAttribute("message", model.getAttribute("message"));
+        return "gvien_doimatkhau";
+    }
+
+    @PostMapping("/doimatkhau")
+    public String submitDoiMatKhau(@RequestParam("matKhauCu") String matKhauCu,
+                                   @RequestParam("matKhauMoi") String matKhauMoi,
+                                   @RequestParam("xacNhanMatKhauMoi") String xacNhanMatKhauMoi,
+                                   Model model,
+                                   RedirectAttributes redirectAttributes) {
+        GiangVien giangVien = (GiangVien) model.getAttribute("giangVien");
+        try {
+            giangVienService.doiMatKhau(giangVien, matKhauCu, matKhauMoi, xacNhanMatKhauMoi);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/gvien/doimatkhau";
+        }
+        redirectAttributes.addFlashAttribute("message", "Đổi mật khẩu thành công");
+        return "redirect:/gvien/doimatkhau";
+    }
 }
 
 

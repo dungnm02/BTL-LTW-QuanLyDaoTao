@@ -11,11 +11,11 @@ import java.util.List;
 public interface GiangVienRepository extends JpaRepository<GiangVien, Integer> {
     List<GiangVien> findTopByKhoaOrderByIdDesc(Khoa khoa);
 
-    List<GiangVien> findByKhoa(Khoa khoa);
-
     List<GiangVien> findByHoTenContainingIgnoreCase(String hoTen);
 
     List<GiangVien> findByMaGiangVienContainingIgnoreCase(String keyword);
 
     GiangVien findByUsername(String username);
+
+    List<GiangVien> findByKhoa_Id(int khoaId);
 }

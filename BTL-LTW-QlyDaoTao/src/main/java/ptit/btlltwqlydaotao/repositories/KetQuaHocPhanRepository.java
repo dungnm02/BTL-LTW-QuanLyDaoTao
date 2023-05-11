@@ -18,4 +18,8 @@ public interface KetQuaHocPhanRepository extends JpaRepository<KetQuaHocPhan, In
     KetQuaHocPhan findByLopHocPhan_IdAndSinhVien_Id(int idLopHocPhan, int idSinhVien);
 
     List<KetQuaHocPhan> findBySinhVienAndLopHocPhan_HocKi(SinhVien sinhVien, HocKi hocKi);
+
+    void deleteByLopHocPhan_Id(int lopHocPhanId);
+
+    void deleteBySinhVien_Id(int sinhVienId);
 }

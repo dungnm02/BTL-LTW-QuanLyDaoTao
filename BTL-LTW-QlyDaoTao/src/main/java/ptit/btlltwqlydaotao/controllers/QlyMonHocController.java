@@ -67,11 +67,11 @@ public class QlyMonHocController {
     }
 
     @GetMapping("/chongiangvien/{id}")
-    public String showChonGiangVien(@PathVariable("id") int id, Model model) {
-        MonHoc monHoc = monHocService.findMonHocById(id);
+    public String showChonGiangVien(@PathVariable("id") int monHocId, Model model) {
+        MonHoc monHoc = monHocService.findById(monHocId);
         model.addAttribute("monHoc", monHoc);
-        model.addAttribute("dsGiangVienDayMonHoc", giangVienMonHocService.getAllGiangVienDayMonHoc(monHoc));
-        model.addAttribute("dsGiangVienChuaDayMonHoc", giangVienMonHocService.getAllGiangVienChuaDayMonHoc(monHoc));
+        model.addAttribute("dsGiangVienDayMonHoc", giangVienMonHocService.getGiangVienDayMonHoc(monHocId));
+        model.addAttribute("dsGiangVienChuaDayMonHoc", giangVienMonHocService.getGiangVienKhongDayMonHoc(monHocId));
         return "qly_monhoc_themgiangvien";
     }
 
@@ -83,10 +83,10 @@ public class QlyMonHocController {
     }
 
     @GetMapping("/xoagiangvien/{id}")
-    public String showXoaGiangVien(@PathVariable("id") int id, Model model) {
-        MonHoc monHoc = monHocService.findMonHocById(id);
+    public String showXoaGiangVien(@PathVariable("id") int monHocId, Model model) {
+        MonHoc monHoc = monHocService.findById(monHocId);
         model.addAttribute("monHoc", monHoc);
-        model.addAttribute("dsGiangVienDayMonHoc", giangVienMonHocService.getAllGiangVienDayMonHoc(monHoc));
+        model.addAttribute("dsGiangVienDayMonHoc", giangVienMonHocService.getGiangVienDayMonHoc(monHocId));
         return "qly_monhoc_xoagiangvien";
     }
 
@@ -98,12 +98,12 @@ public class QlyMonHocController {
 
 
     @GetMapping("/sua/{id}")
-    public String showSua(@PathVariable("id") int id, Model model) {
+    public String showSua(@PathVariable("id") int monHocId, Model model) {
         MonHoc monHoc;
         if (model.containsAttribute("monHoc")) {
             monHoc = (MonHoc) model.getAttribute("monHoc");
         } else {
-            monHoc = monHocService.findMonHocById(id);
+            monHoc = monHocService.findById(monHocId);
         }
         model.addAttribute("message", model.getAttribute("message"));
         model.addAttribute("monHoc", monHoc);
@@ -124,13 +124,13 @@ public class QlyMonHocController {
 
     @GetMapping("/xoa/{id}")
     public String showXoa(@PathVariable("id") int monHocId, Model model) {
-        model.addAttribute("monHoc", monHocService.findMonHocById(monHocId));
+        model.addAttribute("monHoc", monHocService.findById(monHocId));
         return "qly_monhoc_xoa";
     }
 
     @PostMapping("/xoa/{id}")
     public String submitXoa(@PathVariable("id") int monHocId) {
-        giangVienMonHocService.deleteAllByMonHocId(monHocId);
+        giangVienMonHocService.deleteByMonHocId(monHocId);
         monHocService.deleteMonHoc(monHocId);
         return "redirect:/qly/monhoc";
     }

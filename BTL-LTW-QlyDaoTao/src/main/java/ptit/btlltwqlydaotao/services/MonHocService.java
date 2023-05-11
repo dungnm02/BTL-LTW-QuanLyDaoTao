@@ -15,7 +15,7 @@ public class MonHocService {
         this.monHocRepository = monHocRepository;
     }
 
-    public MonHoc findMonHocById(int id) {
+    public MonHoc findById(int id) {
         return monHocRepository.findById(id).orElse(null);
     }
 

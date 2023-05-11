@@ -1,11 +1,13 @@
 package ptit.btlltwqlydaotao.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ptit.btlltwqlydaotao.models.*;
 import ptit.btlltwqlydaotao.repositories.SinhVienRepository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +55,12 @@ public class SinhVienService {
         sinhVienRepository.save(sinhVien);
     }
 
-    public void deleteSinhVien(int id) {
-        sinhVienRepository.deleteById(id);
+    @Transactional
+    public void deleteById(int sinhVienId) {
+        //Xóa tất cả kết quả học phần của sinh viên
+        ketQuaHocPhanService.deleteBySinhVienId(sinhVienId);
+        //Xóa sinh viên
+        sinhVienRepository.deleteById(sinhVienId);
     }
 
     private String generatePassword(String maSV, LocalDate ngaySinh) {
@@ -120,4 +126,54 @@ public class SinhVienService {
         }
         return false;
     }
+
+    public ArrayList<ArrayList<String>> getThoiKhoaBieu(SinhVien sinhVien, HocKi hocKi) {
+        //Khởi tạo một bảng thời khóa biểu (5 ngày và 6 kíp)
+        ArrayList<ArrayList<String>> thoiKhoaBieu = new ArrayList<>(new ArrayList<>());
+        for (int i = 0; i < 6; i++) {
+            ArrayList<String> temp = new ArrayList<>();
+            for (int j = 0; j < 5; j++) {
+                temp.add("");
+            }
+            thoiKhoaBieu.add(temp);
+        }
+
+        if (hocKi != null) {
+            //Tìm các kết quả học phần trong học kì hiện tại của sinh viên này
+            List<KetQuaHocPhan> dsLopHocPhan = ketQuaHocPhanService.findBySinhVienAndHocKi(sinhVien, hocKi);
+            //Lấy thông tin buổi học từ lớp học phần trong kết quả học phần của sinh viên
+            for (KetQuaHocPhan ketQuaHocPhan : dsLopHocPhan) {
+                LopHocPhan lopHocPhan = ketQuaHocPhan.getLopHocPhan();
+                String thongTinBuoiHoc = "Môn học: " + lopHocPhan.getGiangVienMonHoc().getMonHoc().getTenMonHoc() + "</br>" + "Phòng: " + lopHocPhan.getPhongHoc();
+                //Đưa các thông tin buổi học vào ô tương ứng của bảng thời khóa biểu
+                thoiKhoaBieu.get(Integer.parseInt(lopHocPhan.getKipTrongNgay()) - 1).set(Integer.parseInt(lopHocPhan.getNgayTrongTuan()) - 2, thongTinBuoiHoc);
+            }
+        }
+        return thoiKhoaBieu;
+    }
+
+    public void doiMatKhau(SinhVien sinhVien, String matKhauCu, String matKhauMoi, String xacNhanMatKhauMoi) {
+        //Kiểm tra mật khẩu cũ có khớp với mật khẩu trong CSDL không
+        if (matKhauCu.equals(sinhVien.getPassword())) {
+            //Kiểm tra mật khẩu mới có để trống không
+            if (matKhauMoi.isBlank()) {
+                throw new RuntimeException("Mật khẩu mới không được để trống");
+            }
+            //Kiểm tra mật khẩu mới có ít nhất 8 ký tự không
+            if (matKhauMoi.length() < 8) {
+                throw new RuntimeException("Mật khẩu mới phải có ít nhất 8 ký tự");
+            }
+            //Kiểm tra mật khẩu mới và xác nhận mật khẩu mới có khớp nhau không
+            if (matKhauMoi.equals(xacNhanMatKhauMoi)) {
+                sinhVien.setPassword(matKhauMoi);
+                sinhVienRepository.save(sinhVien);
+            } else {
+                throw new RuntimeException("Xác nhận mật khẩu mới không khớp");
+            }
+        } else {
+            throw new RuntimeException("Mật khẩu cũ không đúng");
+        }
+    }
+
+
 }

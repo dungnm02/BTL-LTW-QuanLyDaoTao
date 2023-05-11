@@ -19,5 +19,7 @@ public interface LopHocPhanRepository extends JpaRepository<LopHocPhan, Integer>
 
     List<LopHocPhan> findAllByGiangVienMonHoc_GiangVien(GiangVien giangVien);
 
-    List<LopHocPhan> findByGiangVienMonHoc(GiangVienMonHoc giangVienMonHoc);
+    List<LopHocPhan> findByGiangVienMonHoc_Id(int giangVienMonHocId);
+
+    List<LopHocPhan> findByHocKi_Id(int hocKiId);
 }

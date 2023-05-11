@@ -52,4 +52,11 @@ public class KetQuaHocPhanService {
         ketQuaHocPhanRepository.deleteById(id);
     }
 
+    public void deleteByLopHocPhanId(int lopHocPhanId) {
+        ketQuaHocPhanRepository.deleteByLopHocPhan_Id(lopHocPhanId);
+    }
+
+    public void deleteBySinhVienId(int sinhVienId) {
+        ketQuaHocPhanRepository.deleteBySinhVien_Id(sinhVienId);
+    }
 }

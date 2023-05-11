@@ -84,7 +84,7 @@ public class QlySinhVienController {
 
     @PostMapping("/xoa/{id}")
     public String submitXoaSinhVien(@PathVariable("id") int id) {
-        sinhVienService.deleteSinhVien(id);
+        sinhVienService.deleteById(id);
         return "redirect:/qly/sinhvien";
     }
 

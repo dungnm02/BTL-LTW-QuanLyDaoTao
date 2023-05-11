@@ -16,6 +16,10 @@ import java.util.List;
 @RequestMapping("/qly/hocki/{idHocKi}/lophocphan")
 public class QlyLopHocPhanController {
 
+    private final List<String> dsKipTrongNgay = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5", "6"));
+    private final List<String> dsNgayTrongTuan = new ArrayList<>(Arrays.asList("2", "3", "4", "5", "6"));
+    private final List<String> dsPhongHoc = new ArrayList<>(Arrays.asList("101", "102", "103", "201", "202", "203"));
+
     private final LopHocPhanService lopHocPhanService;
     private final SinhVienService sinhVienService;
     private final HocKiService hocKiService;
@@ -36,6 +40,7 @@ public class QlyLopHocPhanController {
 
     @GetMapping("")
     public String index(Model model, @PathVariable("idHocKi") int idHocKi) {
+        // Trang quản lý lớp học phần trong học kì
         HocKi hocKi = hocKiService.findById(idHocKi);
         model.addAttribute("hocKi", hocKi);
         model.addAttribute("dsLopHocPhan", lopHocPhanService.findByHocKi(hocKi));
@@ -45,6 +50,8 @@ public class QlyLopHocPhanController {
 
     @GetMapping("/them")
     public String showThem(Model model, @PathVariable("idHocKi") int idHocKi) {
+        // Trang thêm lớp học phần
+
         LopHocPhan lopHocPhan;
         if (model.containsAttribute("lopHocPhan")) {
             lopHocPhan = (LopHocPhan) model.getAttribute("lopHocPhan");
@@ -58,9 +65,9 @@ public class QlyLopHocPhanController {
         model.addAttribute("dsKhoa", khoaService.findAll());
         model.addAttribute("dsMonHoc", monHocService.findAll());
         model.addAttribute("dsGiangVienMonHoc", giangVienMonHocService.findAll());
-        model.addAttribute("dsNgayTrongTuan", new ArrayList<>(Arrays.asList("Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6")));
-        model.addAttribute("dsKipTrongNgay", new ArrayList<>(Arrays.asList("Kíp 1", "Kíp 2", "Kíp 3", "Kíp 4", "Kíp 5", "Kíp 6")));
-        model.addAttribute("dsPhongHoc", new ArrayList<>(Arrays.asList("101", "102", "103", "201", "202", "203")));
+        model.addAttribute("dsNgayTrongTuan", dsNgayTrongTuan);
+        model.addAttribute("dsKipTrongNgay", dsKipTrongNgay);
+        model.addAttribute("dsPhongHoc", dsPhongHoc);
 
         return "qly_hocki_lophocphan_them";
     }
@@ -89,9 +96,9 @@ public class QlyLopHocPhanController {
         model.addAttribute("message", model.getAttribute("message"));
         model.addAttribute("hocKi", hocKiService.findById(idHocKi));
         model.addAttribute("lopHocPhan", lopHocPhan);
-        model.addAttribute("dsNgayTrongTuan", new ArrayList<>(Arrays.asList("Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6")));
-        model.addAttribute("dsKipTrongNgay", new ArrayList<>(Arrays.asList("Kíp 1", "Kíp 2", "Kíp 3", "Kíp 4", "Kíp 5", "Kíp 6")));
-        model.addAttribute("dsPhongHoc", new ArrayList<>(Arrays.asList("101", "102", "103", "201", "202", "203")));
+        model.addAttribute("dsNgayTrongTuan", dsNgayTrongTuan);
+        model.addAttribute("dsKipTrongNgay", dsKipTrongNgay);
+        model.addAttribute("dsPhongHoc", dsPhongHoc);
         return "qly_hocki_lophocphan_sua";
     }
 

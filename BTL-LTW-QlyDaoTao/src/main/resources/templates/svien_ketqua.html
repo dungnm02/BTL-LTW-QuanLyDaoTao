@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xem điểm</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <h1>Trang sinh viên</h1>
+        <ul>
+            <li><a href="/svien">Trang chủ</a></li>
+            <li><a class="current" href="/svien/ketqua">Xem kết quả</a></li>
+            <li><a href="/svien/lichhoc">Xem lịch học</a></li>
+            <li><a href="/svien/dangky">Đăng ký lớp học phần</a></li>
+            <li><a href="/svien/doimatkhau">Đổi mật khẩu</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<h1 class="page-title">Kết quả sinh viên</h1>
+<div th:each="hocKi : ${dsHocKi}">
+    <h2 class="table-title"
+        th:text="'Học kì từ ngày: '+${hocKi.ngayBatDau}+' đến ngày: '+${hocKi.ngayKetThuc}"></h2>
+    <table>
+        <th>Lớp học phần</th>
+        <th>Điểm chuyên cần</th>
+        <th>Điểm kiểm tra 1</th>
+        <th>Điểm kiểm tra 2</th>
+        <th>Điểm thi</th>
+        <th>Điểm trung bình</th>
+        <th>Điểm chữ</th>
+        <tbody th:each="ketQuaHocPhan:${dsKetQuaHocPhan}">
+        <tr th:if="${hocKi} == ${ketQuaHocPhan.lopHocPhan.hocKi}">
+            <td th:text="${ketQuaHocPhan.lopHocPhan.giangVienMonHoc.monHoc.tenMonHoc}"></td>
+            <td th:text="${ketQuaHocPhan.diemCC}"></td>
+            <td th:text="${ketQuaHocPhan.diemKT1}"></td>
+            <td th:text="${ketQuaHocPhan.diemKT2}"></td>
+            <td th:text="${ketQuaHocPhan.diemThi}"></td>
+            <div th:if="${ketQuaHocPhan.diemThi != 0}">
+                <td th:text="${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4"></td>
+                <td>
+                    <span th:if="${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4 >= 7
+                    and ${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4 <8">B</span>
+                    <span th:if="${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4 >=8
+                    and ${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4 <9">A</span>
+                    <span th:if="${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4 >9 ">A+</span>
+                    <span th:if="${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4 >= 6
+                    and ${ketQuaHocPhan.diemThi}/4+${ketQuaHocPhan.diemCC}/4+${ketQuaHocPhan.diemKT1}/4+${ketQuaHocPhan.diemKT2}/4 <7">C+</span>
+                </td>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package ptit.btlltwqlydaotao.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ptit.btlltwqlydaotao.models.*;
 import ptit.btlltwqlydaotao.repositories.LopHocPhanRepository;
@@ -37,16 +38,6 @@ public class LopHocPhanService {
 
     public LopHocPhan findById(int lopHocPhanId) {
         return lopHocPhanRepository.findById(lopHocPhanId).orElse(null);
-    }
-
-    public void deleteById(int lopHocPhanId) {
-        //Xóa tất cả kết quả học phần của lớp học phần
-        List<KetQuaHocPhan> dsKetQuaHocPhan = ketQuaHocPhanService.findByLopHocPhan(findById(lopHocPhanId));
-        for (KetQuaHocPhan ketQuaHocPhan : dsKetQuaHocPhan) {
-            ketQuaHocPhanService.deleteById(ketQuaHocPhan.getId());
-        }
-        //Xóa lớp học phần
-        lopHocPhanRepository.deleteById(lopHocPhanId);
     }
 
     public List<SinhVien> findAllSinhVien(LopHocPhan lopHocPhan) {
@@ -89,7 +80,11 @@ public class LopHocPhanService {
         }
     }
 
+    @Transactional
     public void deleteLopHocPhan(int idLopHocPhan) {
+        //Xóa tất cả kết quả học phần của lớp học phần
+        ketQuaHocPhanService.deleteByLopHocPhanId(idLopHocPhan);
+        //Xóa lớp học phần
         lopHocPhanRepository.deleteById(idLopHocPhan);
     }
 
@@ -147,8 +142,19 @@ public class LopHocPhanService {
         return false;
     }
 
+    public void deleteByGiangVienMonHocId(int giangVienMonHocId) {
+        //Tìm kiếm danh sách lớp học phần theo giảng viên môn học
+        List<LopHocPhan> dsLopHocPhan = lopHocPhanRepository.findByGiangVienMonHoc_Id(giangVienMonHocId);
+        for (LopHocPhan lopHocPhan : dsLopHocPhan) {
+            deleteLopHocPhan(lopHocPhan.getId());
+        }
+    }
 
-    public List<LopHocPhan> findByGiangVienMonHoc(GiangVienMonHoc giangVienMonHoc) {
-        return lopHocPhanRepository.findByGiangVienMonHoc(giangVienMonHoc);
+    public void deleteByHocKiId(int hocKiId) {
+        //Tìm kiếm danh sách lớp học phần theo học kì
+        List<LopHocPhan> dsLopHocPhan = lopHocPhanRepository.findByHocKi_Id(hocKiId);
+        for (LopHocPhan lopHocPhan : dsLopHocPhan) {
+            deleteLopHocPhan(lopHocPhan.getId());
+        }
     }
 }

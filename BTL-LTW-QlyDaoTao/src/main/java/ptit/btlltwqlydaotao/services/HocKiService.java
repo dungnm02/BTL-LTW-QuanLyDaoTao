@@ -1,5 +1,6 @@
 package ptit.btlltwqlydaotao.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import ptit.btlltwqlydaotao.models.HocKi;
 import ptit.btlltwqlydaotao.models.Khoa;
@@ -17,7 +18,6 @@ public class HocKiService {
 
     private final LopHocPhanService lopHocPhanService;
 
-
     public HocKiService(HocKiRepository hocKiRepository, LopHocPhanService lopHocPhanService) {
         this.hocKiRepository = hocKiRepository;
         this.lopHocPhanService = lopHocPhanService;
@@ -27,8 +27,8 @@ public class HocKiService {
         return hocKiRepository.findAll();
     }
 
-    public HocKi findById(int id) {
-        return hocKiRepository.findById(id).orElse(null);
+    public HocKi findById(int hocKiId) {
+        return hocKiRepository.findById(hocKiId).orElse(null);
     }
 
     public HocKi findHocKiDangHoatDong() {
@@ -41,11 +41,14 @@ public class HocKiService {
         return null;
     }
 
-    public void deleteHocKiById(int id) {
-        hocKiRepository.deleteById(id);
+    @Transactional
+    public void deleteHocKiById(int hocKiId) {
+        //Xóa các lớp học phần trong học kì này
+        lopHocPhanService.deleteByHocKiId(hocKiId);
+        hocKiRepository.deleteById(hocKiId);
     }
 
-    public void addHocKi(HocKi hocKi) {
+    public void createHocKi(HocKi hocKi) {
         if (hocKiBitrung(hocKi)) {
             throw new RuntimeException("Thời gian bị trùng với học kì khác");
         } else {
@@ -65,7 +68,7 @@ public class HocKiService {
     }
 
     public List<HocKi> findHocKiChuaBatDau() {
-        //Lấy ra các học kì chưa bắt đầu và chưa mở đăng ký
+        //Tìm các học kì chưa bắt đầu và chưa mở đăng ký
         List<HocKi> dsHocKi = findAllHocKi();
         List<HocKi> dsHocKiChuaBatDau = new ArrayList<>();
         LocalDate ngayHienTai = LocalDate.now();
@@ -78,11 +81,12 @@ public class HocKiService {
     }
 
     public List<HocKi> findHocKiDangMoDangKy() {
+        //Tìm học kì đang mở đăng ký
         return hocKiRepository.findByMoDangKy(true);
     }
 
     public List<MonHoc> findMonHocByHocKiAndKhoa(HocKi hocKi, Khoa khoa) {
-        //Tìm tất cả lớp học phần trong học kì và khoa
+        //Tìm tất cả lớp học phần theo học kì và khoa
         List<LopHocPhan> dsLopHocPhan = lopHocPhanService.findByHocKiAndKhoa(hocKi, khoa);
         //Lấy tất cả môn học trong học kì và khoa
         Set<MonHoc> dsMonHoc = new HashSet<>();

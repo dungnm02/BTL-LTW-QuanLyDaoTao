@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch học</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <style>
+        td {
+            width: 16.67%;
+        }
+    </style>
+</head>
+<body>
+<nav id="navbar">
+    <div class="container">
+        <h1>Trang sinh viên</h1>
+        <ul>
+            <li><a href="/svien">Trang chủ</a></li>
+            <li><a href="/svien/ketqua">Xem kết quả</a></li>
+            <li><a class="current" href="/svien/lichhoc">Xem lịch học</a></li>
+            <li><a href="/svien/dangky">Đăng ký lớp học phần</a></li>
+            <li><a href="/svien/doimatkhau">Đổi mật khẩu</a></li>
+            <li>
+                <form action="/logout" id="logout-button" method="post">
+                    <button type="submit">Đăng xuất</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<h1 class="page-title">Thời khóa biểu</h1>
+<table>
+    <thead>
+    <th></th>
+    <th>Thứ hai</th>
+    <th>Thứ ba</th>
+    <th>Thứ tư</th>
+    <th>Thứ năm</th>
+    <th>Thứ sáu</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Kíp 1 <br> 7h-8h:50</td>
+        <td th:each="thongTin : ${thoiKhoaBieu[0]}">
+            <span th:utext="${thongTin}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>Kíp 2 <br> 9h-10h:50</td>
+        <td th:each="thongTin : ${thoiKhoaBieu[1]}">
+            <span th:utext="${thongTin}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>Kíp 3 <br> 12h-13h:50</td>
+        <td th:each="thongTin : ${thoiKhoaBieu[2]}">
+            <span th:utext="${thongTin}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>Kíp 4 <br> 14h-15h:50</td>
+        <td th:each="thongTin : ${thoiKhoaBieu[3]}">
+            <span th:utext="${thongTin}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>Kíp 5 <br> 16h-17h:50</td>
+        <td th:each="thongTin : ${thoiKhoaBieu[4]}">
+            <span th:utext="${thongTin}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>Kíp 6 <br> 18h-19h:50</td>
+        <td th:each="thongTin : ${thoiKhoaBieu[5]}">
+            <span th:utext="${thongTin}"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -14,7 +14,7 @@ import ptit.btlltwqlydaotao.services.KetQuaHocPhanService;
 import ptit.btlltwqlydaotao.services.LopHocPhanService;
 import ptit.btlltwqlydaotao.services.SinhVienService;
 
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/svien")
@@ -36,7 +36,6 @@ public class SVienController {
         this.ketQuaHocPhanService = ketQuaHocPhanService;
     }
 
-
     @ModelAttribute(name = "sinhVien")
     public SinhVien sinhVien() {
         return (SinhVien) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -46,6 +45,37 @@ public class SVienController {
     public String index() {
         return "svien_index";
     }
+
+    @GetMapping("/lichhoc")
+    public String showLichHoc(Model model) {
+        SinhVien sinhVien = (SinhVien) model.getAttribute("sinhVien");
+        HocKi hocKi = hocKiService.findHocKiDangHoatDong();
+        model.addAttribute("thoiKhoaBieu", sinhVienService.getThoiKhoaBieu(sinhVien, hocKi));
+        return "svien_lichhoc";
+    }
+
+    @GetMapping("/ketqua")
+    public String showKetQua(Model model) {
+        //Lấy sinh viên hiện tại
+        SinhVien sinhVien = (SinhVien) model.getAttribute("sinhVien");
+
+        //Lấy danh sách kết quả học phần của sinh viên
+        List<KetQuaHocPhan> dsKetQuaHocPhan = ketQuaHocPhanService.findBySinhVien(sinhVien);
+        //Sắp xếp các kết quả học phần theo thứ tự tăng dần của thời gian bắt đầu học kì
+        dsKetQuaHocPhan.sort(Comparator.comparing(o -> o.getLopHocPhan().getHocKi().getNgayBatDau()));
+
+        //Lấy các học kì sinh viên này học:
+        Set<HocKi> dsHocKiSet = new HashSet<>();
+        for (KetQuaHocPhan ketQuaHocPhan : dsKetQuaHocPhan) {
+            dsHocKiSet.add(ketQuaHocPhan.getLopHocPhan().getHocKi());
+        }
+        List<HocKi> dsHocKi = new ArrayList<>(dsHocKiSet);
+
+        model.addAttribute("dsHocKi", dsHocKi);
+        model.addAttribute("dsKetQuaHocPhan", dsKetQuaHocPhan);
+        return "svien_ketqua";
+    }
+
 
     @GetMapping("/dangky")
     public String showDangKy(Model model) {
@@ -90,5 +120,28 @@ public class SVienController {
         }
         redirectAttributes.addFlashAttribute("message", "Đăng ký thành công " + lopHocPhan.getGiangVienMonHoc().getMonHoc().getTenMonHoc() + " - " + lopHocPhan.getMaLopHocPhan());
         return "redirect:/svien/dangky/hocki/" + idHocKi;
+    }
+
+    @GetMapping("/doimatkhau")
+    public String showDoiMatKhau(Model model) {
+        model.addAttribute("message", model.getAttribute("message"));
+        return "svien_doimatkhau";
+    }
+
+    @PostMapping("/doimatkhau")
+    public String submitDoiMatKhau(@RequestParam("matKhauCu") String matKhauCu,
+                                   @RequestParam("matKhauMoi") String matKhauMoi,
+                                   @RequestParam("xacNhanMatKhauMoi") String xacNhanMatKhauMoi,
+                                   Model model,
+                                   RedirectAttributes redirectAttributes) {
+        SinhVien sinhVien = (SinhVien) model.getAttribute("sinhVien");
+        try {
+            sinhVienService.doiMatKhau(sinhVien, matKhauCu, matKhauMoi, xacNhanMatKhauMoi);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/svien/doimatkhau";
+        }
+        redirectAttributes.addFlashAttribute("message", "Đổi mật khẩu thành công");
+        return "redirect:/svien/doimatkhau";
     }
 }
