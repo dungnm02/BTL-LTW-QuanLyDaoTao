@@ -47,7 +47,9 @@ public class MonHocService {
     }
 
     public void updateMonHoc(MonHoc monHoc) {
-        if (monHocRepository.findByTenMonHoc(monHoc.getTenMonHoc()) != null) {
+        if (monHoc.getTenMonHoc() == null || monHoc.getTenMonHoc().isBlank()) {
+            throw new RuntimeException("Tên môn học không được để trống");
+        } else if (monHocRepository.findByTenMonHoc(monHoc.getTenMonHoc()) != null) {
             throw new RuntimeException("Môn học có tên như thế này tồn tại");
         } else {
             monHocRepository.save(monHoc);

@@ -66,7 +66,10 @@ public class GvienController {
 
     @GetMapping("/nhapdiem/sinhvien")
     public String showNhapDiemSinhVien(Model model,
-                                       @RequestParam("idKetQuaHocPhanDuocChon") int idKetQuaHocPhanDuocChon) {
+                                       @RequestParam(value = "idKetQuaHocPhanDuocChon", required = false) Integer idKetQuaHocPhanDuocChon) {
+        if (idKetQuaHocPhanDuocChon == null) {
+            return "redirect:/gvien/nhapdiem";
+        }
         KetQuaHocPhan ketQuaHocPhan = ketQuaHocPhanService.findById(idKetQuaHocPhanDuocChon);
         model.addAttribute("ketQuaHocPhan", ketQuaHocPhan);
         return "gvien_nhapdiem_sinhvien";

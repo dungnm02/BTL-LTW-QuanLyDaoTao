@@ -60,7 +60,9 @@ public class LopHocPhanService {
     }
 
     public void createLopHocPhan(LopHocPhan lopHocPhan) {
-        if (phongHocTrungLich(lopHocPhan)) {
+        if (lopHocPhan.getGiangVienMonHoc() == null || lopHocPhan.getNgayTrongTuan() == null || lopHocPhan.getKipTrongNgay() == null) {
+            throw new RuntimeException("Vui lòng nhập đầy đủ thông tin");
+        } else if (phongHocTrungLich(lopHocPhan)) {
             throw new RuntimeException("Phòng học bị trùng lịch");
         } else if (giangVienTrungLich(lopHocPhan)) {
             throw new RuntimeException("Giảng viên bị trùng lịch");

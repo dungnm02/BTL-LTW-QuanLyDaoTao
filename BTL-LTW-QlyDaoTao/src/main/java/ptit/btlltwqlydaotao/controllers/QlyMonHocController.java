@@ -77,8 +77,10 @@ public class QlyMonHocController {
 
 
     @PostMapping("/chongiangvien/{id}")
-    public String submitChonGiangVien(@PathVariable("id") int id, @RequestParam("dsIdGiangVienDuocChon") List<Integer> dsIdGiangVienDuocChon) {
-        giangVienMonHocService.addGiangVienDayMonHoc(id, dsIdGiangVienDuocChon);
+    public String submitChonGiangVien(@PathVariable("id") int id, @RequestParam(value = "dsIdGiangVienDuocChon", required = false) List<Integer> dsIdGiangVienDuocChon) {
+        if (dsIdGiangVienDuocChon != null) {
+            giangVienMonHocService.addGiangVienDayMonHoc(id, dsIdGiangVienDuocChon);
+        }
         return "redirect:/qly/monhoc";
     }
 
@@ -91,8 +93,10 @@ public class QlyMonHocController {
     }
 
     @PostMapping("/xoagiangvien/{id}")
-    public String submitXoaGiangVien(@PathVariable("id") int id, @RequestParam("dsIdGiangVienDuocChon") List<Integer> dsIdGiangVienDuocChon) {
-        giangVienMonHocService.deleteGiangVienDayMonHoc(id, dsIdGiangVienDuocChon);
+    public String submitXoaGiangVien(@PathVariable("id") int id, @RequestParam(value = "dsIdGiangVienDuocChon", required = false) List<Integer> dsIdGiangVienDuocChon) {
+        if (dsIdGiangVienDuocChon != null) {
+            giangVienMonHocService.deleteGiangVienDayMonHoc(id, dsIdGiangVienDuocChon);
+        }
         return "redirect:/qly/monhoc";
     }
 

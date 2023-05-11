@@ -50,7 +50,6 @@ public class QlyLopHocPhanController {
 
     @GetMapping("/them")
     public String showThem(Model model, @PathVariable("idHocKi") int idHocKi) {
-        // Trang thêm lớp học phần
 
         LopHocPhan lopHocPhan;
         if (model.containsAttribute("lopHocPhan")) {
