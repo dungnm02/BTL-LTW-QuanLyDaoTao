@@ -269,7 +269,7 @@
 ![alt text](./img/Thi%E1%BA%BFt%20k%E1%BA%BF%20CSDL.png)
 ## Kiến trúc hệ thống
 
-Hệ thống sẽ được thiết kế theo kiến trúc Monolith dùng mô hình MVC
+Hệ thống sẽ được thiết kế theo mô hình MVC
 
 ### Các công nghệ sử dụng
 
