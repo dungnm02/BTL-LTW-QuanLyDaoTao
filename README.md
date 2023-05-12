@@ -2,9 +2,9 @@
 
 ## Thành viên nhóm và phân công công việc
 
-- Nguyễn Mạnh Dũng - B20DCCN138 - Các chức năng của người quản lý.
-- Mai Huy Hoàng - - Các chức năng của giảng viên.
-- Vương Trí Huy - - Các chức năng của sinh viên.
+- Nguyễn Mạnh Dũng - Các chức năng của người quản lý.
+- Mai Huy Hoàng - Các chức năng của giảng viên.
+- Vương Trí Huy - Các chức năng của sinh viên.
 
 ## Mô tả hệ thống và đặc tả các chức năng
 
@@ -28,7 +28,6 @@
 - Đổi mật khẩu
 
 **Quản lý (QL):**
-
 - Các chức năng của người dùng (Trừ chức năng Đăng nhập do sẽ chỉ có một tài khoản QL)
 - Quản lý sinh viên:
     - Thêm, sửa xóa
@@ -46,7 +45,7 @@
   **Sinh viên (SV):**
 - Các chức năng của người dùng.
 - Xem kết quả các lớp học phần.
-- Xem buổi học các lớp học phần.
+- Xem buổi học các lớp học phần học kì đang hoạt động.
 - Đăng ký lớp học phần kì học được mở đăng ký.
   **Giảng viên (GV):**
 - Các chức năng của người dùng.
@@ -127,16 +126,14 @@
         - Quản lý chọn các giảng viên dạy môn học này, ấn "Xác nhận".
         - Hệ thống lưu thông tin vào CSDL.
 - Quản lý học kì:
-    - Trang quản lý học kì (/qly/hocki) gồm các nút Thêm, thanh tìm kiếm theo mã hoặc khoa, nút Tìm, bảng kết quả tìm
-      kiếm các
-      học kì (mã, ngày bắt đầu, ngày kết thúc), trên mỗi dòng có nút Sửa, Xóa, Quản lý lớp học phần.
+    - Trang quản lý học kì (/qly/hocki) gồm các nút Thêm, bảng học kì (mã, ngày bắt đầu, ngày kết thúc), trên mỗi dòng có nút Sửa, Xóa, Quản lý lớp học phần.
     - Thêm:
         - Trang thêm học kì (/qly/hocki/them) gồm ô nhập ngày bắt đầu (ngày kết thúc sẽ dựa vào đây
           để tính (mặc định 1 học kì 29 tuần)), nút Thêm
         - Quản lý nhập thông tin, ấn "Thêm"
         - Hệ thống lưu thông tin vào CSDL.
     - Sửa:
-        - Trang thêm học kì (/qly/hocki/sua/{idHocKi}) gồm ô nhập ngày bắt đầu đã điền sẵn thông tin
+        - Trang sửa học kì (/qly/hocki/sua/{idHocKi}) gồm ô nhập ngày bắt đầu đã điền sẵn thông tin
           cũ, nút
           Sửa,
         - Quản lý nhập thông tin, ấn "Sửa"
@@ -153,7 +150,7 @@
             - Trang thêm lớp học phần (qly/hocki/{idHocKi}/lophocphan/them) gồm dropdown menu chọn khoa, dropdown menu
               chọn môn học, dropdown menu chọn giảng viên, ô nhập tên lớp học phần, dropdown menu chọn ngày trong tuần,
               dropdown menu chọn kíp trong ngày, dropdown menu chọn phòng học.
-            - Qly nhập đủ thông tin ấn "Sửa"
+            - Qly nhập đủ thông tin ấn "Thêm"
             - Hệ thống lưu thông tin vào CSDL.
         - Sửa lớp học phần:
             - Quẳn lý ấn sửa một lớp học phần (qly/hocki/{idHocKi}/lophocphan/sua/{idLopHocPhan}) gồm dropdown menu chọn
@@ -181,14 +178,20 @@
                 - Quản lý chọn các sinh viên mong muốn, ấn Thêm
                 - Hệ thống lưu thông tin vào CSDL.
 - Quản lý mở đợt đăng ký lớp học phần:
-    - Trang mở đợt đăng ký (/qly/modotdangky) gồm ô chọn một học kì chưa bắt đầu, ô chọn ngày bắt đầu đăng ký.
+  - Trang mở đợt đăng ký (/qly/modotdangky) gồm ô chọn một học kì chưa bắt đầu, ô chọn ngày bắt đầu đăng ký, nút Mở đăng kí
+  - QLy chọn ngày, ấn mở đăng ký
+  - Hệ thống hẹn lịch mở đăng ký.
 - Sinh viên xem kết quả lớp học phần
-    - Trang xem kết quả "/svien/ketqua" gồm một bảng các lớp học phần sinh viên đã học (kì học, môn học, điểm cc, kt1,
-      kt2, thi, tổng kết)
+  - Trang xem kết quả "/svien/ketqua" gồm một bảng các lớp học phần sinh viên đã học (kì học, môn học, điểm cc, kt1,
+    kt2, thi, tổng kết)
 - Sinh viên xem lịch học:
-    - Trang xem lịch học "/svien/lichhoc" gồm một bảng thể hiện lịch học của học kì đang hoạt động có các cột là ngày
-      trong tuần, các hàng là kíp trong ngày,
-- Sinh viên đăng ký lớp học phần.
+  - Trang xem lịch học "/svien/lichhoc" gồm một bảng thể hiện lịch học của học kì đang hoạt động có các cột là ngày
+    trong tuần, các hàng là kíp trong ngày,
+- Sinh viên đăng ký lớp học phần:
+  - Trang đăng ký "/svien/dangky" gồm một bảng thể hiện các học kì đang được mở đăng ký, trên mỗi hàng có nút đăng ký
+  - Sinh viên ấn đăng ký, điều hướng tới trang đang ký lớp học phần của học kỳ đó "/svien/dangky/{idHocKi}" gồm bảng thể hiện các lớp học phần đã đăng ký, dropdown menu chọn môn và bảng các lớp học phần của môn đấy, nút "Thêm".
+  - Sinh viên chọn một lớp học phần, ấn Thêm.
+  - Hệ thống lưu thông tin đăng ký vào CSDL
 - Giảng viên xem lịch dạy:
     - Trang xem lịch học "/gvien/lichday" gồm một bảng thể hiện lịch học của học kì đang hoạt động có các cột là ngày
       trong tuần, các hàng là kíp trong ngày,
@@ -202,6 +205,10 @@
     - Trang nhập điểm sinh viên hiện ra gồm các ô nhập các đầu điểm cho svien. Nút lưu
     - GV nhập thông tin và ấn lưu.
     - Hệ thống lưu thông tin vào CSDL.
+- Đổi mật khẩu
+  - Trang đổi mật khẩu "**/doimatkhau" gồm ô nhập mật khẩu cũ, mật khẩu mới, xác nhận mật khẩu mới, nút Đổi mật khẩu
+  - Người dùng nhập đủ thông tin, ấn đổi mật khẩu
+  - Hệ thống lưu thông tin vào CSDL
 
 #### Các thông tin cần phải xử lý:
 
@@ -227,6 +234,7 @@
 ### Mô tả hệ thống bằng UML
 
 #### Biểu đồ Use Case tổng quan:
+![alt text](./img/Use%20Case%20T%E1%BB%95ng%20quan.jpg)
 
 ## Phân tích:
 
@@ -255,13 +263,10 @@
 - KetQuaHocPhan nằm trong SinhVien.
 
 ### Biểu đồ lớp:
-
-![Biểu đồ lớp](./img/Class%20Diagram.jpg)
-
+![alt text](./img/Bi%E1%BB%83u%20%C4%91%E1%BB%93%20l%E1%BB%9Bp.jpg)
 ## Thiết kế:
-
-![CSDL Web.png](..%2F..%2FCSDL%20Web.png)
-
+### Thiết kế CSDL:
+![alt text](./img/Thi%E1%BA%BFt%20k%E1%BA%BF%20CSDL.png)
 ## Kiến trúc hệ thống
 
 Hệ thống sẽ được thiết kế theo kiến trúc Monolith dùng mô hình MVC
@@ -284,35 +289,27 @@ Hệ thống sẽ được thiết kế theo kiến trúc Monolith dùng mô hì
 ## Một vài hình ảnh về hệ thống:
 
 ### Trang đăng nhập
-
-![img.png](img.png)
-
+![alt text](./img/dang_nhap.png)
 ### Quản lý
-
-#### Trang chủ quản lý:
-
-![img_1.png](img_1.png)
-
-#### Trang quản lý giảng viên:
-
-![img_2.png](img_2.png)
-
 #### Trang quản lý sinh viên:
-
-![img_3.png](img_3.png)
-
+![alt text](./img/quanlygiangvien.png)
+#### Trang quản lý giảng viên:
+![alt text](./img/quanlysinhvien.png)
 #### Trang quản lý môn học:
-
-![img_4.png](img_4.png)
-
+![alt text](./img/quanlymonhoc.png)
 #### Trang quản lý học kì
-
-![img_5.png](img_5.png)
-
+![alt text](./img/quanlyhocki.png)
 #### Trang mở đợt đăng ký
-
-![img_6.png](img_6.png)
-
-### Giảng viên
-
+![alt text](./img/modotdangky.png)
 ### Sinh viên
+#### Trang lịch học
+![alt text](./img/sinhvienlichhoc.png)
+#### Trang kết quả
+![alt text](./img/sinhvienketqua.png)
+#### Trang đăng ký
+![alt text](./img/sinhviendangky.png)
+### Giảng viên
+#### Trang lịch dạy
+![alt text](./img/giangvienlichday.png) 
+#### Trang nhập điểm
+![alt text](./img/giangviennhapdiem.png)

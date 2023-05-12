@@ -57,7 +57,6 @@ public class GvienController {
         for (LopHocPhan lopHocPhan : dsLopHocPhan) {
             dsKetQuaHocPhan.addAll(ketQuaHocPhanService.findByLopHocPhan(lopHocPhan));
         }
-
         model.addAttribute("hocKi", hocKiDangHoatDong);
         model.addAttribute("dsKetQuaHocPhan", new ArrayList<>(dsKetQuaHocPhan));
         model.addAttribute("dsLopHocPhan", dsLopHocPhan);
